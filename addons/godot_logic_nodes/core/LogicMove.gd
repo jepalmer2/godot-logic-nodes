@@ -2,100 +2,136 @@
 @icon("res://addons/godot_logic_nodes/icons/LogicNode_Move.png")
 class_name LogicMove
 extends LogicNode
-## Slides a node back and forth between its start position and [member move_offset]
-## (Hammer's func_movelinear). Put the geometry to move under this node, or pick another [member target].
+## Moves a node in a straight line, between where it was placed (the start) and
+## [member move_offset] away from there (the end). Put the node to move under this
+## one, or pick another [member target].
 
-## Output: started moving toward the open position.
-signal opening(activator: Node)
-## Output: started moving toward the closed (start) position.
-signal closing(activator: Node)
-## Output: reached the open position.
-signal fully_opened(activator: Node)
-## Output: reached the closed (start) position.
-signal fully_closed(activator: Node)
+enum Mode {
+	ONCE,       ## Each Start travels to the other end and stops there.
+	PING_PONG,  ## Travels back and forth until Stop.
+	LOOP,       ## Travels to the end, jumps back to the start, and repeats until Stop.
+}
+
+## Output: began moving.
+signal started(activator: Node)
+## Output: halted by Stop before reaching an end.
+signal stopped(activator: Node)
+## Output: arrived at the end.
+signal reached_end(activator: Node)
+## Output: arrived back at the start.
+signal reached_start(activator: Node)
 
 ## The node to move. Empty moves this node, and everything under it.
 @export var target: Node3D:
 	set(value):
 		target = value
 		update_configuration_warnings()
-## How far the open position is from the start position, in the target's parent space.
+## Where the end is, relative to the start, in the target's parent space.
 @export var move_offset := Vector3(0.0, 2.0, 0.0):
 	set(value):
 		move_offset = value
 		update_configuration_warnings()
 ## Units per second.
 @export_range(0.01, 100.0, 0.01, "or_greater", "suffix:m/s") var speed := 2.0
-## Where to start: 0 is closed, 1 is open.
+## What happens when it reaches an end.
+@export var mode := Mode.ONCE:
+	set(value):
+		mode = value
+		update_configuration_warnings()
+## Seconds to wait at each end before moving on. Ping Pong and Loop only.
+@export_range(0.0, 60.0, 0.05, "or_greater", "suffix:s") var end_pause := 0.0:
+	set(value):
+		end_pause = value
+		update_configuration_warnings()
+## Where along the path it begins: 0 is the start, 1 is the end.
 @export_range(0.0, 1.0, 0.01) var start_position := 0.0
 ## Easing of the motion (1 is linear). Applied the same way in both directions.
 @export_exp_easing var easing := 1.0
 
 var _mover: Node3D
-var _closed_position: Vector3
-var _progress := 0.0  # 0 = closed, 1 = open
-var _goal := 0.0
+var _origin: Vector3
+var _progress := 0.0     # 0 = start, 1 = end
+var _direction := 1.0    # +1 toward the end, -1 toward the start
 var _moving := false
+var _pause_left := 0.0
+var _wrap_pending := false  # Loop mode: jump back to the start once the pause is over
 var _activator: Node
 
 
 func _logic_ready() -> void:
 	_mover = target if target else self
-	_closed_position = _mover.position
+	_origin = _mover.position
 	_progress = start_position
-	_goal = start_position
+	_direction = -1.0 if start_position >= 1.0 else 1.0
 	_apply()
 
 
-## Input: move to the open position.
-func open(activator: Variant = null) -> void:
-	if _receive(&"open", activator):
-		_move_to(1.0, activator)
-
-
-## Input: move back to the closed (start) position.
-func close(activator: Variant = null) -> void:
-	if _receive(&"close", activator):
-		_move_to(0.0, activator)
-
-
-## Input: open if closed or closing, close if open or opening.
-func toggle(activator: Variant = null) -> void:
-	if _receive(&"toggle", activator):
-		_move_to(0.0 if _goal > 0.5 else 1.0, activator)
-
-
-## Input: stop where it is. The next Open, Close or Toggle carries on from there.
-func stop(activator: Variant = null) -> void:
-	if _receive(&"stop", activator):
-		_moving = false
-
-
-func _move_to(goal: float, activator: Variant) -> void:
-	_activator = LogicCore.as_activator(activator)
-	if is_equal_approx(_progress, goal):
+## Input: start moving, or carry on after Stop. Resting at an end, it heads for the other end
+## (in Loop mode, it jumps back to the start first).
+func start(activator: Variant = null) -> void:
+	if not _receive(&"start", activator) or _moving:
 		return
-	_goal = goal
+	_activator = LogicCore.as_activator(activator)
+	if _wrap_pending or (mode == Mode.LOOP and _progress >= 1.0):
+		_wrap_to_start()
+	elif _progress >= 1.0:
+		_direction = -1.0
+	elif _progress <= 0.0:
+		_direction = 1.0
 	_moving = true
+	_pause_left = 0.0
 	set_physics_process(true)
-	_fire(opening if goal > _progress else closing, _activator)
+	_fire(started, _activator)
+
+
+## Input: stop where it is. The next Start carries on in the same direction.
+func stop(activator: Variant = null) -> void:
+	if not _receive(&"stop", activator) or not _moving:
+		return
+	_moving = false
+	_fire(stopped, activator)
 
 
 func _physics_process(delta: float) -> void:
 	if not _moving:
 		set_physics_process(false)  # also switches it off in the editor
 		return
+	if _pause_left > 0.0:
+		_pause_left -= delta
+		return
+	if _wrap_pending:
+		_wrap_to_start()
+
+	var goal := 1.0 if _direction > 0.0 else 0.0
 	var distance := move_offset.length()
-	var step := 1.0 if distance == 0.0 else speed * delta / distance
-	_progress = move_toward(_progress, _goal, step)
+	_progress = move_toward(_progress, goal, 1.0 if distance == 0.0 else speed * delta / distance)
 	_apply()
-	if is_equal_approx(_progress, _goal):
-		_moving = false
-		_fire(fully_opened if _goal > 0.5 else fully_closed, LogicCore.as_activator(_activator))
+	if _progress != goal:
+		return
+
+	var who := LogicCore.as_activator(_activator)  # it may have been freed along the way
+	match mode:
+		Mode.ONCE:
+			_moving = false
+			_direction = -_direction
+		Mode.PING_PONG:
+			_direction = -_direction
+			_pause_left = end_pause
+		Mode.LOOP:
+			_wrap_pending = true
+			_pause_left = end_pause
+	_fire(reached_end if goal == 1.0 else reached_start, who)
+
+
+func _wrap_to_start() -> void:
+	_wrap_pending = false
+	_progress = 0.0
+	_direction = 1.0
+	_apply()
 
 
 func _apply() -> void:
-	_mover.position = _closed_position + move_offset * ease(_progress, easing)
+	_mover.position = _origin + move_offset * ease(_progress, easing)
 
 
 func _logic_warnings() -> PackedStringArray:
@@ -103,5 +139,7 @@ func _logic_warnings() -> PackedStringArray:
 	if move_offset.is_zero_approx():
 		warnings.append("Move Offset is zero, so this node has nowhere to go.")
 	if target == null and get_child_count() == 0:
-		warnings.append("Nothing to move: add geometry under this node or pick a Target.")
+		warnings.append("Nothing to move: add a node under this one or pick a Target.")
+	if mode == Mode.ONCE and end_pause > 0.0:
+		warnings.append("End Pause does nothing in Once mode.")
 	return warnings

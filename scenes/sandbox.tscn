@@ -9,17 +9,17 @@
 script = ExtResource("2_j6lu3")
 output = &"started"
 target = NodePath("../LogicMove")
-input = &"open"
+input = &"start"
 
 [sub_resource type="Resource" id="Resource_j6lu3"]
 script = ExtResource("2_j6lu3")
-output = &"fully_opened"
+output = &"reached_end"
 target = NodePath("../LogicRelay")
 input = &"trigger"
 
 [sub_resource type="Resource" id="Resource_16ffl"]
 script = ExtResource("2_j6lu3")
-output = &"fully_closed"
+output = &"reached_start"
 target = NodePath("../LogicRelay2")
 input = &"trigger"
 
@@ -29,13 +29,13 @@ input = &"trigger"
 script = ExtResource("2_j6lu3")
 output = &"triggered"
 target = NodePath("../LogicMove")
-input = &"open"
+input = &"start"
 
 [sub_resource type="Resource" id="Resource_tpt06"]
 script = ExtResource("2_j6lu3")
 output = &"triggered"
 target = NodePath("../LogicMove")
-input = &"close"
+input = &"start"
 
 [node name="Sandbox" type="Node3D" unique_id=413556873]
 

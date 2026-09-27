@@ -6,6 +6,7 @@ const LogicIOPanel := preload("res://addons/godot_logic_nodes/editor/logic_io_pa
 
 var _gizmo_plugin := LogicGizmoPlugin.new()
 var _panel: Control
+var _wire_ends := {}  # LogicNode -> positions its wires were last drawn between
 
 
 func _enter_tree() -> void:
@@ -28,6 +29,33 @@ func _exit_tree() -> void:
 	if is_instance_valid(_panel):
 		remove_control_from_bottom_panel(_panel)
 		_panel.queue_free()
+
+
+## Godot only redraws a gizmo when its own node changes, so a wire would stay put when the
+## node it points at moves. Each frame, redraw any Logic Node whose wire endpoints moved.
+func _process(_delta: float) -> void:
+	var scene := EditorInterface.get_edited_scene_root()
+	if scene == null:
+		_wire_ends.clear()
+		return
+	var seen := {}
+	for node in get_tree().get_nodes_in_group(&"logic_nodes"):
+		if node != scene and not scene.is_ancestor_of(node):
+			continue
+		var ends := _wire_ends_of(node)
+		if _wire_ends.get(node) != ends:
+			node.update_gizmos()
+		seen[node] = ends
+	_wire_ends = seen  # also forgets deleted nodes
+
+
+func _wire_ends_of(node: LogicNode) -> PackedVector3Array:
+	var ends := PackedVector3Array([node.global_position])
+	for row in node.outputs:
+		var target := node.get_node_or_null(row.target) as Node3D if row else null
+		if target:
+			ends.append(target.global_position)
+	return ends
 
 
 func _on_selection_changed() -> void:
