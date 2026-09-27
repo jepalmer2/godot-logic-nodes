@@ -5,6 +5,22 @@
 [ext_resource type="Script" uid="uid://vuaeexo85ca3" path="res://addons/godot_logic_nodes/core/LogicAuto.gd" id="2_rgld7"]
 [ext_resource type="Script" uid="uid://cg45ne438c6tw" path="res://addons/godot_logic_nodes/core/LogicRelay.gd" id="4_j6lu3"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j6lu3"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_tpt06"]
+sky_material = SubResource("ProceduralSkyMaterial_j6lu3")
+
+[sub_resource type="Environment" id="Environment_16ffl"]
+background_mode = 2
+sky = SubResource("Sky_tpt06")
+glow_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tpt06"]
+
+[sub_resource type="Compositor" id="Compositor_16ffl"]
+
 [sub_resource type="Resource" id="Resource_a8pr3"]
 script = ExtResource("2_j6lu3")
 output = &"started"
@@ -25,6 +41,12 @@ input = &"trigger"
 
 [sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
 
+[sub_resource type="Environment" id="Environment_17a3a"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_4b02c"]
+
+[sub_resource type="Compositor" id="Compositor_rvfw7"]
+
 [sub_resource type="Resource" id="Resource_17a3a"]
 script = ExtResource("2_j6lu3")
 output = &"triggered"
@@ -38,6 +60,11 @@ target = NodePath("../LogicMove")
 input = &"start"
 
 [node name="Sandbox" type="Node3D" unique_id=413556873]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2014078838]
+environment = SubResource("Environment_16ffl")
+camera_attributes = SubResource("CameraAttributesPractical_tpt06")
+compositor = SubResource("Compositor_16ffl")
 
 [node name="LogicAuto" type="Node3D" parent="." unique_id=2099580150]
 script = ExtResource("2_rgld7")
@@ -58,17 +85,22 @@ mesh = SubResource("BoxMesh_esf6n")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2143685339]
 transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, 0, 2, -3)
+environment = SubResource("Environment_17a3a")
+attributes = SubResource("CameraAttributesPractical_4b02c")
+compositor = SubResource("Compositor_rvfw7")
+far = 1000.0
 
 [node name="LogicRelay2" type="Node3D" parent="." unique_id=777089653]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
 script = ExtResource("4_j6lu3")
-delay = 0.5
 outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_17a3a")])
 metadata/_custom_type_script = "uid://cg45ne438c6tw"
 
 [node name="LogicRelay" type="Node3D" parent="." unique_id=1401234865]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
 script = ExtResource("4_j6lu3")
-delay = 0.5
 outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_tpt06")])
 metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=137483057]
+transform = Transform3D(-0.6981994, -0.5177394, 0.49443248, 0, 0.6906414, 0.7231974, -0.71590334, 0.504936, -0.48220542, 0, 2, 0)
