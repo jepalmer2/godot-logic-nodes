@@ -11,7 +11,31 @@ output = &"started"
 target = NodePath("../LogicMove")
 input = &"open"
 
+[sub_resource type="Resource" id="Resource_16ffl"]
+script = ExtResource("2_j6lu3")
+output = &"opening"
+target = NodePath("../LogicRelay2")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_j6lu3"]
+script = ExtResource("2_j6lu3")
+output = &"opening"
+target = NodePath("../LogicRelay")
+input = &"trigger"
+
 [sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
+
+[sub_resource type="Resource" id="Resource_17a3a"]
+script = ExtResource("2_j6lu3")
+output = &"triggered"
+target = NodePath("../LogicMove")
+input = &"open"
+
+[sub_resource type="Resource" id="Resource_tpt06"]
+script = ExtResource("2_j6lu3")
+output = &"triggered"
+target = NodePath("../LogicMove2")
+input = &"open"
 
 [node name="Sandbox" type="Node3D" unique_id=413556873]
 
@@ -21,10 +45,19 @@ delay = 1.0
 outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_a8pr3")])
 metadata/_custom_type_script = "uid://vuaeexo85ca3"
 
+[node name="LogicMove2" type="Node3D" parent="." unique_id=748746659 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+script = ExtResource("2_a8pr3")
+target = NodePath("../MeshInstance3D")
+move_offset = Vector3(0, -2, 0)
+outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_16ffl")])
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
 [node name="LogicMove" type="Node3D" parent="." unique_id=1537456570 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 script = ExtResource("2_a8pr3")
 target = NodePath("../MeshInstance3D")
+outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_j6lu3")])
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=341975016]
@@ -34,7 +67,15 @@ mesh = SubResource("BoxMesh_esf6n")
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2143685339]
 transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, 0, 2, -3)
 
+[node name="LogicRelay2" type="Node3D" parent="." unique_id=777089653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+script = ExtResource("4_j6lu3")
+delay = 1.0
+outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_17a3a")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
 [node name="LogicRelay" type="Node3D" parent="." unique_id=1401234865]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
 script = ExtResource("4_j6lu3")
+outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_tpt06")])
 metadata/_custom_type_script = "uid://cg45ne438c6tw"
