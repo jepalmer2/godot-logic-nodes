@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/godot_logic_nodes/editor/logic_io_panel.gd" id="1_panel"]
+
+[node name="LogicIOPanel" type="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+size_flags_vertical = 3
+script = ExtResource("1_panel")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Select a Logic Node to edit its connections."
+
+[node name="ShowAll" type="CheckBox" parent="Header"]
+layout_mode = 2
+tooltip_text = "Also list nodes that aren't Logic Nodes as targets (for example an AnimationPlayer)."
+text = "Show all nodes"
+
+[node name="AddOutput" type="Button" parent="Header"]
+layout_mode = 2
+disabled = true
+text = "+ Add Output"
+
+[node name="Tabs" type="TabContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Outputs" type="ScrollContainer" parent="Tabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Grid" type="GridContainer" parent="Tabs/Outputs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+columns = 7
+
+[node name="Inputs" type="ItemList" parent="Tabs"]
+visible = false
+layout_mode = 2
+tooltip_text = "Everything in this scene that fires into the selected node. Double-click a row to select its source."
+metadata/_tab_index = 1

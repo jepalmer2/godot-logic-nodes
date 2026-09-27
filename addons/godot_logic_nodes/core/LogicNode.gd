@@ -127,4 +127,7 @@ func _send(activator: Node, row: LogicConnection, target: Node) -> void:
 		if not is_instance_valid(target):
 			return
 		activator = LogicCore.as_activator(activator)  # it may have been freed while waiting
-	target.call(row.input, activator)
+	if target is LogicNode:
+		target.call(row.input, activator)
+	else:
+		target.call(row.input)  # a built-in node (AnimationPlayer.play...) doesn't take an activator

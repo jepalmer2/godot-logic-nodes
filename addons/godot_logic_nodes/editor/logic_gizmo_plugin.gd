@@ -2,7 +2,7 @@
 extends EditorNode3DGizmoPlugin
 ## Draws every Logic Node's icon in the 3D view (clickable), plus a wire to each output target.
 
-const FALLBACK_ICON := "res://addons/logic_nodes/icons/logic_node.svg"
+const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
