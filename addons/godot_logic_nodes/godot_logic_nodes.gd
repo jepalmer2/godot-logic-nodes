@@ -18,10 +18,16 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	EditorInterface.get_selection().selection_changed.disconnect(_on_selection_changed)
-	remove_control_from_bottom_panel(_panel)
-	_panel.queue_free()
-	remove_node_3d_gizmo_plugin(_gizmo_plugin)
+	# Null-safe on purpose: a script error here aborts the function and leaves the
+	# gizmo plugin registered, so it keeps redrawing until the editor restarts.
+	if _gizmo_plugin:
+		remove_node_3d_gizmo_plugin(_gizmo_plugin)
+	var selection := EditorInterface.get_selection()
+	if selection.selection_changed.is_connected(_on_selection_changed):
+		selection.selection_changed.disconnect(_on_selection_changed)
+	if is_instance_valid(_panel):
+		remove_control_from_bottom_panel(_panel)
+		_panel.queue_free()
 
 
 func _on_selection_changed() -> void:
