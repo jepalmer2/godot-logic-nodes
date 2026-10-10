@@ -4,3 +4,7 @@
 project.godot
 /addons/godot_ai
 /scenes
+.editorconfig
+.gitattributes
+icon.svg
+icon.svg.import
