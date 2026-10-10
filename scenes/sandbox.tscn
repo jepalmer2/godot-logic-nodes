@@ -27,37 +27,11 @@ output = &"started"
 target = NodePath("../LogicMove")
 input = &"start"
 
-[sub_resource type="Resource" id="Resource_j6lu3"]
-script = ExtResource("2_j6lu3")
-output = &"reached_end"
-target = NodePath("../LogicRelay")
-input = &"trigger"
-
-[sub_resource type="Resource" id="Resource_16ffl"]
-script = ExtResource("2_j6lu3")
-output = &"reached_start"
-target = NodePath("../LogicRelay2")
-input = &"trigger"
-
 [sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
 
-[sub_resource type="Environment" id="Environment_17a3a"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_4b02c"]
-
-[sub_resource type="Compositor" id="Compositor_rvfw7"]
-
-[sub_resource type="Resource" id="Resource_17a3a"]
+[sub_resource type="Resource" id="Resource_j6lu3"]
 script = ExtResource("2_j6lu3")
-output = &"triggered"
-target = NodePath("../LogicMove")
-input = &"start"
-
-[sub_resource type="Resource" id="Resource_tpt06"]
-script = ExtResource("2_j6lu3")
-output = &"triggered"
-target = NodePath("../LogicMove")
-input = &"start"
+output = &"on_trigger"
 
 [node name="Sandbox" type="Node3D" unique_id=413556873]
 
@@ -76,7 +50,6 @@ metadata/_custom_type_script = "uid://vuaeexo85ca3"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 script = ExtResource("2_a8pr3")
 target = NodePath("../MeshInstance3D")
-outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_j6lu3"), SubResource("Resource_16ffl")])
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=341975016]
@@ -85,22 +58,13 @@ mesh = SubResource("BoxMesh_esf6n")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2143685339]
 transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, 0, 2, -3)
-environment = SubResource("Environment_17a3a")
-attributes = SubResource("CameraAttributesPractical_4b02c")
-compositor = SubResource("Compositor_rvfw7")
 far = 1000.0
-
-[node name="LogicRelay2" type="Node3D" parent="." unique_id=777089653]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
-script = ExtResource("4_j6lu3")
-outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_17a3a")])
-metadata/_custom_type_script = "uid://cg45ne438c6tw"
-
-[node name="LogicRelay" type="Node3D" parent="." unique_id=1401234865]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
-script = ExtResource("4_j6lu3")
-outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_tpt06")])
-metadata/_custom_type_script = "uid://cg45ne438c6tw"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=137483057]
 transform = Transform3D(-0.6981994, -0.5177394, 0.49443248, 0, 0.6906414, 0.7231974, -0.71590334, 0.504936, -0.48220542, 0, 2, 0)
+
+[node name="LogicRelay" type="Node3D" parent="." unique_id=645036030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+script = ExtResource("4_j6lu3")
+outputs = Array[ExtResource("2_j6lu3")]([SubResource("Resource_j6lu3")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"

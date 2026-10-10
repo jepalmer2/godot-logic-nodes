@@ -13,13 +13,9 @@ enum Mode {
 }
 
 ## Output: began moving.
-signal started(activator: Node)
-## Output: halted by Stop before reaching an end.
-signal stopped(activator: Node)
-## Output: arrived at the end.
-signal reached_end(activator: Node)
-## Output: arrived back at the start.
-signal reached_start(activator: Node)
+signal on_move_start(activator: Node)
+## Output: arrived at either end.
+signal on_move_end(activator: Node)
 
 ## The node to move. Empty moves this node, and everything under it.
 @export var target: Node3D:
@@ -34,35 +30,19 @@ signal reached_start(activator: Node)
 ## Units per second.
 @export_range(0.01, 100.0, 0.01, "or_greater", "suffix:m/s") var speed := 2.0
 ## What happens when it reaches an end.
-@export var mode := Mode.ONCE:
-	set(value):
-		mode = value
-		update_configuration_warnings()
-## Seconds to wait at each end before moving on. Ping Pong and Loop only.
-@export_range(0.0, 60.0, 0.05, "or_greater", "suffix:s") var end_pause := 0.0:
-	set(value):
-		end_pause = value
-		update_configuration_warnings()
-## Where along the path it begins: 0 is the start, 1 is the end.
-@export_range(0.0, 1.0, 0.01) var start_position := 0.0
-## Easing of the motion (1 is linear). Applied the same way in both directions.
-@export_exp_easing var easing := 1.0
+@export var mode := Mode.ONCE
 
 var _mover: Node3D
 var _origin: Vector3
 var _progress := 0.0     # 0 = start, 1 = end
 var _direction := 1.0    # +1 toward the end, -1 toward the start
 var _moving := false
-var _pause_left := 0.0
-var _wrap_pending := false  # Loop mode: jump back to the start once the pause is over
 var _activator: Node
 
 
 func _logic_ready() -> void:
 	_mover = target if target else self
 	_origin = _mover.position
-	_progress = start_position
-	_direction = -1.0 if start_position >= 1.0 else 1.0
 	_apply()
 
 
@@ -72,35 +52,27 @@ func start(activator: Variant = null) -> void:
 	if not _receive(&"start", activator) or _moving:
 		return
 	_activator = LogicCore.as_activator(activator)
-	if _wrap_pending or (mode == Mode.LOOP and _progress >= 1.0):
+	if mode == Mode.LOOP and _progress >= 1.0:
 		_wrap_to_start()
 	elif _progress >= 1.0:
 		_direction = -1.0
 	elif _progress <= 0.0:
 		_direction = 1.0
 	_moving = true
-	_pause_left = 0.0
 	set_physics_process(true)
-	_fire(started, _activator)
+	_fire(on_move_start, _activator)
 
 
 ## Input: stop where it is. The next Start carries on in the same direction.
 func stop(activator: Variant = null) -> void:
-	if not _receive(&"stop", activator) or not _moving:
-		return
-	_moving = false
-	_fire(stopped, activator)
+	if _receive(&"stop", activator):
+		_moving = false
 
 
 func _physics_process(delta: float) -> void:
 	if not _moving:
 		set_physics_process(false)  # also switches it off in the editor
 		return
-	if _pause_left > 0.0:
-		_pause_left -= delta
-		return
-	if _wrap_pending:
-		_wrap_to_start()
 
 	var goal := 1.0 if _direction > 0.0 else 0.0
 	var distance := move_offset.length()
@@ -116,22 +88,19 @@ func _physics_process(delta: float) -> void:
 			_direction = -_direction
 		Mode.PING_PONG:
 			_direction = -_direction
-			_pause_left = end_pause
 		Mode.LOOP:
-			_wrap_pending = true
-			_pause_left = end_pause
-	_fire(reached_end if goal == 1.0 else reached_start, who)
+			_wrap_to_start()
+	_fire(on_move_end, who)
 
 
 func _wrap_to_start() -> void:
-	_wrap_pending = false
 	_progress = 0.0
 	_direction = 1.0
 	_apply()
 
 
 func _apply() -> void:
-	_mover.position = _origin + move_offset * ease(_progress, easing)
+	_mover.position = _origin + move_offset * _progress
 
 
 func _logic_warnings() -> PackedStringArray:
@@ -140,6 +109,4 @@ func _logic_warnings() -> PackedStringArray:
 		warnings.append("Move Offset is zero, so this node has nowhere to go.")
 	if target == null and get_child_count() == 0:
 		warnings.append("Nothing to move: add a node under this one or pick a Target.")
-	if mode == Mode.ONCE and end_pause > 0.0:
-		warnings.append("End Pause does nothing in Once mode.")
 	return warnings
