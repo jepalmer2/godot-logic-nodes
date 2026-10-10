@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" path="res://addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn" id="9_pa2hl"]
 [ext_resource type="Texture2D" uid="uid://cxm6nya5ujri4" path="res://addons/godot_logic_nodes/icons/LogicNode_Auto.png" id="10_8bjhn"]
 [ext_resource type="Material" uid="uid://r6kuaqn50utd" path="res://addons/godot_logic_nodes/materials/fauxTriggerVolume_MAT.tres" id="13_84wbo"]
+[ext_resource type="Script" uid="uid://ryxtrg5krx2x" path="res://addons/godot_logic_nodes/core/LogicInteract.gd" id="15_omrck"]
+[ext_resource type="Material" uid="uid://bbsmeox1tnk56" path="res://addons/godot_logic_nodes/materials/darkGray_MAT.tres" id="16_1eikl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sxk5m"]
 
@@ -64,59 +66,58 @@ output = &"on_trigger_exit"
 target = NodePath("../Move - Right Door Open")
 input = &"start"
 
+[sub_resource type="BoxMesh" id="BoxMesh_2qcgo"]
+size = Vector3(8, 0.25, 6)
+
+[sub_resource type="Resource" id="Resource_smkxg"]
+script = ExtResource("7_omrck")
+output = &"on_interact"
+target = NodePath("../DoorLeft - Move")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_d1gge"]
+script = ExtResource("7_omrck")
+output = &"on_interact"
+target = NodePath("../DoorRight - Move")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_0nfxa"]
+script = ExtResource("7_omrck")
+output = &"on_trigger_enter"
+target = NodePath("../LogicMove")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_a81mg"]
+script = ExtResource("7_omrck")
+output = &"on_trigger_exit"
+target = NodePath("../LogicMove")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_06sp7"]
+script = ExtResource("7_omrck")
+output = &"on_scene_start"
+target = NodePath("../LogicMove")
+input = &"start"
+
+[sub_resource type="BoxMesh" id="BoxMesh_ud6qy"]
+size = Vector3(4.5, 0.25, 6)
+
 [node name="AlphaIntegrationDemo" type="Node3D" unique_id=1627298573]
 
 [node name="FirstPersonController" parent="." unique_id=1409622009 instance=ExtResource("9_pa2hl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2196913, 0, 13.534224)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5.0303087, 0, 14.034224)
 
-[node name="AutoSprite3D" type="Sprite3D" parent="." unique_id=837288627]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.75)
+[node name="Explainers" type="Node3D" parent="." unique_id=435957760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.25)
+
+[node name="AutoSprite3D" type="Sprite3D" parent="Explainers" unique_id=837288627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, -0.75)
 pixel_size = 0.0001
 billboard = 1
 texture = ExtResource("10_8bjhn")
 
-[node name="RelaySprite3D" type="Sprite3D" parent="." unique_id=1103083875]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -0.75)
-pixel_size = 0.0001
-billboard = 1
-texture = ExtResource("2_a3vxc")
-
-[node name="MoveSprite3D" type="Sprite3D" parent="." unique_id=754977049]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.75, -0.75)
-pixel_size = 0.0001
-billboard = 1
-texture = ExtResource("3_84wbo")
-
-[node name="RotateSprite3D" type="Sprite3D" parent="." unique_id=1591440226]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.75, -0.75)
-pixel_size = 0.0001
-billboard = 1
-texture = ExtResource("4_omrck")
-
-[node name="TriggerSprite3D" type="Sprite3D" parent="." unique_id=2013955420]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.75, -0.75)
-pixel_size = 0.001
-billboard = 1
-texture = ExtResource("4_iixyl")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1291383095]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.75, -0.75)
-material_override = ExtResource("13_84wbo")
-mesh = SubResource("BoxMesh_sxk5m")
-
-[node name="InteractSprite3D" type="Sprite3D" parent="." unique_id=1904484941]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.25, 0.75, -0.75)
-pixel_size = 0.001
-billboard = 1
-texture = ExtResource("5_omrck")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1659240890]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.25, 0.75, -0.75)
-material_override = ExtResource("13_84wbo")
-mesh = SubResource("BoxMesh_sxk5m")
-
-[node name="AutoNodeExplainer" type="Label3D" parent="." unique_id=1623169575]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -0.9741186)
+[node name="AutoNodeExplainer" type="Label3D" parent="Explainers" unique_id=1623169575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3.25, -0.9741186)
 text = "--Auto Node--
 
 Automatically triggers an output signal when the parent scene loads.
@@ -127,8 +128,14 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="RelayNodeExplainer" type="Label3D" parent="." unique_id=495872184]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.5, -0.9741186)
+[node name="RelaySprite3D" type="Sprite3D" parent="Explainers" unique_id=1103083875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.75)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("2_a3vxc")
+
+[node name="RelayNodeExplainer" type="Label3D" parent="Explainers" unique_id=495872184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25, -0.9741186)
 text = "--Relay Node--
 
 Triggers an output signal when an incoming signal is detected. 
@@ -139,8 +146,14 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="MoveNodeExplainer" type="Label3D" parent="." unique_id=451831154]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, -0.9741186)
+[node name="MoveSprite3D" type="Sprite3D" parent="Explainers" unique_id=754977049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, -0.75)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("3_84wbo")
+
+[node name="MoveNodeExplainer" type="Label3D" parent="Explainers" unique_id=451831154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.25, -0.9741186)
 text = "--Move Node--
 
 When triggered, Moves/Translates an object based on a configurable distance, speed, and movement mode.
@@ -152,8 +165,14 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="RotateNodeExplainer" type="Label3D" parent="." unique_id=27060726]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.5, -0.9741186)
+[node name="RotateSprite3D" type="Sprite3D" parent="Explainers" unique_id=1591440226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, -0.75)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("4_omrck")
+
+[node name="RotateNodeExplainer" type="Label3D" parent="Explainers" unique_id=27060726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.25, -0.9741186)
 text = "--Rotate Node--
 
 When triggered, rotates an object based on a configurable distance, speed, and movement mode.
@@ -165,8 +184,14 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="TriggerVolumeExplainer" type="Label3D" parent="." unique_id=508203348]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.5, -0.9741186)
+[node name="TriggerSprite3D" type="Sprite3D" parent="Explainers" unique_id=2013955420]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, -0.75)
+pixel_size = 0.001
+billboard = 1
+texture = ExtResource("4_iixyl")
+
+[node name="TriggerVolumeExplainer" type="Label3D" parent="Explainers" unique_id=508203348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.25, -0.9741186)
 text = "--Trigger Volume--
 
 Detects objects with a configurable collision mask, and triggers Output Signals. 
@@ -178,11 +203,22 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="InteractVolumeExplainer" type="Label3D" parent="." unique_id=952739973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.5, -0.9741186)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Explainers" unique_id=1291383095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, -0.75)
+material_override = ExtResource("13_84wbo")
+mesh = SubResource("BoxMesh_sxk5m")
+
+[node name="InteractSprite3D" type="Sprite3D" parent="Explainers" unique_id=1904484941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, -0.75)
+pixel_size = 0.001
+billboard = 1
+texture = ExtResource("5_omrck")
+
+[node name="InteractVolumeExplainer" type="Label3D" parent="Explainers" unique_id=952739973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.25, -0.9741186)
 text = "--Interact Volume--
 
-Similar to the Trigger Volume, but can *also* detect a configurable input from the user to trigger Output Signals. 
+Similar to the Trigger Volume, can also trigger from user input.
 
 --Outputs--
 On Interact
@@ -192,65 +228,23 @@ vertical_alignment = 0
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1893997163]
-use_collision = true
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Explainers" unique_id=1659240890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.5, -0.75)
+material_override = ExtResource("13_84wbo")
+mesh = SubResource("BoxMesh_sxk5m")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=615674452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, -1.5)
-size = Vector3(40, 4, 1)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D2" unique_id=1984799084]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.125, 0, 10)
-size = Vector3(31.75, 4, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D2" unique_id=2117603584]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 21)
-size = Vector3(40, 4, 1)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D2" unique_id=2015050335]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 0, 10.5)
-size = Vector3(1, 4, 20)
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D2" unique_id=1968880528]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 0, 10.5)
-size = Vector3(1, 4, 20)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=130272417]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -1, 3)
-size = Vector3(40, 1, 10)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1948442470]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.875, -1, 8.5)
-size = Vector3(8.25, 1, 1)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1576373175]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -1, 14)
-size = Vector3(40, 1, 10)
-
-[node name="Lighting" type="Node3D" parent="." unique_id=330933504]
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Lighting" unique_id=699117236]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.25, 4)
+[node name="OmniLight3D" type="OmniLight3D" parent="Explainers" unique_id=699117236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.25, 2)
 light_energy = 2.0
 omni_range = 10.0
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Lighting" unique_id=418090552]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.25, 4)
+[node name="OmniLight3D2" type="OmniLight3D" parent="Explainers" unique_id=418090552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 3.25, 2)
 light_energy = 2.0
 omni_range = 10.0
 
-[node name="OmniLight3D3" type="OmniLight3D" parent="Lighting" unique_id=872202452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.25, 4)
-light_energy = 2.0
-omni_range = 10.0
-
-[node name="OmniLight3D4" type="OmniLight3D" parent="Lighting" unique_id=1325411014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 3.25, 4)
-light_energy = 2.0
-omni_range = 10.0
-
-[node name="OmniLight3D5" type="OmniLight3D" parent="Lighting" unique_id=2081806877]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3.25, 4)
+[node name="OmniLight3D5" type="OmniLight3D" parent="Explainers" unique_id=2081806877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3.25, 2)
 light_energy = 2.0
 omni_range = 10.0
 
@@ -290,6 +284,7 @@ use_collision = true
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Fan/CSGCombiner3D" unique_id=192725970]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 size = Vector3(3.5, 4, 2)
+material = ExtResource("16_1eikl")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Examples/Fan/CSGCombiner3D/CSGBox3D" unique_id=1261450679]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.25, 0.10986328)
@@ -300,7 +295,7 @@ sides = 16
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Examples/Fan" unique_id=1120080657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, -0.25)
-light_color = Color(1, 0, 0, 1)
+light_color = Color(0, 1, 0, 1)
 light_energy = 2.0
 shadow_enabled = true
 omni_range = 11.75
@@ -309,30 +304,35 @@ omni_range = 11.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 10)
 
 [node name="LogicAuto - Light Move" type="Node3D" parent="Examples/Moving Light" unique_id=905698248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3.5, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3, 1.25)
 script = ExtResource("1_60s5w")
 outputs = Array[ExtResource("7_omrck")]([SubResource("Resource_ox3r0")])
 metadata/_custom_type_script = "uid://vuaeexo85ca3"
 
 [node name="LogicMove - Light Move" type="Node3D" parent="Examples/Moving Light" unique_id=22563795 node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 3.5, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 3, 1.25)
 script = ExtResource("3_o3om3")
 target = NodePath("../LightFixture")
-move_offset = Vector3(20, 0, 0)
-speed = 10.0
+move_offset = Vector3(8, 0, 0)
+speed = 8.0
 mode = 1
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LightFixture" type="MeshInstance3D" parent="Examples/Moving Light" unique_id=1105843202]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4.5, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3, -0.5)
 mesh = SubResource("BoxMesh_esf6n")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Examples/Moving Light/LightFixture" unique_id=501774105]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.5, 0)
 light_color = Color(1, 0.49803922, 0, 1)
 light_energy = 10.0
 spot_range = 8.25
-spot_angle = 81.42962
+spot_angle = 67.98706
+
+[node name="Label3D" type="Label3D" parent="Examples/Moving Light" unique_id=2104505839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.75, -0.96732616)
+text = "\"Emergency\" lighting created with a Move Node set to Ping Pong."
+autowrap_mode = 3
 
 [node name="Proximity Door" type="Node3D" parent="Examples" unique_id=1643581654]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 14)
@@ -383,14 +383,227 @@ use_collision = true
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D" unique_id=869108713]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 0)
 size = Vector3(1, 4, 10)
+material = ExtResource("16_1eikl")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D/CSGBox3D" unique_id=2134578014]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 operation = 2
 size = Vector3(1.5, 3.5, 4.5)
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D" unique_id=90845859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 5.5)
+size = Vector3(3, 4, 1)
+material = ExtResource("16_1eikl")
+
 [node name="Label3D" type="Label3D" parent="Examples/Proximity Door" unique_id=1847603908]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.5, 3, 0)
 text = "Doors open based on player entering/exiting a Trigger Volume. "
 autowrap_mode = 3
 autowrap_trim_flags = 64
+
+[node name="ProximityIndicator - No Functionality" type="MeshInstance3D" parent="Examples/Proximity Door" unique_id=327752700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.375, 0)
+mesh = SubResource("BoxMesh_2qcgo")
+surface_material_override/0 = ExtResource("13_84wbo")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1745659893]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, -3.75)
+spot_angle = 73.58339
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1498856465]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, 3.75)
+spot_angle = 73.58339
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1266566415]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, 0)
+spot_angle = 73.58339
+
+[node name="Interact Door" type="Node3D" parent="Examples" unique_id=513322392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 23)
+
+[node name="DoorLeft" type="MeshInstance3D" parent="Examples/Interact Door" unique_id=744789589]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.25, 1.25, 0.5)
+mesh = SubResource("BoxMesh_icn4t")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Interact Door/DoorLeft" unique_id=1693812815]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Interact Door/DoorLeft/StaticBody3D" unique_id=1114220906]
+shape = SubResource("BoxShape3D_iixyl")
+
+[node name="DoorRight" type="MeshInstance3D" parent="Examples/Interact Door" unique_id=2049087298]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 1.25, 0.5)
+mesh = SubResource("BoxMesh_icn4t")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Interact Door/DoorRight" unique_id=2130381024]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Interact Door/DoorRight/StaticBody3D" unique_id=1246503756]
+shape = SubResource("BoxShape3D_omrck")
+
+[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Examples/Interact Door" unique_id=1652665624]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0.25)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1247493541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 0)
+size = Vector3(1, 4, 10)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2/CSGBox3D" unique_id=1927582189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.125)
+operation = 2
+size = Vector3(1, 3.5, 4.25)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=509968734]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -5.5)
+size = Vector3(3, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1144865918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75, 1.5, 5.5)
+size = Vector3(10, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="DoorLeft - Move" type="Node3D" parent="Examples/Interact Door" unique_id=779582581 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -0.25)
+script = ExtResource("3_o3om3")
+target = NodePath("../DoorLeft")
+move_offset = Vector3(2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="DoorRight - Move" type="Node3D" parent="Examples/Interact Door" unique_id=577939261 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -0.25)
+script = ExtResource("3_o3om3")
+target = NodePath("../DoorRight")
+move_offset = Vector3(-2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicInteract" type="Node3D" parent="Examples/Interact Door" unique_id=1065191816]
+transform = Transform3D(2.3, 0, 0, 0, 2, 0, 0, 0, 3, 0.25, 1, 0.5)
+script = ExtResource("15_omrck")
+outputs = Array[ExtResource("7_omrck")]([SubResource("Resource_smkxg"), SubResource("Resource_d1gge"), SubResource("Resource_0nfxa"), SubResource("Resource_a81mg")])
+metadata/_custom_type_script = "uid://ryxtrg5krx2x"
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Examples/Interact Door" unique_id=782800991]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.5, 3, -0.25)
+spot_range = 7.0
+spot_angle = 64.02886
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Examples/Interact Door" unique_id=1084263671]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.5, 3, -0.25)
+spot_range = 7.0
+spot_angle = 64.02886
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Examples/Interact Door" unique_id=1260538322]
+transform = Transform3D(1, 0, 0, 0, -0.50000006, 0.8660254, 0, -0.8660254, -0.50000006, 0, 3, -4.25)
+spot_range = 7.0
+spot_angle = 64.02886
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Examples/Interact Door" unique_id=406238676]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.86602545, 0, -0.86602545, 0.5, 0, 3, 5.25)
+spot_range = 7.0
+spot_angle = 64.02886
+
+[node name="IntructionsLabel" type="Label3D" parent="Examples/Interact Door" unique_id=1389477603]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.5, 0)
+text = "Press [E] to Open/Close"
+
+[node name="LogicMove" type="Node3D" parent="Examples/Interact Door" unique_id=1323195264 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("3_o3om3")
+target = NodePath("../IntructionsLabel")
+move_offset = Vector3(0, -10, 0)
+speed = 100.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicAuto" type="Node3D" parent="Examples/Interact Door" unique_id=1923991131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 0)
+script = ExtResource("1_60s5w")
+outputs = Array[ExtResource("7_omrck")]([SubResource("Resource_06sp7")])
+metadata/_custom_type_script = "uid://vuaeexo85ca3"
+
+[node name="Label3D" type="Label3D" parent="Examples/Interact Door" unique_id=1766307556]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -3.5, 1.75, -0.25)
+text = "Doors open based on player proximity *and* user input.
+
+NOTE: \"interact\" must be defined as an Action in Input Map tab in Project Settings."
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="ProximityIndicator - No Functionality" type="MeshInstance3D" parent="Examples/Interact Door" unique_id=379937069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.375, 0.5)
+mesh = SubResource("BoxMesh_ud6qy")
+surface_material_override/0 = ExtResource("13_84wbo")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Examples" unique_id=238325554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2.5, 21.75)
+omni_range = 4.5
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Examples" unique_id=335414449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75, 2.5, 17)
+omni_range = 7.25
+
+[node name="Level Geometry" type="Node3D" parent="." unique_id=1568827250]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Level Geometry" unique_id=1893997163]
+use_collision = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1984799084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.625, 1.5, 8.5)
+size = Vector3(24.75, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1950190260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.625, 1.5, 31.5)
+size = Vector3(24.75, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=2015050335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 1.5, 12.75)
+size = Vector3(1, 4, 23)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1968880528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 1.5, 4.625)
+size = Vector3(1, 4, 6.75)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1311064426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.5, 20.5)
+size = Vector3(1, 4, 23)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=615674452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.5, 1.75)
+size = Vector3(29, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1081093111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.375, 1.5, 23.75)
+size = Vector3(7.25, 4, 1)
+material = ExtResource("16_1eikl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=130272417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -1, 4.625)
+size = Vector3(30, 1, 6.75)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1576373175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -1, 16.125)
+size = Vector3(34, 1, 16.25)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=752558037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.125, -1, 28.125)
+size = Vector3(25.75, 1, 7.75)
+
+[node name="Label3D - Examples" type="Label3D" parent="Level Geometry" unique_id=1985349142]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.75, 2.5, 16)
+text = "Logic Nodes Usage Examples"
+font_size = 64
+autowrap_mode = 3
+
+[node name="Label3D - Explainers" type="Label3D" parent="Level Geometry" unique_id=87214247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, 8)
+text = "Logic Nodes Dictionary"
+font_size = 64
+autowrap_mode = 3

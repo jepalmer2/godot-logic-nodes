@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://bge4wsp8yngpv"]
+
+[ext_resource type="Material" uid="uid://bbsmeox1tnk56" path="res://addons/godot_logic_nodes/materials/darkGray_MAT.tres" id="1_e81rd"]
+[ext_resource type="PackedScene" path="res://addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn" id="2_ij101"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ij101"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_1qr4u"]
+sky_material = SubResource("ProceduralSkyMaterial_ij101")
+
+[sub_resource type="Environment" id="Environment_msujk"]
+background_mode = 2
+sky = SubResource("Sky_1qr4u")
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
+size = Vector3(0.5, 3, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ij101"]
+size = Vector3(0.5, 3, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1qr4u"]
+size = Vector3(0.5, 3, 2)
+
+[node name="BenchmarkScene" type="Node3D" unique_id=1708307028]
+
+[node name="FirstPersonController" parent="." unique_id=483000901 instance=ExtResource("2_ij101")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5.75, 0, 0)
+
+[node name="Level Geometry" type="Node3D" parent="." unique_id=1896872411]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level Geometry" unique_id=241961428]
+environment = SubResource("Environment_msujk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level Geometry" unique_id=101282270]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 8, 0)
+shadow_enabled = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Level Geometry" unique_id=1685339912]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1511538810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(16, 1, 16)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=369340310]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2, 0)
+size = Vector3(1, 4, 16)
+material = ExtResource("1_e81rd")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1051037045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+size = Vector3(1, 4, 6)
+material = ExtResource("1_e81rd")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D/CSGBox3D6" unique_id=834825678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+operation = 2
+size = Vector3(1, 3, 4)
+material = ExtResource("1_e81rd")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1158985308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2, 0)
+size = Vector3(1, 4, 16)
+material = ExtResource("1_e81rd")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1633930315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.5)
+size = Vector3(14, 4, 1)
+material = ExtResource("1_e81rd")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1513198666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 7.5)
+size = Vector3(14, 4, 1)
+material = ExtResource("1_e81rd")
+
+[node name="DoorLeft" type="MeshInstance3D" parent="." unique_id=1984042120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
+mesh = SubResource("BoxMesh_esf6n")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DoorLeft" unique_id=137363223]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorLeft/StaticBody3D" unique_id=2110113039]
+shape = SubResource("BoxShape3D_ij101")
+
+[node name="DoorRight" type="MeshInstance3D" parent="." unique_id=1332142138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1)
+mesh = SubResource("BoxMesh_esf6n")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DoorRight" unique_id=1291833525]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorRight/StaticBody3D" unique_id=1550424238]
+shape = SubResource("BoxShape3D_1qr4u")
