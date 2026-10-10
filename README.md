@@ -7,8 +7,8 @@ Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets develop
 ---
 
 ## Alpha Content
-[AlphaIntegrationDemo Scene Walkthrough](https://youtu.be/gHKExGlYwMk)
-[Example Workflow](https://youtu.be/_Vp-n8A4pNA)
+- [AlphaIntegrationDemo Scene Walkthrough](https://youtu.be/gHKExGlYwMk)
+- [Example Workflow](https://youtu.be/_Vp-n8A4pNA)
 
 ## Requirements
 
