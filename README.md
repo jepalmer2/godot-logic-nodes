@@ -2,18 +2,19 @@
 
 Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets developers build gameplay without writing code. You place logic nodes like triggers, doors and timers directly in your level and wire them together with dropdowns.
 
-> **Status:** Alpha (v0.1). Six nodes are working. Timer, Counter, Debug, Branch and Audio nodes are planned.
+> **Status:** Alpha (v0.1).
 
 ---
 
 ## Requirements
 
 - Godot **4.7** or newer (built and tested on 4.7.2)
+- The standard (GDScript) build of Godot. The addon is written in GDScript. The .NET/C# build hasn't been tested, and there is no C# API for extending the nodes.
 - A 3D scene. Logic Nodes are `Node3D`s, so they live in the level next to what they control.
 
 ## Installation
 
-1. Copy `addons/godot_logic_nodes/` into your project's `addons/` folder.
+1. Copy `godot_logic_nodes/` into your project's `addons/` folder.
 2. Open **Project > Project Settings > Plugins** and enable **Godot Logic Nodes**.
 3. A new **Logic I/O** tab appears in the bottom panel, and Logic Nodes appear in the **Add Node** dialog (search for "Logic").
 
@@ -21,7 +22,7 @@ Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets develop
 
 ## How it works
 
-Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) and **inputs** (things it can do, like *Start*). You connect one node's output to another node's input, and that's your gameplay.
+Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) and **inputs** (things it can do, like *Start*). You connect one node's output to another node's input, and that drives the basic logic for your gameplay.
 
 ### The Logic I/O panel
 
@@ -196,20 +197,10 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 
 Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show All** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
 
-## Known issues
-
-- After editing a Logic Node script with the editor open, use **Project > Reload Current Project** to see the change.
-- If an output is renamed, rows that used the old name show as missing and are skipped. Re-pick the output in the panel.
-- Move and Rotate set position and rotation directly, so a player standing on a moving platform may slide.
-
-## Roadmap
-
-Timer, Counter, Debug, Branch and Audio nodes; final icons; sample scenes; a "first door in 10 minutes" tutorial.
-
 ## Credits
 
-Created by Justin Palmer.
+Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design. 
 
 ## License
 
-[Add a license, for example MIT]
+MIT. See [LICENSE](LICENSE).
