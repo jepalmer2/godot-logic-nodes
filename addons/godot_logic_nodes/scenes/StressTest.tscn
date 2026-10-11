@@ -1,0 +1,1107 @@
+[gd_scene format=3 uid="uid://br7apn5jkivjg"]
+
+[ext_resource type="Script" uid="uid://vuaeexo85ca3" path="res://addons/godot_logic_nodes/core/LogicAuto.gd" id="auto"]
+[ext_resource type="Script" uid="uid://cj7rag5ddw0uy" path="res://addons/godot_logic_nodes/core/LogicConnection.gd" id="conn"]
+[ext_resource type="Script" uid="uid://dhy64hj1iiuxt" path="res://addons/godot_logic_nodes/scenes/StressTestMonitor.gd" id="mon"]
+[ext_resource type="Script" uid="uid://cg45ne438c6tw" path="res://addons/godot_logic_nodes/core/LogicRelay.gd" id="relay"]
+[ext_resource type="Script" uid="uid://b88uldncsrvlr" path="res://addons/godot_logic_nodes/core/LogicRotate.gd" id="rotate"]
+
+[sub_resource type="Resource" id="Row_1"]
+script = ExtResource("conn")
+output = &"on_scene_start"
+target = NodePath("../Ring_01")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_2"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_02")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_3"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_03")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_4"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_04")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_5"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_05")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_6"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_06")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_7"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_07")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_8"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_08")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_9"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_09")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_10"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_10")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_11"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_11")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_12"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_12")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_13"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_13")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_14"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_14")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_15"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_15")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_16"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_16")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_17"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_17")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_18"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_18")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_19"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_19")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_20"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_20")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_21"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_21")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_22"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_22")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_23"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_23")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_24"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_24")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_25"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_25")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_26"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_26")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_27"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_27")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_28"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_28")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_29"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_29")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_30"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_30")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_31"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_31")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_32"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_32")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_33"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_33")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_34"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_34")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_35"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_35")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_36"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_36")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_37"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_37")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_38"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_38")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_39"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_39")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_40"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_40")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_41"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_41")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_42"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_42")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_43"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_43")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_44"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_44")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_45"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_45")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_46"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_46")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_47"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_47")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_48"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_48")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_49"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_49")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_50"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_50")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_51"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_51")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_52"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_52")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_53"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_53")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_54"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_54")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_55"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_55")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_56"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_56")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_57"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_57")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_58"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_58")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_59"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_59")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_60"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_60")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_61"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Ring_01")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_62"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Burst")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_63"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../../Heartbeat")
+input = &"start"
+
+[sub_resource type="Resource" id="Row_64"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_01")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_65"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_02")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_66"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_03")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_67"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_04")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_68"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_05")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_69"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_06")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_70"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_07")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_71"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_08")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_72"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_09")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_73"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Fan_10")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_74"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_01")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_75"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_02")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_76"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_03")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_77"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_04")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_78"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_05")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_79"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_06")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_80"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_07")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_81"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_08")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_82"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_09")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_83"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_10")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_84"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_11")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_85"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_12")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_86"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_13")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_87"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_14")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_88"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_15")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_89"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_16")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_90"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_17")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_91"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_18")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_92"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_19")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Row_93"]
+script = ExtResource("conn")
+output = &"on_trigger"
+target = NodePath("../Deep_20")
+input = &"trigger"
+
+[node name="StressTest" type="Node3D" unique_id=290095341]
+
+[node name="Nodes" type="Node3D" parent="." unique_id=502874245]
+
+[node name="Auto" type="Node3D" parent="Nodes" unique_id=525613292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14)
+script = ExtResource("auto")
+outputs = Array[ExtResource("conn")]([SubResource("Row_1")])
+
+[node name="Ring_01" type="Node3D" parent="Nodes" unique_id=111719102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_2")])
+
+[node name="Ring_02" type="Node3D" parent="Nodes" unique_id=2007649891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.93, 0, 1.25)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_3")])
+
+[node name="Ring_03" type="Node3D" parent="Nodes" unique_id=1402632372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.74, 0, 2.49)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_4")])
+
+[node name="Ring_04" type="Node3D" parent="Nodes" unique_id=933450061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.41, 0, 3.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_5")])
+
+[node name="Ring_05" type="Node3D" parent="Nodes" unique_id=1781541420]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.96, 0, 4.88)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_6")])
+
+[node name="Ring_06" type="Node3D" parent="Nodes" unique_id=177078770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39, 0, 6)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_7")])
+
+[node name="Ring_07" type="Node3D" parent="Nodes" unique_id=1068360828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.71, 0, 7.05)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_8")])
+
+[node name="Ring_08" type="Node3D" parent="Nodes" unique_id=1404765970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.92, 0, 8.03)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_9")])
+
+[node name="Ring_09" type="Node3D" parent="Nodes" unique_id=1059371758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.03, 0, 8.92)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_10")])
+
+[node name="Ring_10" type="Node3D" parent="Nodes" unique_id=1662364371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05, 0, 9.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_11")])
+
+[node name="Ring_11" type="Node3D" parent="Nodes" unique_id=1814364253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 10.39)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_12")])
+
+[node name="Ring_12" type="Node3D" parent="Nodes" unique_id=2093039301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88, 0, 10.96)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_13")])
+
+[node name="Ring_13" type="Node3D" parent="Nodes" unique_id=286236727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71, 0, 11.41)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_14")])
+
+[node name="Ring_14" type="Node3D" parent="Nodes" unique_id=935263018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.49, 0, 11.74)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_15")])
+
+[node name="Ring_15" type="Node3D" parent="Nodes" unique_id=71239297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 11.93)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_16")])
+
+[node name="Ring_16" type="Node3D" parent="Nodes" unique_id=2066152242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_17")])
+
+[node name="Ring_17" type="Node3D" parent="Nodes" unique_id=1924614853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 11.93)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_18")])
+
+[node name="Ring_18" type="Node3D" parent="Nodes" unique_id=1971983606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49, 0, 11.74)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_19")])
+
+[node name="Ring_19" type="Node3D" parent="Nodes" unique_id=184125502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.71, 0, 11.41)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_20")])
+
+[node name="Ring_20" type="Node3D" parent="Nodes" unique_id=696629213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.88, 0, 10.96)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_21")])
+
+[node name="Ring_21" type="Node3D" parent="Nodes" unique_id=2085219841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10.39)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_22")])
+
+[node name="Ring_22" type="Node3D" parent="Nodes" unique_id=878789249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.05, 0, 9.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_23")])
+
+[node name="Ring_23" type="Node3D" parent="Nodes" unique_id=969045072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.03, 0, 8.92)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_24")])
+
+[node name="Ring_24" type="Node3D" parent="Nodes" unique_id=880919841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.92, 0, 8.03)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_25")])
+
+[node name="Ring_25" type="Node3D" parent="Nodes" unique_id=650541149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.71, 0, 7.05)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_26")])
+
+[node name="Ring_26" type="Node3D" parent="Nodes" unique_id=1747730857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.39, 0, 6)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_27")])
+
+[node name="Ring_27" type="Node3D" parent="Nodes" unique_id=1579436613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.96, 0, 4.88)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_28")])
+
+[node name="Ring_28" type="Node3D" parent="Nodes" unique_id=443857206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.41, 0, 3.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_29")])
+
+[node name="Ring_29" type="Node3D" parent="Nodes" unique_id=2084909830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.74, 0, 2.49)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_30")])
+
+[node name="Ring_30" type="Node3D" parent="Nodes" unique_id=1213731117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.93, 0, 1.25)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_31")])
+
+[node name="Ring_31" type="Node3D" parent="Nodes" unique_id=647175922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_32")])
+
+[node name="Ring_32" type="Node3D" parent="Nodes" unique_id=1810284182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.93, 0, -1.25)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_33")])
+
+[node name="Ring_33" type="Node3D" parent="Nodes" unique_id=667672294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.74, 0, -2.49)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_34")])
+
+[node name="Ring_34" type="Node3D" parent="Nodes" unique_id=1471255131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.41, 0, -3.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_35")])
+
+[node name="Ring_35" type="Node3D" parent="Nodes" unique_id=519418796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.96, 0, -4.88)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_36")])
+
+[node name="Ring_36" type="Node3D" parent="Nodes" unique_id=253408604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.39, 0, -6)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_37")])
+
+[node name="Ring_37" type="Node3D" parent="Nodes" unique_id=1435013677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.71, 0, -7.05)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_38")])
+
+[node name="Ring_38" type="Node3D" parent="Nodes" unique_id=1470136697]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.92, 0, -8.03)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_39")])
+
+[node name="Ring_39" type="Node3D" parent="Nodes" unique_id=889750329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.03, 0, -8.92)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_40")])
+
+[node name="Ring_40" type="Node3D" parent="Nodes" unique_id=687014205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.05, 0, -9.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_41")])
+
+[node name="Ring_41" type="Node3D" parent="Nodes" unique_id=925917883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10.39)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_42")])
+
+[node name="Ring_42" type="Node3D" parent="Nodes" unique_id=1973954507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.88, 0, -10.96)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_43")])
+
+[node name="Ring_43" type="Node3D" parent="Nodes" unique_id=654067570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.71, 0, -11.41)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_44")])
+
+[node name="Ring_44" type="Node3D" parent="Nodes" unique_id=1351978400]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49, 0, -11.74)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_45")])
+
+[node name="Ring_45" type="Node3D" parent="Nodes" unique_id=1581368715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, -11.93)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_46")])
+
+[node name="Ring_46" type="Node3D" parent="Nodes" unique_id=2135998533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_47")])
+
+[node name="Ring_47" type="Node3D" parent="Nodes" unique_id=1636870342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, -11.93)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_48")])
+
+[node name="Ring_48" type="Node3D" parent="Nodes" unique_id=509154527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.49, 0, -11.74)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_49")])
+
+[node name="Ring_49" type="Node3D" parent="Nodes" unique_id=2056090589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71, 0, -11.41)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_50")])
+
+[node name="Ring_50" type="Node3D" parent="Nodes" unique_id=2076731510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88, 0, -10.96)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_51")])
+
+[node name="Ring_51" type="Node3D" parent="Nodes" unique_id=778711295]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -10.39)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_52")])
+
+[node name="Ring_52" type="Node3D" parent="Nodes" unique_id=88198489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05, 0, -9.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_53")])
+
+[node name="Ring_53" type="Node3D" parent="Nodes" unique_id=880514340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.03, 0, -8.92)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_54")])
+
+[node name="Ring_54" type="Node3D" parent="Nodes" unique_id=52915662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.92, 0, -8.03)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_55")])
+
+[node name="Ring_55" type="Node3D" parent="Nodes" unique_id=1710144978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.71, 0, -7.05)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_56")])
+
+[node name="Ring_56" type="Node3D" parent="Nodes" unique_id=7582580]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39, 0, -6)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_57")])
+
+[node name="Ring_57" type="Node3D" parent="Nodes" unique_id=998859824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.96, 0, -4.88)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_58")])
+
+[node name="Ring_58" type="Node3D" parent="Nodes" unique_id=141251683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.41, 0, -3.71)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_59")])
+
+[node name="Ring_59" type="Node3D" parent="Nodes" unique_id=736323226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.74, 0, -2.49)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_60")])
+
+[node name="Ring_60" type="Node3D" parent="Nodes" unique_id=413259677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.93, 0, -1.25)
+script = ExtResource("relay")
+delay = 0.05
+outputs = Array[ExtResource("conn")]([SubResource("Row_61"), SubResource("Row_62"), SubResource("Row_63")])
+
+[node name="Burst" type="Node3D" parent="Nodes" unique_id=933868474]
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_64"), SubResource("Row_65"), SubResource("Row_66"), SubResource("Row_67"), SubResource("Row_68"), SubResource("Row_69"), SubResource("Row_70"), SubResource("Row_71"), SubResource("Row_72"), SubResource("Row_73")])
+
+[node name="Fan_01" type="Node3D" parent="Nodes" unique_id=1916545268]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_74")])
+
+[node name="Fan_02" type="Node3D" parent="Nodes" unique_id=138767718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.24, 0, 2.35)
+script = ExtResource("relay")
+
+[node name="Fan_03" type="Node3D" parent="Nodes" unique_id=1159978057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24, 0, 3.8)
+script = ExtResource("relay")
+
+[node name="Fan_04" type="Node3D" parent="Nodes" unique_id=346082478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24, 0, 3.8)
+script = ExtResource("relay")
+
+[node name="Fan_05" type="Node3D" parent="Nodes" unique_id=235686738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24, 0, 2.35)
+script = ExtResource("relay")
+
+[node name="Fan_06" type="Node3D" parent="Nodes" unique_id=567042894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+script = ExtResource("relay")
+
+[node name="Fan_07" type="Node3D" parent="Nodes" unique_id=487898834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24, 0, -2.35)
+script = ExtResource("relay")
+
+[node name="Fan_08" type="Node3D" parent="Nodes" unique_id=1479928432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24, 0, -3.8)
+script = ExtResource("relay")
+
+[node name="Fan_09" type="Node3D" parent="Nodes" unique_id=1153434471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.24, 0, -3.8)
+script = ExtResource("relay")
+
+[node name="Fan_10" type="Node3D" parent="Nodes" unique_id=959322522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.24, 0, -2.35)
+script = ExtResource("relay")
+
+[node name="Deep_01" type="Node3D" parent="Nodes" unique_id=1523649913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_75")])
+
+[node name="Deep_02" type="Node3D" parent="Nodes" unique_id=1133303271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_76")])
+
+[node name="Deep_03" type="Node3D" parent="Nodes" unique_id=351982086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_77")])
+
+[node name="Deep_04" type="Node3D" parent="Nodes" unique_id=2093748512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_78")])
+
+[node name="Deep_05" type="Node3D" parent="Nodes" unique_id=1900350509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.75, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_79")])
+
+[node name="Deep_06" type="Node3D" parent="Nodes" unique_id=291120148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_80")])
+
+[node name="Deep_07" type="Node3D" parent="Nodes" unique_id=1331787899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.25, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_81")])
+
+[node name="Deep_08" type="Node3D" parent="Nodes" unique_id=2001693645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_82")])
+
+[node name="Deep_09" type="Node3D" parent="Nodes" unique_id=1617632992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.75, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_83")])
+
+[node name="Deep_10" type="Node3D" parent="Nodes" unique_id=1799776781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_84")])
+
+[node name="Deep_11" type="Node3D" parent="Nodes" unique_id=1232702687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.25, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_85")])
+
+[node name="Deep_12" type="Node3D" parent="Nodes" unique_id=1997221701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_86")])
+
+[node name="Deep_13" type="Node3D" parent="Nodes" unique_id=664406407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.75, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_87")])
+
+[node name="Deep_14" type="Node3D" parent="Nodes" unique_id=2040899504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_88")])
+
+[node name="Deep_15" type="Node3D" parent="Nodes" unique_id=716432708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.25, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_89")])
+
+[node name="Deep_16" type="Node3D" parent="Nodes" unique_id=1635024390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_90")])
+
+[node name="Deep_17" type="Node3D" parent="Nodes" unique_id=792086299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.75, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_91")])
+
+[node name="Deep_18" type="Node3D" parent="Nodes" unique_id=177655384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_92")])
+
+[node name="Deep_19" type="Node3D" parent="Nodes" unique_id=2131937230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.25, 0)
+script = ExtResource("relay")
+outputs = Array[ExtResource("conn")]([SubResource("Row_93")])
+
+[node name="Deep_20" type="Node3D" parent="Nodes" unique_id=2027738289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+script = ExtResource("relay")
+
+[node name="Heartbeat" type="Node3D" parent="." unique_id=211219591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+script = ExtResource("rotate")
+rotate_offset = Vector3(0, 180, 0)
+speed = 360.0
+
+[node name="HeartbeatCube" type="CSGBox3D" parent="Heartbeat" unique_id=1185652859]
+size = Vector3(1, 1, 3)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=576012402]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 22, 14)
+current = true
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=705899708]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 10, 0)
+
+[node name="StressTestMonitor" type="Node" parent="." unique_id=967239162 node_paths=PackedStringArray("lap_relay")]
+script = ExtResource("mon")
+lap_relay = NodePath("../Nodes/Ring_60")
+
+[node name="Overlay" type="CanvasLayer" parent="StressTestMonitor" unique_id=1219791514]
+
+[node name="Stats" type="Label" parent="StressTestMonitor/Overlay" unique_id=817448495]
+offset_left = 16.0
+offset_top = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
