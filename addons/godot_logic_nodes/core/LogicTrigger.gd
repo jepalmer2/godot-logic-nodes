@@ -26,6 +26,12 @@ signal on_trigger_exit(activator: Node)
 		collision_mask = value
 		if _area:
 			_area.collision_mask = value
+## Editor only: tint of the see-through box in the 3D view, so different triggers are easy to
+## tell apart. Alpha sets how see-through the fill is. Never shown in the game.
+@export var volume_color := Color(1.0, 127.0 / 255.0, 0.0, 16.0 / 255.0):  # R255 G127 B0 A16
+	set(value):
+		volume_color = value
+		update_gizmos()
 
 var _area: Area3D
 var _shape: BoxShape3D

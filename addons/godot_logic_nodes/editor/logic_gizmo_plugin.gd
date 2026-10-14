@@ -8,14 +8,13 @@ const ICON_SIZE := 0.5
 
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
+var _tints := {}           # trigger Volume Colors (as html) that already have materials
 var _quad := QuadMesh.new()
 var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked from any angle
 
 
 func _init() -> void:
 	create_material("wire", Color(1.0, 0.6, 0.1))
-	create_material("volume", Color(1.0, 0.5, 0.0))
-	add_material("volume_fill", _make_fill_material(Color(1.0, 0.5, 0.0, 0.08)))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
 	box.size = Vector3.ONE * ICON_SIZE
@@ -38,8 +37,9 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 	if node is LogicTrigger:
 		var fill := BoxMesh.new()
 		fill.size = node.size
-		gizmo.add_mesh(fill, get_material("volume_fill", gizmo))
-		gizmo.add_lines(_box_lines(node.size), get_material("volume", gizmo))
+		var key := _volume_materials(node.volume_color)
+		gizmo.add_mesh(fill, get_material("volume_fill_" + key, gizmo))
+		gizmo.add_lines(_box_lines(node.size), get_material("volume_" + key, gizmo))
 
 	# Prodeus-style wires: a line from this node to each output target.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.
@@ -94,6 +94,17 @@ func _make_icon_material(texture: Texture2D) -> StandardMaterial3D:
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	material.albedo_texture = texture
 	return material
+
+
+## Makes the edge and fill materials for a trigger's Volume Color the first time it's used,
+## so triggers sharing a color share materials. Returns the name suffix for get_material().
+func _volume_materials(tint: Color) -> String:
+	var key := tint.to_html()
+	if not _tints.has(key):
+		create_material("volume_" + key, Color(tint, 1.0))  # solid edges
+		add_material("volume_fill_" + key, _make_fill_material(tint))
+		_tints[key] = true
+	return key
 
 
 ## See-through tint for a trigger's box, visible from inside it too.
