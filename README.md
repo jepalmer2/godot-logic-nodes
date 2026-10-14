@@ -197,6 +197,134 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 
 ---
 
+### Timer
+Waits a set time, then fires. It can fire once or keep repeating. Use it for timed doors, countdowns, waves of enemies and anything that should happen every few seconds. It pauses when the game is paused.
+
+| Inputs | |
+|---|---|
+| **Start** | Start counting. After Stop, it carries on with the time that was left. Ignored if it's already running |
+| **Stop** | Pause and keep the time left. The next Start carries on from there |
+| **Restart** | Start again from the full Wait Time, whether it's running or not |
+
+| Outputs | |
+|---|---|
+| **On Timeout** | Wait Time ran out |
+
+| Settings | |
+|---|---|
+| **Wait Time** | Seconds until On Timeout |
+| **Repeat** | Off: fire once and stop. On: fire every Wait Time until Stop |
+| **Max Repeats** | Only used when Repeat is on. 0 = forever; 3 = fire 3 times, then stop |
+
+**Example:** a timed door. Interact Zone *On Interact* → Move (door) *Start* and → Timer (Wait Time 5 s) *Restart*, then Timer *On Timeout* → Move (door) *Start*. The door opens, then closes by itself 5 seconds later.
+
+---
+
+### Counter
+Counts how many times something happened and fires when it reaches a goal. Use it for "hit 3 switches to open the gate" puzzles, or anything that should only happen on the Nth time.
+
+| Inputs | |
+|---|---|
+| **Add** | Count up by one |
+| **Subtract** | Count down by one. Never goes below 0 |
+| **Reset** | Go back to Start Count |
+
+| Outputs | |
+|---|---|
+| **On Count Change** | The count went up, down or was reset. Handy for a "click" sound on each switch |
+| **On Goal Reached** | The count reached Goal |
+
+| Settings | |
+|---|---|
+| **Goal** | Count needed to fire On Goal Reached |
+| **Start Count** | Count when the scene loads, and what Reset goes back to |
+| **After Goal** | **Stop**: ignores Add and Subtract until Reset. **Reset**: goes straight back to Start Count, so it fires again every Goal adds. **Keep Counting**: keeps going past Goal and only fires again if the count drops below Goal and comes back up |
+
+**Example:** three Trigger Volumes, each *On Trigger Enter* → Counter (Goal 3) *Add*, then Counter *On Goal Reached* → Move (gate) *Start*. The gate opens once the player has stepped on all three pads.
+
+---
+
+### Branch
+Remembers one yes/no fact about the level, like "the power is on", and sends an event one of two ways depending on it. Setting the value and checking it are separate inputs, so one part of the level can flip the switch and another can ask about it later.
+
+| Inputs | |
+|---|---|
+| **Set True** | The value becomes true |
+| **Set False** | The value becomes false |
+| **Toggle** | Flip the value |
+| **Check** | Fire On True or On False for the current value. Doesn't change the value |
+
+| Outputs | |
+|---|---|
+| **On True** | Check was sent and the value is true |
+| **On False** | Check was sent and the value is false |
+| **On Value Change** | The value changed (by Set True, Set False or Toggle). Setting it to the value it already has fires nothing |
+
+| Settings | |
+|---|---|
+| **Start Value** | The value when the scene loads |
+| **Check On Change** | Every change also runs Check, so On True / On False fire right away |
+
+The value resets to Start Value every time the scene loads. It isn't saved between play sessions.
+
+**Example:** a door that needs power. Interact Zone (generator) *On Interact* → Branch *Set True*. Interact Zone (door) *On Interact* → Branch *Check*. Branch *On True* → Move (door) *Start*, and Branch *On False* → Audio Clip (buzzer) *Play*.
+
+---
+
+### Audio Clip
+Plays a sound from logic. With Loop off, it plays once each time it gets Play (a door creak, a click). With Loop on, it repeats until Stop (an ambient hum, music).
+
+| Inputs | |
+|---|---|
+| **Play** | Play from the start. With Loop on, it then repeats until Stop |
+| **Stop** | Stop the sound. Doesn't fire On Audio End |
+
+| Outputs | |
+|---|---|
+| **On Audio Start** | Play started the sound |
+| **On Audio End** | A one-shot sound reached its end. Never fires with Loop on |
+
+| Settings | |
+|---|---|
+| **Stream** | The sound file (.wav, .ogg or .mp3) |
+| **Loop** | Off: plays once per Play. On: repeats until Stop. Overrides the file's own Loop import setting |
+| **Volume Db** | Loudness in decibels. 0 = the file's own level; -6 is about half as loud |
+| **Pitch Variation** | Each Play picks a random pitch within ± this amount, so repeated sounds don't feel robotic. 0 = always the same |
+| **Positional** | On: the sound comes from this node's spot in the level and fades with distance. Off: same volume everywhere (music, announcements) |
+| **Max Distance** | Positional only. Beyond this distance the sound can't be heard. 0 = no limit |
+| **Polyphony** | How many copies can play at once. 1 = Play restarts the sound |
+| **Bus** | The audio bus it plays on, for separate SFX and Music volume |
+
+**Tip:** for a different sound on each play (footsteps, impacts), put an `AudioStreamRandomizer` in Stream.
+
+**Example:** Move (door) *On Move Start* → Audio Clip (creak) *Play*. Place the Audio Clip at the door so the sound comes from there.
+
+---
+
+### Debug
+Shows a short message on the game screen when something reaches it, then passes the event on. Drop it into the middle of a chain to see what fired while you play. Repeated messages stack into one line with a count (×3). For a full log of every input and output, turn on **Trace** instead.
+
+| Inputs | |
+|---|---|
+| **Trigger** | Show the message, then fire On Show |
+
+| Outputs | |
+|---|---|
+| **On Show** | The message was shown. Also fires in a release build, where nothing is shown, so the chain keeps working |
+
+| Settings | |
+|---|---|
+| **Message** | The text to show. Empty shows the node's name |
+| **Color** | Text color, so different checkpoints are easy to tell apart |
+| **Duration** | Seconds the line stays on screen before it fades |
+| **Show Activator** | Adds who set it off, e.g. "Gate open (Player)" |
+| **Print To Console** | Also print the line to the Output panel |
+| **Debug Builds Only** | Show and print nothing in an exported release game |
+
+**Example:** Counter *On Goal Reached* → Debug ("Gate open") *Trigger*, then Debug *On Show* → Move (gate) *Start*. You see "Gate open" on screen at the moment the gate starts moving.
+
+---
+
 ## Connecting to built-in Godot nodes
 
 Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show All** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
