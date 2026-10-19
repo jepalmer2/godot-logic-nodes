@@ -21,6 +21,8 @@
 [ext_resource type="Script" uid="uid://emtwy0ew6w51" path="res://addons/godot_logic_nodes/core/LogicMove.gd" id="14_jlkq4"]
 [ext_resource type="Script" uid="uid://dd2ggkll4ace0" path="res://addons/godot_logic_nodes/core/LogicTrigger.gd" id="15_v50an"]
 [ext_resource type="Script" uid="uid://ryxtrg5krx2x" path="res://addons/godot_logic_nodes/core/LogicInteract.gd" id="16_vugre"]
+[ext_resource type="PackedScene" uid="uid://b32cvcu1rht5c" path="res://addons/godot_logic_nodes/models/door_frame_0_5m.tscn" id="20_shrwq"]
+[ext_resource type="PackedScene" uid="uid://oicf3euucrnb" path="res://addons/godot_logic_nodes/models/sliding_door.tscn" id="22_myfiq"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sxk5m"]
 
@@ -38,37 +40,28 @@ input = &"start"
 
 [sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_icn4t"]
-size = Vector3(0.5, 3.5, 2.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_iixyl"]
-size = Vector3(0.5, 3.5, 2.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_omrck"]
-size = Vector3(0.5, 3.5, 2.25)
-
 [sub_resource type="Resource" id="Resource_iixyl"]
 script = ExtResource("11_b87eb")
 output = &"on_trigger_enter"
-target = NodePath("../Move - Left Door Open")
+target = NodePath("../Move - Left Door")
 input = &"start"
 
 [sub_resource type="Resource" id="Resource_omrck"]
 script = ExtResource("11_b87eb")
 output = &"on_trigger_enter"
-target = NodePath("../Move - Right Door Open")
+target = NodePath("../Move - Right Door")
 input = &"start"
 
 [sub_resource type="Resource" id="Resource_1eikl"]
 script = ExtResource("11_b87eb")
 output = &"on_trigger_exit"
-target = NodePath("../Move - Left Door Open")
+target = NodePath("../Move - Left Door")
 input = &"start"
 
 [sub_resource type="Resource" id="Resource_pa2hl"]
 script = ExtResource("11_b87eb")
 output = &"on_trigger_exit"
-target = NodePath("../Move - Right Door Open")
+target = NodePath("../Move - Right Door")
 input = &"start"
 
 [sub_resource type="Resource" id="Resource_smkxg"]
@@ -323,7 +316,7 @@ height = 2.3701172
 sides = 16
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Examples/Fan" unique_id=1120080657]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, -0.25)
 light_color = Color(0, 1, 0, 1)
 light_energy = 2.0
 shadow_enabled = true
@@ -366,43 +359,35 @@ autowrap_mode = 3
 [node name="Proximity Door" type="Node3D" parent="Examples" unique_id=1643581654]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 14)
 
-[node name="DoorLeft" type="MeshInstance3D" parent="Examples/Proximity Door" unique_id=848296098]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.25, -1.125)
-mesh = SubResource("BoxMesh_icn4t")
+[node name="DoorFrame_0_5M" parent="Examples/Proximity Door" unique_id=1384750450 instance=ExtResource("20_shrwq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.5, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Proximity Door/DoorLeft" unique_id=858826715]
+[node name="SlidingDoor_Left" parent="Examples/Proximity Door" unique_id=1219120557 instance=ExtResource("22_myfiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.5, -1)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Proximity Door/DoorLeft/StaticBody3D" unique_id=956077194]
-shape = SubResource("BoxShape3D_iixyl")
+[node name="SlidingDoor_Right" parent="Examples/Proximity Door" unique_id=232323129 instance=ExtResource("22_myfiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.5, 1)
 
-[node name="DoorRight" type="MeshInstance3D" parent="Examples/Proximity Door" unique_id=487519969]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.25, 1.125)
-mesh = SubResource("BoxMesh_icn4t")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Proximity Door/DoorRight" unique_id=1127483841]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Proximity Door/DoorRight/StaticBody3D" unique_id=1918313986]
-shape = SubResource("BoxShape3D_omrck")
-
-[node name="Move - Left Door Open" type="Node3D" parent="Examples/Proximity Door" unique_id=2133971210 node_paths=PackedStringArray("target")]
+[node name="Move - Left Door" type="Node3D" parent="Examples/Proximity Door" unique_id=2133971210 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.5, -0.5)
 script = ExtResource("14_jlkq4")
-target = NodePath("../DoorLeft")
+target = NodePath("../SlidingDoor_Left")
 move_offset = Vector3(0, 0, -2)
 speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
-[node name="Move - Right Door Open" type="Node3D" parent="Examples/Proximity Door" unique_id=372167851 node_paths=PackedStringArray("target")]
+[node name="Move - Right Door" type="Node3D" parent="Examples/Proximity Door" unique_id=372167851 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.5, 0.5)
 script = ExtResource("14_jlkq4")
-target = NodePath("../DoorRight")
+target = NodePath("../SlidingDoor_Right")
 move_offset = Vector3(0, 0, 2)
 speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LogicTrigger" type="Node3D" parent="Examples/Proximity Door" unique_id=1499325647]
-transform = Transform3D(4, 0, 0, 0, 2, 0, 0, 0, 3, 0.25, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 script = ExtResource("15_v50an")
+size = Vector3(6, 4, 4)
 outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_iixyl"), SubResource("Resource_omrck"), SubResource("Resource_1eikl"), SubResource("Resource_pa2hl")])
 metadata/_custom_type_script = "uid://dd2ggkll4ace0"
 
@@ -410,14 +395,14 @@ metadata/_custom_type_script = "uid://dd2ggkll4ace0"
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D" unique_id=869108713]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 0)
-size = Vector3(1, 4, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 4)
+size = Vector3(1, 4, 2)
 material = ExtResource("13_i0jwl")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D/CSGBox3D" unique_id=2134578014]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-operation = 2
-size = Vector3(1.5, 3.5, 4.5)
+[node name="CSGBox3D3" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D" unique_id=1257770432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -4)
+size = Vector3(1, 4, 2)
+material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Proximity Door/CSGCombiner3D" unique_id=90845859]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 5.5)
@@ -445,37 +430,19 @@ spot_angle = 73.58339
 [node name="Interact Door" type="Node3D" parent="Examples" unique_id=513322392]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 23)
 
-[node name="DoorLeft" type="MeshInstance3D" parent="Examples/Interact Door" unique_id=744789589]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.25, 1.25, 0.5)
-mesh = SubResource("BoxMesh_icn4t")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Interact Door/DoorLeft" unique_id=1693812815]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Interact Door/DoorLeft/StaticBody3D" unique_id=1114220906]
-shape = SubResource("BoxShape3D_iixyl")
-
-[node name="DoorRight" type="MeshInstance3D" parent="Examples/Interact Door" unique_id=2049087298]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 1.25, 0.5)
-mesh = SubResource("BoxMesh_icn4t")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Examples/Interact Door/DoorRight" unique_id=2130381024]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Interact Door/DoorRight/StaticBody3D" unique_id=1246503756]
-shape = SubResource("BoxShape3D_omrck")
-
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Examples/Interact Door" unique_id=1652665624]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0.25)
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1247493541]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 0)
-size = Vector3(1, 4, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -4)
+size = Vector3(1, 4, 2)
 material = ExtResource("13_i0jwl")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2/CSGBox3D" unique_id=1927582189]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.125)
-operation = 2
-size = Vector3(1, 3.5, 4.25)
+[node name="CSGBox3D4" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=170324577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 4)
+size = Vector3(1, 4, 2)
+material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=509968734]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -5.5)
@@ -490,7 +457,7 @@ material = ExtResource("13_i0jwl")
 [node name="DoorLeft - Move" type="Node3D" parent="Examples/Interact Door" unique_id=779582581 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -0.25)
 script = ExtResource("14_jlkq4")
-target = NodePath("../DoorLeft")
+target = NodePath("../SlidingDoor - Left")
 move_offset = Vector3(2, 0, 0)
 speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
@@ -498,14 +465,15 @@ metadata/_custom_type_script = "uid://emtwy0ew6w51"
 [node name="DoorRight - Move" type="Node3D" parent="Examples/Interact Door" unique_id=577939261 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -0.25)
 script = ExtResource("14_jlkq4")
-target = NodePath("../DoorRight")
+target = NodePath("../SlidingDoor - Right")
 move_offset = Vector3(-2, 0, 0)
 speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LogicInteract" type="Node3D" parent="Examples/Interact Door" unique_id=1065191816]
-transform = Transform3D(2.3, 0, 0, 0, 2, 0, 0, 0, 3, 0.25, 1, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.25)
 script = ExtResource("16_vugre")
+size = Vector3(4, 4, 6)
 volume_color = Color(0, 0.49803922, 1, 0.0627451)
 outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_smkxg"), SubResource("Resource_d1gge"), SubResource("Resource_0nfxa"), SubResource("Resource_a81mg")])
 metadata/_custom_type_script = "uid://ryxtrg5krx2x"
@@ -535,7 +503,7 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1
 text = "Press [E] to Open/Close"
 
 [node name="LogicMove" type="Node3D" parent="Examples/Interact Door" unique_id=1323195264 node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 script = ExtResource("14_jlkq4")
 target = NodePath("../IntructionsLabel")
 move_offset = Vector3(0, -10, 0)
@@ -543,7 +511,7 @@ speed = 100.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LogicAuto" type="Node3D" parent="Examples/Interact Door" unique_id=1923991131]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.75, 0)
 script = ExtResource("10_h4plt")
 outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_06sp7")])
 metadata/_custom_type_script = "uid://vuaeexo85ca3"
@@ -555,6 +523,12 @@ text = "Doors open based on player proximity *and* user input.
 NOTE: \"interact\" must be defined as an Action in Input Map tab in Project Settings."
 autowrap_mode = 3
 autowrap_trim_flags = 64
+
+[node name="SlidingDoor - Left" parent="Examples/Interact Door" unique_id=1867879321 instance=ExtResource("22_myfiq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, -0.5, 0.5)
+
+[node name="SlidingDoor - Right" parent="Examples/Interact Door" unique_id=142244490 instance=ExtResource("22_myfiq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, -0.5, 0.5)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Examples" unique_id=238325554]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2.5, 21.75)
@@ -627,3 +601,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, 8)
 text = "Logic Nodes Dictionary"
 font_size = 64
 autowrap_mode = 3
+
+[node name="DoorFrame_0_5M" parent="." unique_id=1237317581 instance=ExtResource("20_shrwq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, -0.5, 23.5)

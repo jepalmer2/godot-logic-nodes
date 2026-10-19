@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://oicf3euucrnb"]
+
+[ext_resource type="PackedScene" uid="uid://ci5ipmi35ucyx" path="res://addons/godot_logic_nodes/models/SlidingDoor.fbx" id="1_vrxyw"]
+[ext_resource type="Material" uid="uid://rc3g46aght3c" path="res://addons/godot_logic_nodes/materials/glass_MAT.tres" id="2_7yq2m"]
+[ext_resource type="Material" uid="uid://bbsmeox1tnk56" path="res://addons/godot_logic_nodes/materials/darkGray_MAT.tres" id="3_7yq2m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7yq2m"]
+size = Vector3(0.001, 0.01, 0.018)
+
+[node name="SlidingDoor" unique_id=1219120557 instance=ExtResource("1_vrxyw")]
+
+[node name="Door" parent="." index="0" unique_id=1011307434]
+surface_material_override/0 = ExtResource("2_7yq2m")
+surface_material_override/1 = ExtResource("3_7yq2m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Door" index="0" unique_id=628944090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.820766e-11, 0, 0.009)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door/StaticBody3D" index="0" unique_id=1636307149]
+shape = SubResource("BoxShape3D_7yq2m")
