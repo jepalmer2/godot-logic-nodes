@@ -39,7 +39,11 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 		fill.size = node.size
 		var key := _volume_materials(node.volume_color)
 		gizmo.add_mesh(fill, get_material("volume_fill_" + key, gizmo))
-		gizmo.add_lines(_box_lines(node.size), get_material("volume_" + key, gizmo))
+		var edges := _box_lines(node.size)
+		gizmo.add_lines(edges, get_material("volume_" + key, gizmo))
+		# Clicking any edge of the box selects the trigger, like Godot's own shape gizmos.
+		# Edges rather than faces, so objects inside the box (like the doors) stay clickable.
+		gizmo.add_collision_segments(edges)
 
 	# Prodeus-style wires: a line from this node to each output target.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.

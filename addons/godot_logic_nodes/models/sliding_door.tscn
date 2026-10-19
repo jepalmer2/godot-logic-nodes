@@ -13,8 +13,8 @@ size = Vector3(0.001, 0.01, 0.018)
 surface_material_override/0 = ExtResource("2_7yq2m")
 surface_material_override/1 = ExtResource("3_7yq2m")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Door" index="0" unique_id=628944090]
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Door" index="0" unique_id=628944090]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.820766e-11, 0, 0.009)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Door/StaticBody3D" index="0" unique_id=1636307149]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door/AnimatableBody3D" index="0" unique_id=1636307149]
 shape = SubResource("BoxShape3D_7yq2m")

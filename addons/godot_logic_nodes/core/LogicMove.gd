@@ -5,6 +5,8 @@ extends LogicNode
 ## Moves a node in a straight line, between where it was placed (the start) and
 ## [member move_offset] away from there (the end). Put the node to move under this
 ## one, or pick another [member target].
+## For moving platforms and elevators the player can ride, make the moving body an
+## AnimatableBody3D (not a StaticBody3D).
 
 enum Mode {
 	ONCE,       ## Each Start travels to the other end and stops there.
@@ -43,7 +45,24 @@ var _activator: Node
 func _logic_ready() -> void:
 	_mover = target if target else self
 	_origin = _mover.position
+	LogicCore.prepare_platforms(_mover)
 	_apply()
+
+
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		get_tree().node_added.connect(_on_tree_changed)
+		get_tree().node_removed.connect(_on_tree_changed)
+
+
+func _exit_tree() -> void:
+	if Engine.is_editor_hint() and get_tree().node_added.is_connected(_on_tree_changed):
+		get_tree().node_added.disconnect(_on_tree_changed)
+		get_tree().node_removed.disconnect(_on_tree_changed)
+
+
+func _on_tree_changed(node: Node) -> void:
+	LogicCore.watch_mover(self, target if target else self, node)
 
 
 ## Input: start moving, or carry on after Stop. Resting at an end, it heads for the other end
@@ -109,4 +128,5 @@ func _logic_warnings() -> PackedStringArray:
 		warnings.append("Move Offset is zero, so this node has nowhere to go.")
 	if target == null and get_child_count() == 0:
 		warnings.append("Nothing to move: add a node under this one or pick a Target.")
+	warnings.append_array(LogicCore.platform_warnings(target if target else self))
 	return warnings

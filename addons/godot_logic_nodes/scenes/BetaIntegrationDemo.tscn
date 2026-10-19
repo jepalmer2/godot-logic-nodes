@@ -94,6 +94,21 @@ output = &"on_scene_start"
 target = NodePath("../LogicMove")
 input = &"start"
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_esf6n"]
+size = Vector3(2, 5, 2)
+
+[sub_resource type="Resource" id="Resource_shrwq"]
+script = ExtResource("11_b87eb")
+output = &"on_trigger_enter"
+target = NodePath("../LogicMove - Elevator")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_lu6ul"]
+script = ExtResource("11_b87eb")
+output = &"on_trigger_exit"
+target = NodePath("../LogicMove - Elevator")
+input = &"start"
+
 [node name="AlphaIntegrationDemo" type="Node3D" unique_id=1627298573]
 
 [node name="FirstPersonController" parent="." unique_id=1409622009 instance=ExtResource("1_cauh7")]
@@ -385,7 +400,7 @@ speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LogicTrigger" type="Node3D" parent="Examples/Proximity Door" unique_id=1499325647]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 0)
 script = ExtResource("15_v50an")
 size = Vector3(6, 4, 4)
 outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_iixyl"), SubResource("Resource_omrck"), SubResource("Resource_1eikl"), SubResource("Resource_pa2hl")])
@@ -435,17 +450,17 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1247493541]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, -4)
 size = Vector3(1, 4, 2)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=170324577]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 4)
 size = Vector3(1, 4, 2)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=509968734]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -5.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, -5.5)
 size = Vector3(3, 4, 1)
 material = ExtResource("13_i0jwl")
 
@@ -471,7 +486,7 @@ speed = 8.0
 metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="LogicInteract" type="Node3D" parent="Examples/Interact Door" unique_id=1065191816]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.75)
 script = ExtResource("16_vugre")
 size = Vector3(4, 4, 6)
 volume_color = Color(0, 0.49803922, 1, 0.0627451)
@@ -525,10 +540,10 @@ autowrap_mode = 3
 autowrap_trim_flags = 64
 
 [node name="SlidingDoor - Left" parent="Examples/Interact Door" unique_id=1867879321 instance=ExtResource("22_myfiq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, -0.5, 0.5)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, -0.5, 0.75)
 
 [node name="SlidingDoor - Right" parent="Examples/Interact Door" unique_id=142244490 instance=ExtResource("22_myfiq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, -0.5, 0.5)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, -0.5, 0.75)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Examples" unique_id=238325554]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2.5, 21.75)
@@ -603,4 +618,30 @@ font_size = 64
 autowrap_mode = 3
 
 [node name="DoorFrame_0_5M" parent="." unique_id=1237317581 instance=ExtResource("20_shrwq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, -0.5, 23.5)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, -0.5, 23.75)
+
+[node name="Elevator" type="Node3D" parent="." unique_id=1317307806]
+
+[node name="Elevator Platform" type="CSGBox3D" parent="Elevator" unique_id=1513158285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -3, 15.75)
+material_override = ExtResource("13_i0jwl")
+size = Vector3(2, 5, 2)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Elevator/Elevator Platform" unique_id=655474432]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevator/Elevator Platform/AnimatableBody3D" unique_id=59203769]
+shape = SubResource("BoxShape3D_esf6n")
+
+[node name="LogicTrigger - Elevator" type="Node3D" parent="Elevator" unique_id=1566402236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 15.75)
+script = ExtResource("15_v50an")
+size = Vector3(2, 7, 2)
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_shrwq"), SubResource("Resource_lu6ul")])
+metadata/_custom_type_script = "uid://dd2ggkll4ace0"
+
+[node name="LogicMove - Elevator" type="Node3D" parent="Elevator" unique_id=1167188549 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 17.75)
+script = ExtResource("14_jlkq4")
+target = NodePath("../Elevator Platform")
+move_offset = Vector3(0, 5, 0)
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
