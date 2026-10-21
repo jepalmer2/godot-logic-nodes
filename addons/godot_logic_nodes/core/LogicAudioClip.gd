@@ -20,7 +20,7 @@ signal on_audio_end(activator: Node)
 ## Overrides the file's own Loop import setting.
 @export var loop := false
 ## Loudness in decibels. 0 = the file's own level; -6 is about half as loud.
-@export_range(-80.0, 24.0, 0.1, "suffix:dB") var volume_db := 12.0
+@export_range(-80.0, 24.0, 0.1, "suffix:dB") var volume_db := -12.0
 ## Each Play picks a random pitch within ± this amount. 0 = always the same.
 @export_range(0.0, 0.5, 0.01) var pitch_variation := 0.0
 ## On: the sound comes from this node's spot in the level and fades with distance.

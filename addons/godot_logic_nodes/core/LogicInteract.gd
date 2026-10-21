@@ -17,7 +17,7 @@ signal on_trigger_enter(activator: Node)
 signal on_trigger_exit(activator: Node)
 
 ## The Input Map action that counts as interacting. Add it in Project Settings > Input Map.
-@export var action: StringName = &"interact":
+@export var action: StringName = &"gln_interact":
 	set(value):
 		action = value
 		update_configuration_warnings()
@@ -28,8 +28,8 @@ signal on_trigger_exit(activator: Node)
 		if _shape:
 			_shape.size = size
 		update_gizmos()
-## Only react to bodies in this group (for example "player"). Leave empty to react to any body.
-@export var only_group: StringName = &"player"
+## Only react to bodies in this group (for example "gln_player"). Leave empty to react to any body.
+@export var only_group: StringName = &"gln_player"
 ## Which physics layers it detects.
 @export_flags_3d_physics var collision_mask := 1:
 	set(value):

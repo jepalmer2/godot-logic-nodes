@@ -1,11 +1,14 @@
 @tool
 extends EditorNode3DGizmoPlugin
-## Draws every Logic Node's icon in the 3D view (clickable), plus a wire to each output target.
+## Draws one Logic Node type's icons in the 3D view (clickable), plus a wire to each output target.
+## godot_logic_nodes.gd makes one of these per type, so each type gets its own toggle in the
+## 3D view's View > Gizmos menu.
 
 const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
 
+var logic_type: StringName  # the class this plugin draws, e.g. &"LogicMove"
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
 var _tints := {}           # trigger Volume Colors (as html) that already have materials
@@ -13,8 +16,10 @@ var _quad := QuadMesh.new()
 var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked from any angle
 
 
-func _init() -> void:
+func _init(type: StringName = &"LogicNode") -> void:
+	logic_type = type
 	create_material("wire", Color(1.0, 0.6, 0.1))
+	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
 	box.size = Vector3.ONE * ICON_SIZE
@@ -22,11 +27,17 @@ func _init() -> void:
 
 
 func _get_gizmo_name() -> String:
-	return "Logic Nodes"
+	return String(logic_type).capitalize()  # "LogicAudioClip" -> "Logic Audio Clip"
 
 
+## True for nodes of exactly this type: a node's type is the nearest named class in its script.
 func _has_gizmo(node: Node3D) -> bool:
-	return node is LogicNode #or node is LogicVolume
+	if not node is LogicNode:
+		return false
+	var script: Script = node.get_script()
+	while script and script.get_global_name() == &"":
+		script = script.get_base_script()
+	return script != null and script.get_global_name() == logic_type
 
 
 func _redraw(gizmo: EditorNode3DGizmo) -> void:
@@ -44,6 +55,17 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 		# Clicking any edge of the box selects the trigger, like Godot's own shape gizmos.
 		# Edges rather than faces, so objects inside the box (like the doors) stay clickable.
 		gizmo.add_collision_segments(edges)
+
+	# A Move's path: a line from its target to where the target will end up, with a cross at the end.
+	if node is LogicMove and not node.move_offset.is_zero_approx():
+		var mover: Node3D = node.target if node.target else node
+		var start := node.to_local(mover.global_position)
+		var end := node.to_local(mover.global_position + node.world_offset())
+		var path := PackedVector3Array([start, end])
+		for axis in [Vector3.RIGHT, Vector3.UP, Vector3.BACK]:
+			path.append(end - axis * 0.1)
+			path.append(end + axis * 0.1)
+		gizmo.add_lines(path, get_material("path", gizmo))
 
 	# Wires: a line from this node to each output target.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.

@@ -18,8 +18,8 @@ signal on_trigger_exit(activator: Node)
 		if _shape:
 			_shape.size = size
 		update_gizmos()
-## Only react to bodies in this group (for example "player"). Leave empty to react to any body.
-@export var only_group: StringName = &"player"
+## Only react to bodies in this group (for example "gln_player"). Leave empty to react to any body.
+@export var only_group: StringName = &"gln_player"
 ## Which physics layers it detects.
 @export_flags_3d_physics var collision_mask := 1:
 	set(value):

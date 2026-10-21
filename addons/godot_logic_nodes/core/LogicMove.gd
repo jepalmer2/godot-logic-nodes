@@ -14,6 +14,11 @@ enum Mode {
 	LOOP,       ## Travels to the end, jumps back to the start, and repeats until Stop.
 }
 
+enum Space {
+	LOCAL,  ## Along the target's parent's axes, so the move turns with its scene. Best for prefabs.
+	WORLD,  ## Along the world's axes (the ones shown at the scene's origin), however the scene is turned.
+}
+
 ## Output: began moving.
 signal on_move_start(activator: Node)
 ## Output: arrived at either end.
@@ -24,11 +29,19 @@ signal on_move_end(activator: Node)
 	set(value):
 		target = value
 		update_configuration_warnings()
-## Where the end is, relative to the start, in the target's parent space.
+		update_gizmos()
+## Where the end is, relative to the start, along the axes picked in [member space].
+## The editor draws the path as a line from the target to its end.
 @export var move_offset := Vector3(0.0, 2.0, 0.0):
 	set(value):
 		move_offset = value
 		update_configuration_warnings()
+		update_gizmos()
+## Which axes [member move_offset] uses.
+@export var space := Space.LOCAL:
+	set(value):
+		space = value
+		update_gizmos()
 ## Units per second.
 @export_range(0.01, 100.0, 0.01, "or_greater", "suffix:m/s") var speed := 2.0
 ## What happens when it reaches an end.
@@ -36,6 +49,7 @@ signal on_move_end(activator: Node)
 
 var _mover: Node3D
 var _origin: Vector3
+var _offset: Vector3     # move_offset in the mover's parent space, which is what position uses
 var _progress := 0.0     # 0 = start, 1 = end
 var _direction := 1.0    # +1 toward the end, -1 toward the start
 var _moving := false
@@ -45,6 +59,8 @@ var _activator: Node
 func _logic_ready() -> void:
 	_mover = target if target else self
 	_origin = _mover.position
+	var parent := _mover.get_parent() as Node3D
+	_offset = move_offset if space == Space.LOCAL or parent == null else parent.global_basis.inverse() * move_offset
 	LogicCore.prepare_platforms(_mover)
 	_apply()
 
@@ -119,7 +135,13 @@ func _wrap_to_start() -> void:
 
 
 func _apply() -> void:
-	_mover.position = _origin + move_offset * _progress
+	_mover.position = _origin + _offset * _progress
+
+
+## Move Offset along the world's axes, for drawing the path in the editor.
+func world_offset() -> Vector3:
+	var parent := (target if target else self).get_parent() as Node3D
+	return move_offset if space == Space.WORLD or parent == null else parent.global_basis * move_offset
 
 
 func _logic_warnings() -> PackedStringArray:

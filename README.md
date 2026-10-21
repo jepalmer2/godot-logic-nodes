@@ -19,7 +19,7 @@ Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets develop
 ## Installation
 
 1. Copy `godot_logic_nodes/` into your project's `addons/` folder.
-2. Open **Project > Project Settings > Plugins** and enable **Godot Logic Nodes**.
+2. Open **Project > Project Settings > Plugins** and enable **Godot Logic Nodes**. This also adds the addon's input actions to **Input Map**: `gln_interact` (E) and `gln_move_forward`, `gln_move_back`, `gln_move_left`, `gln_move_right` (WASD). Actions your project already has are left as they are.
 3. A new **Logic I/O** tab appears in the bottom panel, and Logic Nodes appear in the **Add Node** dialog (search for "Logic").
 
 ---
@@ -164,10 +164,10 @@ A box that fires when something walks into it or out of it. Use it for proximity
 | Settings | |
 |---|---|
 | **Size** | Width, height and depth of the box, in meters |
-| **Only Group** | Only react to bodies in this group (default: `player`). Leave empty to react to any body |
+| **Only Group** | Only react to bodies in this group (default: `gln_player`). Leave empty to react to any body |
 | **Collision Mask** | Which physics layers it can detect (default: layer 1) |
 
-For the player to set it off, the player must be a physics body (for example a `CharacterBody3D`) on a layer in the Collision Mask, and in the **Only Group** group. To add the player to a group, select the player, open **Node > Groups** and add `player`.
+For the player to set it off, the player must be a physics body (for example a `CharacterBody3D`) on a layer in the Collision Mask, and in the **Only Group** group. To add the player to a group, select the player, open **Node > Groups** and add `gln_player`.
 
 **Example: a proximity door.**
 - Trigger Volume *On Trigger Enter* → Rotate (door) *Start*
@@ -188,10 +188,10 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 
 | Settings | |
 |---|---|
-| **Action** | The Input Map action that counts as interacting (default: `interact`) |
+| **Action** | The Input Map action that counts as interacting (default: `gln_interact`) |
 | Size, Only Group, Collision Mask | Same as Trigger Volume |
 
-**Setup:** add an action named `interact` in **Project > Project Settings > Input Map** and bind a key to it (for example E). The node shows a warning until the action exists.
+**Setup:** enabling the plugin adds a `gln_interact` action bound to E. To use another key, change it in **Project > Project Settings > Input Map**. The node shows a warning if the action is missing.
 
 **Example:** Interact Zone *On Interact* → Rotate (door) *Start*. The player walks up to the door, presses E, and it opens.
 
@@ -288,7 +288,7 @@ Plays a sound from logic. With Loop off, it plays once each time it gets Play (a
 |---|---|
 | **Stream** | The sound file (.wav, .ogg or .mp3) |
 | **Loop** | Off: plays once per Play. On: repeats until Stop. Overrides the file's own Loop import setting |
-| **Volume Db** | Loudness in decibels. 0 = the file's own level; -6 is about half as loud |
+| **Volume Db** | Loudness in decibels (default: -12). 0 = the file's own level; every -6 is about half as loud |
 | **Pitch Variation** | Each Play picks a random pitch within ± this amount, so repeated sounds don't feel robotic. 0 = always the same |
 | **Positional** | On: the sound comes from this node's spot in the level and fades with distance. Off: same volume everywhere (music, announcements) |
 | **Max Distance** | Positional only. Beyond this distance the sound can't be heard. 0 = no limit |
