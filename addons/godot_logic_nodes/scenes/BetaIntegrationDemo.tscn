@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://s27cmpkp6mh4"]
 
-[ext_resource type="PackedScene" path="res://addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn" id="1_cauh7"]
+[ext_resource type="PackedScene" uid="uid://br8cwx0s13dip" path="res://addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn" id="1_cauh7"]
 [ext_resource type="Texture2D" uid="uid://cxm6nya5ujri4" path="res://addons/godot_logic_nodes/icons/LogicNode_Auto.png" id="2_r247m"]
 [ext_resource type="Texture2D" uid="uid://cx5knoy75uflf" path="res://addons/godot_logic_nodes/icons/LogicNode_Relay.png" id="3_vw00a"]
 [ext_resource type="Texture2D" uid="uid://c1v35q5k6l44d" path="res://addons/godot_logic_nodes/icons/LogicNode_Move.png" id="4_7go0q"]
@@ -23,6 +23,24 @@
 [ext_resource type="Script" uid="uid://ryxtrg5krx2x" path="res://addons/godot_logic_nodes/core/LogicInteract.gd" id="16_vugre"]
 [ext_resource type="PackedScene" uid="uid://b32cvcu1rht5c" path="res://addons/godot_logic_nodes/models/door_frame_0_5m.tscn" id="20_shrwq"]
 [ext_resource type="PackedScene" uid="uid://oicf3euucrnb" path="res://addons/godot_logic_nodes/models/sliding_door.tscn" id="22_myfiq"]
+[ext_resource type="PackedScene" uid="uid://dhoyr3tbxntxj" path="res://addons/godot_logic_nodes/models/interactable_button.tscn" id="24_lu6ul"]
+[ext_resource type="Script" uid="uid://b2dynxedkwdal" path="res://addons/godot_logic_nodes/core/LogicDebug.gd" id="25_h4plt"]
+[ext_resource type="Script" uid="uid://cg45ne438c6tw" path="res://addons/godot_logic_nodes/core/LogicRelay.gd" id="26_b87eb"]
+[ext_resource type="PackedScene" uid="uid://dsi3fgcshvpp6" path="res://addons/godot_logic_nodes/models/feedback_panel.tscn" id="27_6k4qt"]
+[ext_resource type="Script" uid="uid://dy653rjvisi4w" path="res://addons/godot_logic_nodes/core/LogicBranch.gd" id="28_i0jwl"]
+[ext_resource type="Script" uid="uid://un40c375k4c1" path="res://addons/godot_logic_nodes/core/LogicCounter.gd" id="29_jlkq4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_b87eb"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_6k4qt"]
+sky_material = SubResource("ProceduralSkyMaterial_b87eb")
+
+[sub_resource type="Environment" id="Environment_i0jwl"]
+background_mode = 2
+sky = SubResource("Sky_6k4qt")
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_sxk5m"]
 
@@ -95,24 +113,175 @@ target = NodePath("../LogicMove")
 input = &"start"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_esf6n"]
-size = Vector3(2, 5, 2)
+size = Vector3(4, 5, 3.5)
 
-[sub_resource type="Resource" id="Resource_shrwq"]
+[sub_resource type="Resource" id="Resource_i0jwl"]
 script = ExtResource("11_b87eb")
-output = &"on_trigger_enter"
+output = &"on_interact"
+target = NodePath("../../LogicDebug - Elevator")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_jlkq4"]
+script = ExtResource("11_b87eb")
+output = &"on_interact"
+target = NodePath("../../LogicRelay - Elevator")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_v50an"]
+script = ExtResource("11_b87eb")
+output = &"on_interact"
+target = NodePath("../../LogicMove - Elevator")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_6k4qt"]
+script = ExtResource("11_b87eb")
+output = &"on_trigger"
 target = NodePath("../LogicMove - Elevator")
 input = &"start"
 
-[sub_resource type="Resource" id="Resource_lu6ul"]
+[sub_resource type="Resource" id="Resource_i18d6"]
 script = ExtResource("11_b87eb")
-output = &"on_trigger_exit"
-target = NodePath("../LogicMove - Elevator")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 1")
 input = &"start"
+
+[sub_resource type="Resource" id="Resource_hldx3"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_ynro7"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_s2ub8"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_nsq3a"]
+script = ExtResource("11_b87eb")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 2")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_63lt7"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_e3onl"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_263uh"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_cy3c2"]
+script = ExtResource("11_b87eb")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 3")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_6n3a3"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_vcg42"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_5j4lw"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_f2tw0"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicDebug - Combo Gate Open")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_n4m54"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicDebug - Combo Gate Close")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_r0bbx"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicMove - Combo Gate Left")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_u6pxk"]
+script = ExtResource("11_b87eb")
+output = &"on_true"
+target = NodePath("../LogicMove - Combo Gate Right")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_24cgj"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicMove - Combo Gate Left")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_qulfu"]
+script = ExtResource("11_b87eb")
+output = &"on_false"
+target = NodePath("../LogicMove - Combo Gate Right")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_d6i7e"]
+script = ExtResource("11_b87eb")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 1")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_r7w62"]
+script = ExtResource("11_b87eb")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 2")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_vugre"]
+script = ExtResource("11_b87eb")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 3")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_dxixh"]
+script = ExtResource("11_b87eb")
+output = &"on_goal_reached"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_true"
 
 [node name="AlphaIntegrationDemo" type="Node3D" unique_id=1627298573]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=605347671]
+environment = SubResource("Environment_i0jwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=572985741]
+transform = Transform3D(-0.78656626, 0.5638237, 0.2518267, 0.37682658, 0.11518985, 0.91909367, 0.48919883, 0.81782275, -0.30306822, 0, 7.25, 0)
+shadow_enabled = true
+
 [node name="FirstPersonController" parent="." unique_id=1409622009 instance=ExtResource("1_cauh7")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5.0303087, 0, 14.034224)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 4.2196913, 6, 34.034225)
 
 [node name="Explainers" type="Node3D" parent="." unique_id=435957760]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.25)
@@ -333,7 +502,7 @@ sides = 16
 [node name="OmniLight3D" type="OmniLight3D" parent="Examples/Fan" unique_id=1120080657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, -0.25)
 light_color = Color(0, 1, 0, 1)
-light_energy = 2.0
+light_energy = 5.0
 shadow_enabled = true
 omni_range = 11.75
 
@@ -430,20 +599,15 @@ text = "Doors open based on player entering/exiting a Trigger Volume. "
 autowrap_mode = 3
 autowrap_trim_flags = 64
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1745659893]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, -3.75)
-spot_angle = 73.58339
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1498856465]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, 3.75)
-spot_angle = 73.58339
-
 [node name="SpotLight3D3" type="SpotLight3D" parent="Examples/Proximity Door" unique_id=1266566415]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.75, 3, 0)
 spot_angle = 73.58339
 
 [node name="Interact Door" type="Node3D" parent="Examples" unique_id=513322392]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 23)
+
+[node name="DoorFrame_0_5M" parent="Examples/Interact Door" unique_id=1237317581 instance=ExtResource("20_shrwq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -0.5, 0.75)
 
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Examples/Interact Door" unique_id=1652665624]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0.25)
@@ -467,6 +631,26 @@ material = ExtResource("13_i0jwl")
 [node name="CSGBox3D3" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1144865918]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75, 1.5, 5.5)
 size = Vector3(10, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1811130795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.625, 6.75, 5.499999)
+size = Vector3(1.25, 6.5, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=1037326114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.25, 6.75, 9.625)
+size = Vector3(22.5, 6.5, 9.25)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=976613921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.875, 6.75, 0.8750005)
+size = Vector3(0.75, 6.5, 26.75)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Examples/Interact Door/CSGCombiner3D2" unique_id=130354566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.75, 1.5, 5.5000005)
+size = Vector3(1, 4, 1)
 material = ExtResource("13_i0jwl")
 
 [node name="DoorLeft - Move" type="Node3D" parent="Examples/Interact Door" unique_id=779582581 node_paths=PackedStringArray("target")]
@@ -493,23 +677,8 @@ volume_color = Color(0, 0.49803922, 1, 0.0627451)
 outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_smkxg"), SubResource("Resource_d1gge"), SubResource("Resource_0nfxa"), SubResource("Resource_a81mg")])
 metadata/_custom_type_script = "uid://ryxtrg5krx2x"
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Examples/Interact Door" unique_id=782800991]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -3.5, 3, -0.25)
-spot_range = 7.0
-spot_angle = 64.02886
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="Examples/Interact Door" unique_id=1084263671]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.5, 3, -0.25)
-spot_range = 7.0
-spot_angle = 64.02886
-
 [node name="SpotLight3D3" type="SpotLight3D" parent="Examples/Interact Door" unique_id=1260538322]
 transform = Transform3D(1, 0, 0, 0, -0.50000006, 0.8660254, 0, -0.8660254, -0.50000006, 0, 3, -4.25)
-spot_range = 7.0
-spot_angle = 64.02886
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="Examples/Interact Door" unique_id=406238676]
-transform = Transform3D(1, 0, 0, 0, 0.5, 0.86602545, 0, -0.86602545, 0.5, 0, 3, 5.25)
 spot_range = 7.0
 spot_angle = 64.02886
 
@@ -545,13 +714,257 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, -
 [node name="SlidingDoor - Right" parent="Examples/Interact Door" unique_id=142244490 instance=ExtResource("22_myfiq")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, -0.5, 0.75)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Examples" unique_id=238325554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2.5, 21.75)
-omni_range = 4.5
+[node name="Elevator" type="Node3D" parent="Examples" unique_id=1317307806]
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Examples" unique_id=335414449]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75, 2.5, 17)
-omni_range = 7.25
+[node name="Elevator Platform" type="CSGBox3D" parent="Examples/Elevator" unique_id=1513158285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, -3, 32.5)
+material_override = ExtResource("13_i0jwl")
+size = Vector3(4, 5, 3)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Examples/Elevator/Elevator Platform" unique_id=655474432]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Elevator/Elevator Platform/AnimatableBody3D" unique_id=59203769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+shape = SubResource("BoxShape3D_esf6n")
+
+[node name="LogicMove - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=1167188549 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 1, 31.25)
+script = ExtResource("14_jlkq4")
+target = NodePath("../Elevator Platform")
+move_offset = Vector3(0, 4, 0)
+speed = 4.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="InteractableButton" parent="Examples/Elevator" unique_id=860199912 instance=ExtResource("24_lu6ul")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.25, 1, 34)
+
+[node name="LogicInteract" parent="Examples/Elevator/InteractableButton" index="2" unique_id=1600856937]
+size = Vector3(1, 1, 1)
+scene_outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_i0jwl"), SubResource("Resource_jlkq4"), SubResource("Resource_v50an")])
+
+[node name="LogicDebug - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=1778507279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 31.25)
+script = ExtResource("25_h4plt")
+message = "Pressed Elevator Button..."
+color = Color(0, 1, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicRelay - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=186900656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1, 31.25)
+script = ExtResource("26_b87eb")
+delay = 4.0
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_6k4qt")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="Label3D" type="Label3D" parent="Examples/Elevator" unique_id=1593530248]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5.25, 2.5, 33.975)
+text = "Elevator moves up/down based on LogicInteract and Move Nodes. Button press feedback with an AudioClip Node. The button is also a packed scene with its own logic nodes!"
+autowrap_mode = 3
+
+[node name="Combo Gate" type="Node3D" parent="Examples" unique_id=1143333779]
+
+[node name="DoorFrame_0_5M" parent="Examples/Combo Gate" unique_id=295031364 instance=ExtResource("20_shrwq")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 38)
+
+[node name="SlidingDoor - Right" parent="Examples/Combo Gate" unique_id=1542837606 instance=ExtResource("22_myfiq")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 39)
+
+[node name="SlidingDoor - Left" parent="Examples/Combo Gate" unique_id=730925790 instance=ExtResource("22_myfiq")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 37)
+
+[node name="Feedback_Panel 1" parent="Examples/Combo Gate" unique_id=1307328793 instance=ExtResource("27_6k4qt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.67742, 8.5, 33.905647)
+
+[node name="LogicRotate - Panel 1" type="Node3D" parent="Examples/Combo Gate" unique_id=230247506 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.80242, 8.450001, 34.105644)
+script = ExtResource("9_lu6ul")
+target = NodePath("../Feedback_Panel 1")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="Feedback_Panel 2" parent="Examples/Combo Gate" unique_id=1657074790 instance=ExtResource("27_6k4qt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.675, 8.5, 38)
+
+[node name="LogicRotate - Panel 2" type="Node3D" parent="Examples/Combo Gate" unique_id=148568467 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.80242, 8.450001, 37.855644)
+script = ExtResource("9_lu6ul")
+target = NodePath("../Feedback_Panel 2")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="Feedback_Panel 3" parent="Examples/Combo Gate" unique_id=1513850649 instance=ExtResource("27_6k4qt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.67742, 8.5, 42.155647)
+
+[node name="LogicRotate - Panel 3" type="Node3D" parent="Examples/Combo Gate" unique_id=1909307283 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.80242, 8.450001, 42.105644)
+script = ExtResource("9_lu6ul")
+target = NodePath("../Feedback_Panel 3")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="LogicBranch - Zone 1" type="Node3D" parent="Examples/Combo Gate" unique_id=1937943868]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.652422, 4.9500003, 33.955643)
+script = ExtResource("28_i0jwl")
+check_on_change = true
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_i18d6"), SubResource("Resource_hldx3"), SubResource("Resource_ynro7"), SubResource("Resource_s2ub8")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Zone 2" type="Node3D" parent="Examples/Combo Gate" unique_id=2030760758]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 5, 37.905643)
+script = ExtResource("28_i0jwl")
+check_on_change = true
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_nsq3a"), SubResource("Resource_63lt7"), SubResource("Resource_e3onl"), SubResource("Resource_263uh")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Zone 3" type="Node3D" parent="Examples/Combo Gate" unique_id=162692305]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 5, 41.905647)
+script = ExtResource("28_i0jwl")
+check_on_change = true
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_cy3c2"), SubResource("Resource_6n3a3"), SubResource("Resource_vcg42"), SubResource("Resource_5j4lw")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Combo Gate Controller" type="Node3D" parent="Examples/Combo Gate" unique_id=968501545]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 8, 37.905643)
+script = ExtResource("28_i0jwl")
+check_on_change = true
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_f2tw0"), SubResource("Resource_n4m54"), SubResource("Resource_r0bbx"), SubResource("Resource_u6pxk"), SubResource("Resource_24cgj"), SubResource("Resource_qulfu")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Examples/Combo Gate" unique_id=1826758610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, 6, 38.5)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=681599337]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.6774197, -1.75, -4.5943527)
+size = Vector3(0.5, 1.5, 0.25)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=1167222446]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.6774197, -1.75, -0.5943527)
+size = Vector3(0.5, 1.5, 0.25)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=1043258315]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.6774197, -1.75, 3.4056473)
+size = Vector3(0.5, 1.5, 0.25)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=1420937949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, -5)
+size = Vector3(1, 4, 3)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=746803226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2.75, 0.375)
+size = Vector3(1, 2.5, 13.75)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=540619999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.75, -7)
+size = Vector3(3, 6.5, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Examples/Combo Gate/CSGCombiner3D" unique_id=2138094729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, 4.875)
+size = Vector3(1, 4, 4.75)
+material = ExtResource("13_i0jwl")
+
+[node name="InteractableButton - Zone 1" parent="Examples/Combo Gate" unique_id=856874269 instance=ExtResource("24_lu6ul")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 4.75, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 7.3443527, 0, 3.0524197)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 7.3443527, 0, 3.0524197)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.3443527, 0, 2.5524197)
+size = Vector3(1, 1, 1)
+scene_outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_d6i7e")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.3443527, 0, 3.0524197)
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.3443527, 0, 2.8024197)
+
+[node name="InteractableButton - Zone 2" parent="Examples/Combo Gate" unique_id=473046304 instance=ExtResource("24_lu6ul")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.25, 4.75, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 3.3443527, 0, 5.5524197)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 3.3443527, 0, 5.5524197)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.3443527, 0, 5.0524197)
+size = Vector3(1, 1, 1)
+scene_outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_r7w62")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.3443527, 0, 5.5524197)
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.3443527, 0, 5.3024197)
+
+[node name="InteractableButton - Zone 3" parent="Examples/Combo Gate" unique_id=1577842861 instance=ExtResource("24_lu6ul")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.75, 4.75, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, -0.6556473, 0, 8.05242)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, -0.6556473, 0, 8.05242)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.6556473, 0, 7.5524197)
+size = Vector3(1, 1, 1)
+scene_outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_vugre")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.6556473, 0, 8.05242)
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.6556473, 0, 7.8024197)
+
+[node name="LogicCounter - Combo Gate" type="Node3D" parent="Examples/Combo Gate" unique_id=1838297532]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 7.25, 37.905643)
+script = ExtResource("29_jlkq4")
+after_goal = 2
+trace = true
+outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_dxixh")])
+metadata/_custom_type_script = "uid://un40c375k4c1"
+
+[node name="LogicDebug - Combo Gate Open" type="Node3D" parent="Examples/Combo Gate" unique_id=567095972]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 8.75, 37.905643)
+script = ExtResource("25_h4plt")
+message = "Combo Door Opened!"
+color = Color(0, 1, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicDebug - Combo Gate Close" type="Node3D" parent="Examples/Combo Gate" unique_id=2095904396]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.55242, 8.75, 38.655647)
+script = ExtResource("25_h4plt")
+message = "Combo Door Closed!"
+color = Color(1, 0.49803922, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicMove - Combo Gate Left" type="Node3D" parent="Examples/Combo Gate" unique_id=98088037 node_paths=PackedStringArray("target")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.3, 5, 37)
+script = ExtResource("14_jlkq4")
+target = NodePath("../SlidingDoor - Left")
+move_offset = Vector3(0, 0, -2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicMove - Combo Gate Right" type="Node3D" parent="Examples/Combo Gate" unique_id=65077382 node_paths=PackedStringArray("target")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.3, 5, 39)
+script = ExtResource("14_jlkq4")
+target = NodePath("../SlidingDoor - Right")
+move_offset = Vector3(0, 0, 2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
 
 [node name="Level Geometry" type="Node3D" parent="." unique_id=1568827250]
 
@@ -564,8 +977,28 @@ size = Vector3(24.75, 4, 1)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1950190260]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.625, 1.5, 31.5)
-size = Vector3(24.75, 4, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.125, 1.5, 31.5)
+size = Vector3(17.75, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=698384290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 31.5)
+size = Vector3(4, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1499009970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 1.5, 33)
+size = Vector3(1, 4, 2)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1279533835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.75, 1.5, 33)
+size = Vector3(1, 4, 2)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1759304139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 1.5, 34.5)
+size = Vector3(6, 4, 1)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=2015050335]
@@ -579,8 +1012,43 @@ size = Vector3(1, 4, 6.75)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1311064426]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.5, 20.5)
-size = Vector3(1, 4, 23)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.5, 10.5)
+size = Vector3(1, 4, 3)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1923209900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 1.5, 11.5)
+size = Vector3(7, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1512361084]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.5, 1.5, 15.5)
+size = Vector3(9, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=626806592]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0.5, 16.5)
+size = Vector3(1, 2, 8)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1255574037]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 24.5, 1.5, 24)
+size = Vector3(14, 4, 1)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1376257820]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 26.5, 1.5, 18.5)
+size = Vector3(3, 4, 3)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1756421013]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 26, 2.5, 16.5)
+size = Vector3(1, 2, 4)
+material = ExtResource("13_i0jwl")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1176591145]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 26, 5.5, 18)
+size = Vector3(4, 4, 4)
 material = ExtResource("13_i0jwl")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=615674452]
@@ -601,9 +1069,51 @@ size = Vector3(30, 1, 6.75)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -1, 16.125)
 size = Vector3(34, 1, 16.25)
 
+[node name="CSGBox3D4" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=709609805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.5, 14)
+size = Vector3(4, 2, 4)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1423937431]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 1.5, 26)
+size = Vector3(7, 4, 12)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=129948250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.5, 33.5)
+size = Vector3(3, 4, 3)
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=842886999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.875, 1.5, 29.625)
+size = Vector3(8.25, 4, 10.75)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=389246767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.5, 40.375)
+size = Vector3(41, 4, 10.75)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1248638103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.125, 1.5, 33.5)
+size = Vector3(23.75, 4, 3)
+
 [node name="CSGBox3D10" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=752558037]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.125, -1, 28.125)
-size = Vector3(25.75, 1, 7.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.125, -1, 27.625)
+size = Vector3(25.75, 1, 6.75)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1282354333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, -1, 31.5)
+size = Vector3(4, 1, 1)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1475200151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.125, -1, 31.5)
+size = Vector3(17.75, 1, 1)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Level Geometry/CSGCombiner3D" unique_id=520087124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -0.5, 16)
+polygon = PackedVector2Array(0, 0, 0, 0, 4, 2, 4, 0)
+depth = 4.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Level Geometry/CSGCombiner3D" unique_id=803910226]
+transform = Transform3D(-5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -5.9604645e-08, 28, 1.5, 16)
+polygon = PackedVector2Array(0, 0, 0, 0, 4, 2, 4, 0)
+depth = 4.0
 
 [node name="Label3D - Examples" type="Label3D" parent="Level Geometry" unique_id=1985349142]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.75, 2.5, 16)
@@ -617,31 +1127,8 @@ text = "Logic Nodes Dictionary"
 font_size = 64
 autowrap_mode = 3
 
-[node name="DoorFrame_0_5M" parent="." unique_id=1237317581 instance=ExtResource("20_shrwq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, -0.5, 23.75)
-
-[node name="Elevator" type="Node3D" parent="." unique_id=1317307806]
-
-[node name="Elevator Platform" type="CSGBox3D" parent="Elevator" unique_id=1513158285]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -3, 15.75)
-material_override = ExtResource("13_i0jwl")
-size = Vector3(2, 5, 2)
-
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Elevator/Elevator Platform" unique_id=655474432]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevator/Elevator Platform/AnimatableBody3D" unique_id=59203769]
-shape = SubResource("BoxShape3D_esf6n")
-
-[node name="LogicTrigger - Elevator" type="Node3D" parent="Elevator" unique_id=1566402236]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 15.75)
-script = ExtResource("15_v50an")
-size = Vector3(2, 7, 2)
-outputs = Array[ExtResource("11_b87eb")]([SubResource("Resource_shrwq"), SubResource("Resource_lu6ul")])
-metadata/_custom_type_script = "uid://dd2ggkll4ace0"
-
-[node name="LogicMove - Elevator" type="Node3D" parent="Elevator" unique_id=1167188549 node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 17.75)
-script = ExtResource("14_jlkq4")
-target = NodePath("../Elevator Platform")
-move_offset = Vector3(0, 5, 0)
-metadata/_custom_type_script = "uid://emtwy0ew6w51"
+[editable path="FirstPersonController"]
+[editable path="Examples/Elevator/InteractableButton"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 1"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 2"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 3"]

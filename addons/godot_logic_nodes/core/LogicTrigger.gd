@@ -41,14 +41,7 @@ var _inside: Array[Node3D] = []  # matching bodies in the box right now, oldest 
 func _logic_ready() -> void:
 	_shape = BoxShape3D.new()
 	_shape.size = size
-	var collision := CollisionShape3D.new()
-	collision.shape = _shape
-	_area = Area3D.new()
-	_area.collision_layer = 0  # nothing needs to detect the trigger itself
-	_area.collision_mask = collision_mask
-	_area.monitorable = false
-	_area.add_child(collision)
-	add_child(_area, false, Node.INTERNAL_MODE_FRONT)  # hidden from the scene tree and never saved
+	_area = LogicCore.add_volume(self, _shape, collision_mask)
 	_area.body_entered.connect(_on_body.bind(on_trigger_enter))
 	_area.body_exited.connect(_on_body.bind(on_trigger_exit))
 

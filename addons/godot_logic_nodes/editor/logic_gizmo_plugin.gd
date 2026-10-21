@@ -34,7 +34,7 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 	var node := gizmo.get_node_3d()
 	gizmo.add_mesh(_quad, _icon_material(node, gizmo))
 	gizmo.add_collision_triangles(_click_shape)
-	if node is LogicTrigger:
+	if node is LogicTrigger or node is LogicInteract:
 		var fill := BoxMesh.new()
 		fill.size = node.size
 		var key := _volume_materials(node.volume_color)
@@ -45,10 +45,10 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 		# Edges rather than faces, so objects inside the box (like the doors) stay clickable.
 		gizmo.add_collision_segments(edges)
 
-	# Prodeus-style wires: a line from this node to each output target.
+	# Wires: a line from this node to each output target.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.
 	var lines := PackedVector3Array()
-	for row in node.outputs:
+	for row in node.all_outputs():
 		var target := node.get_node_or_null(row.target) as Node3D if row else null
 		if target:
 			lines.append(Vector3.ZERO)

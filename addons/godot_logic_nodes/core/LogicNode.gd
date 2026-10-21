@@ -1,5 +1,6 @@
 @tool
 @icon("res://addons/godot_logic_nodes/icons/BaseNode.png")
+@abstract  # hidden from Add Child Node: only the subclasses are real nodes
 class_name LogicNode
 extends Node3D
 ## Base for every Logic Node. Outputs are signals, inputs are methods, and
@@ -15,6 +16,14 @@ extends Node3D
 @export_storage var outputs: Array[LogicConnection] = []:
 	set(value):
 		outputs = value
+		update_configuration_warnings()
+		update_gizmos()
+## More rows, added where this node is part of a placed scene (a prefab) and saved in the scene
+## it was placed in. Kept apart from [member outputs] so the prefab's own rows, and later changes
+## to them, still come through. Edited in the Logic I/O panel, hidden from the Inspector.
+@export_storage var scene_outputs: Array[LogicConnection] = []:
+	set(value):
+		scene_outputs = value
 		update_configuration_warnings()
 		update_gizmos()
 
@@ -72,11 +81,19 @@ func _logic_warnings() -> PackedStringArray:
 	return PackedStringArray()
 
 
+## Every output row this node fires: its own [member outputs], then [member scene_outputs].
+func all_outputs() -> Array[LogicConnection]:
+	var rows: Array[LogicConnection] = []
+	rows.append_array(outputs)
+	rows.append_array(scene_outputs)
+	return rows
+
+
 # --- Internals -----------------------------------------------------------------
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := _logic_warnings()
-	for row in outputs:
+	for row in all_outputs():
 		var problem := _row_problem(row)
 		if problem:
 			warnings.append(problem)
@@ -101,7 +118,7 @@ func _wire_outputs() -> void:
 	# One connection per output signal, which then walks its rows in table order.
 	# (Godot refuses a second connection to the same method on the same signal, even with different binds.)
 	var wired := {}
-	for row in outputs:
+	for row in all_outputs():
 		var problem := _row_problem(row)
 		if problem:
 			push_warning("%s: %s The row was skipped." % [get_path(), problem])
@@ -112,7 +129,7 @@ func _wire_outputs() -> void:
 
 
 func _dispatch(activator: Node, output: StringName) -> void:
-	for row in outputs:
+	for row in all_outputs():
 		if row and row.output == output and not _row_problem(row):
 			_send(activator, row, get_node(row.target))
 

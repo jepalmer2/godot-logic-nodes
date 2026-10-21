@@ -85,5 +85,19 @@ static func watch_mover(logic_node: Node, mover: Node, changed: Node) -> void:
 		logic_node.update_configuration_warnings.call_deferred()  # a removed node is still in the tree right now
 
 
+## For Trigger and Interact: adds the hidden box-shaped Area3D that detects bodies.
+## The area is internal, so it never shows in the Scene tree or gets saved.
+static func add_volume(to: Node3D, shape: BoxShape3D, mask: int) -> Area3D:
+	var collision := CollisionShape3D.new()
+	collision.shape = shape
+	var area := Area3D.new()
+	area.collision_layer = 0  # nothing needs to detect the volume itself
+	area.collision_mask = mask
+	area.monitorable = false
+	area.add_child(collision)
+	to.add_child(area, false, Node.INTERNAL_MODE_FRONT)
+	return area
+
+
 static func _name_of(node: Node) -> String:
 	return str(node.name) if node else "none"
