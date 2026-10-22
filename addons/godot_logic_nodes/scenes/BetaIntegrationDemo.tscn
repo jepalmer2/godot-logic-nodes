@@ -419,7 +419,7 @@ output = &"on_interact"
 target = NodePath(".")
 input = &"disable"
 
-[node name="AlphaIntegrationDemo" type="Node3D" unique_id=1627298573]
+[node name="BetaIntegrationDemo" type="Node3D" unique_id=1627298573]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=605347671]
 environment = SubResource("Environment_i0jwl")

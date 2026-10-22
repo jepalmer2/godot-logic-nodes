@@ -20,7 +20,13 @@ Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets develop
 
 1. Copy `godot_logic_nodes/` into your project's `addons/` folder.
 2. Open **Project > Project Settings > Plugins** and enable **Godot Logic Nodes**. This also adds the addon's input actions to **Input Map**: `gln_interact` (E) and `gln_move_forward`, `gln_move_back`, `gln_move_left`, `gln_move_right` (WASD). Actions your project already has are left as they are.
-3. A new **Logic I/O** tab appears in the bottom panel, and Logic Nodes appear in the **Add Node** dialog (search for "Logic").
+3. A new **Logic I/O** tab appears in the bottom panel, and Logic Nodes appear in the **Add Child Node** dialog (search for "Logic").
+
+### Try the demo
+
+Open `addons/godot_logic_nodes/scenes/BetaIntegrationDemo.tscn` and press **F6** (Run Current Scene). It has a labeled example of every node, from a spinning fan to an elevator and a combo gate. Walk with WASD and interact with E.
+
+The demo's player is `addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn`, a simple first-person controller that's already in the `gln_player` group. You can drop it into your own scenes for testing.
 
 ---
 
@@ -31,7 +37,7 @@ Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) a
 ### The Logic I/O panel
 
 1. Select a Logic Node in the scene. The **Logic I/O** panel opens at the bottom of the editor.
-2. Click **Add Output** to add a row.
+2. Click **+ Add Output** to add a row.
 3. Fill in the row from left to right:
 
 | Column | What it does |
@@ -46,6 +52,20 @@ Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) a
 The **Inputs** tab lists every connection coming *into* the selected node. Double-click one to jump to the node that sends it.
 
 Connections draw as orange wires in the 3D viewport. Every change can be undone with Ctrl+Z.
+
+### In the 3D viewport
+
+- A new Logic Node is placed in front of the editor camera, on the surface it's looking at, with its position rounded to whole meters. Godot would otherwise put it at the scene's origin.
+- Each Move node draws its path as a cyan line, from the object to where it will end up.
+- **View > Gizmos** has a toggle for each Logic Node type, so you can hide the boxes, wires and paths of the types you aren't working on.
+
+### Logic Nodes inside your own scenes (prefabs)
+
+You can save a group of Logic Nodes as its own scene, like a button that moves and clicks when pressed, and place copies of it in a level.
+
+When you select a Logic Node inside a placed copy, the Logic I/O panel shows the prefab's own connections greyed out. Edit those in the prefab's scene. Rows you add in the level are saved in the level and fire **in addition to** the prefab's own rows, so each copy can open a different door while still playing its own click.
+
+This works one prefab deep. Rows added to a prefab that's placed inside another prefab aren't supported yet.
 
 ### Settings every Logic Node has
 
@@ -120,8 +140,11 @@ Put the object you want to move **under** the Move node in the Scene tree, or pi
 |---|---|
 | **Target** | The node to move. Leave empty to move this node and its children |
 | **Move Offset** | How far the end is from the start, in meters (default: 2 m up) |
+| **Space** | **Local** (default): the offset follows the axes of the object's parent, so it turns with the scene it's in. Best for prefabs. **World**: the offset uses the world's axes, however the scene is turned |
 | **Speed** | Meters per second |
 | **Mode** | **Once**: each Start goes to the other end and stops. **Ping Pong**: goes back and forth until Stop. **Loop**: goes to the end, jumps back to the start, and repeats until Stop |
+
+**Moving platforms and elevators:** for the player to ride along, the moving body must be an `AnimatableBody3D`, not a `StaticBody3D`. Move sets it up to carry riders when the game starts. If it finds a `StaticBody3D`, it shows a warning: right-click that node, choose **Change Type** and pick **AnimatableBody3D**.
 
 **Example:** an elevator. Interact Zone *On Interact* → Move *Start* (Mode: Once). Press once to go up, press again to come down.
 
@@ -151,10 +174,12 @@ Put the object you want to turn **under** the Rotate node, or pick it in **Targe
 
 **Tip:** turn around one axis at a time. Turning on two axes at once can look odd.
 
+**Turning platforms:** as with Move, a turntable the player can ride must be an `AnimatableBody3D`. Rotate warns you about a `StaticBody3D`.
+
 ---
 
 ### Trigger Volume
-A box that fires when something walks into it or out of it. Use it for proximity doors, jump scares, music changes and checkpoints. In the editor it shows as a transparent orange box so you can see the space it covers.
+A box that fires when something walks into it or out of it. Use it for proximity doors, jump scares, music changes and checkpoints. In the editor it shows as a transparent box (orange by default) so you can see the space it covers.
 
 | Outputs | |
 |---|---|
@@ -166,6 +191,7 @@ A box that fires when something walks into it or out of it. Use it for proximity
 | **Size** | Width, height and depth of the box, in meters |
 | **Only Group** | Only react to bodies in this group (default: `gln_player`). Leave empty to react to any body |
 | **Collision Mask** | Which physics layers it can detect (default: layer 1) |
+| **Volume Color** | Tint of the box in the editor, so different triggers are easy to tell apart. Alpha sets how see-through it is. Never shown in the game |
 
 For the player to set it off, the player must be a physics body (for example a `CharacterBody3D`) on a layer in the Collision Mask, and in the **Only Group** group. To add the player to a group, select the player, open **Node > Groups** and add `gln_player`.
 
@@ -178,7 +204,7 @@ With the Rotate set to Once, the door opens when the player walks up and closes 
 ---
 
 ### Interact Zone
-A Trigger Volume where the player presses a key to use something: a lever, a button, a door handle. It has everything a Trigger Volume has, plus an **On Interact** output.
+A zone where the player presses a key to use something: a lever, a button, a door handle. It works like a Trigger Volume, with the same box and settings, plus an **On Interact** output.
 
 | Outputs | |
 |---|---|
@@ -189,7 +215,7 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 | Settings | |
 |---|---|
 | **Action** | The Input Map action that counts as interacting (default: `gln_interact`) |
-| Size, Only Group, Collision Mask | Same as Trigger Volume |
+| Size, Only Group, Collision Mask, Volume Color | Same as Trigger Volume |
 
 **Setup:** enabling the plugin adds a `gln_interact` action bound to E. To use another key, change it in **Project > Project Settings > Input Map**. The node shows a warning if the action is missing.
 
@@ -327,11 +353,13 @@ Shows a short message on the game screen when something reaches it, then passes 
 
 ## Connecting to built-in Godot nodes
 
-Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show All** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
+Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show all nodes** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
 
 ## Credits
 
 Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design. 
+
+Sound effects in `addons/godot_logic_nodes/audio/` are from [Kenney](https://www.kenney.nl) (Interface Sounds), released under CC0. See `addons/godot_logic_nodes/audio/License.txt`.
 
 ## License
 
