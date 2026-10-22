@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dhoyr3tbxntxj"]
+
+[ext_resource type="PackedScene" uid="uid://d3b72gtq0c26i" path="res://addons/godot_logic_nodes/models/InteractableButton.fbx" id="1_8w2id"]
+[ext_resource type="Material" uid="uid://d1hgdlntwrprj" path="res://addons/godot_logic_nodes/materials/gln_red_MAT.tres" id="2_terc8"]
+[ext_resource type="Script" uid="uid://ryxtrg5krx2x" path="res://addons/godot_logic_nodes/core/LogicInteract.gd" id="2_yrumn"]
+[ext_resource type="Script" uid="uid://emtwy0ew6w51" path="res://addons/godot_logic_nodes/core/LogicMove.gd" id="3_kb8mf"]
+[ext_resource type="Script" uid="uid://cj7rag5ddw0uy" path="res://addons/godot_logic_nodes/core/LogicConnection.gd" id="4_ovsuo"]
+[ext_resource type="Script" uid="uid://dwnhumn2b607" path="res://addons/godot_logic_nodes/core/LogicAudioClip.gd" id="6_ts7gm"]
+[ext_resource type="AudioStream" uid="uid://njufp0wh7t13" path="res://addons/godot_logic_nodes/audio/switch_006.ogg" id="7_gc2h5"]
+
+[sub_resource type="Resource" id="Resource_gc2h5"]
+script = ExtResource("4_ovsuo")
+output = &"on_interact"
+target = NodePath("../LogicMove")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_bia4x"]
+script = ExtResource("4_ovsuo")
+output = &"on_interact"
+target = NodePath("../LogicAudioClip")
+input = &"play"
+
+[node name="InteractableButton" unique_id=860199912 instance=ExtResource("1_8w2id")]
+
+[node name="Button" parent="." index="0" unique_id=1538548178]
+material_override = ExtResource("2_terc8")
+
+[node name="LogicInteract" type="Node3D" parent="." index="2" unique_id=1600856937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+script = ExtResource("2_yrumn")
+size = Vector3(2, 4, 2)
+outputs = Array[ExtResource("4_ovsuo")]([SubResource("Resource_gc2h5"), SubResource("Resource_bia4x")])
+metadata/_custom_type_script = "uid://ryxtrg5krx2x"
+
+[node name="LogicMove" type="Node3D" parent="." index="3" unique_id=422261419 node_paths=PackedStringArray("target")]
+script = ExtResource("3_kb8mf")
+target = NodePath("../Button")
+move_offset = Vector3(-0.03, 0, 0)
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicAudioClip" type="Node3D" parent="." index="4" unique_id=1387318620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 7.450581e-09, -1.1175871e-08)
+script = ExtResource("6_ts7gm")
+stream = ExtResource("7_gc2h5")
+pitch_variation = 0.1
+max_distance = 10.0
+metadata/_custom_type_script = "uid://dwnhumn2b607"

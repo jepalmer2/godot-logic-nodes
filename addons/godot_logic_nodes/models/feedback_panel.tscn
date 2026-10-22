@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dsi3fgcshvpp6"]
+
+[ext_resource type="PackedScene" uid="uid://dekggtpg5gx1i" path="res://addons/godot_logic_nodes/models/Feedback_Panel.fbx" id="1_vte2m"]
+
+[node name="Feedback_Panel" unique_id=1307328793 instance=ExtResource("1_vte2m")]

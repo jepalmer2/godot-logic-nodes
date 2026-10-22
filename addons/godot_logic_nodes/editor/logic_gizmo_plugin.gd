@@ -1,21 +1,25 @@
 @tool
 extends EditorNode3DGizmoPlugin
-## Draws every Logic Node's icon in the 3D view (clickable), plus a wire to each output target.
+## Draws one Logic Node type's icons in the 3D view (clickable), plus a wire to each output target.
+## godot_logic_nodes.gd makes one of these per type, so each type gets its own toggle in the
+## 3D view's View > Gizmos menu.
 
 const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
 
+var logic_type: StringName  # the class this plugin draws, e.g. &"LogicMove"
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
+var _tints := {}           # trigger Volume Colors (as html) that already have materials
 var _quad := QuadMesh.new()
 var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked from any angle
 
 
-func _init() -> void:
+func _init(type: StringName = &"LogicNode") -> void:
+	logic_type = type
 	create_material("wire", Color(1.0, 0.6, 0.1))
-	create_material("volume", Color(1.0, 0.5, 0.0))
-	add_material("volume_fill", _make_fill_material(Color(1.0, 0.5, 0.0, 0.08)))
+	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
 	box.size = Vector3.ONE * ICON_SIZE
@@ -23,11 +27,17 @@ func _init() -> void:
 
 
 func _get_gizmo_name() -> String:
-	return "Logic Nodes"
+	return String(logic_type).capitalize()  # "LogicAudioClip" -> "Logic Audio Clip"
 
 
+## True for nodes of exactly this type: a node's type is the nearest named class in its script.
 func _has_gizmo(node: Node3D) -> bool:
-	return node is LogicNode #or node is LogicVolume
+	if not node is LogicNode:
+		return false
+	var script: Script = node.get_script()
+	while script and script.get_global_name() == &"":
+		script = script.get_base_script()
+	return script != null and script.get_global_name() == logic_type
 
 
 func _redraw(gizmo: EditorNode3DGizmo) -> void:
@@ -35,16 +45,32 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 	var node := gizmo.get_node_3d()
 	gizmo.add_mesh(_quad, _icon_material(node, gizmo))
 	gizmo.add_collision_triangles(_click_shape)
-	if node is LogicTrigger:
+	if node is LogicTrigger or node is LogicInteract:
 		var fill := BoxMesh.new()
 		fill.size = node.size
-		gizmo.add_mesh(fill, get_material("volume_fill", gizmo))
-		gizmo.add_lines(_box_lines(node.size), get_material("volume", gizmo))
+		var key := _volume_materials(node.volume_color)
+		gizmo.add_mesh(fill, get_material("volume_fill_" + key, gizmo))
+		var edges := _box_lines(node.size)
+		gizmo.add_lines(edges, get_material("volume_" + key, gizmo))
+		# Clicking any edge of the box selects the trigger, like Godot's own shape gizmos.
+		# Edges rather than faces, so objects inside the box (like the doors) stay clickable.
+		gizmo.add_collision_segments(edges)
 
-	# Prodeus-style wires: a line from this node to each output target.
+	# A Move's path: a line from its target to where the target will end up, with a cross at the end.
+	if node is LogicMove and not node.move_offset.is_zero_approx():
+		var mover: Node3D = node.target if node.target else node
+		var start := node.to_local(mover.global_position)
+		var end := node.to_local(mover.global_position + node.world_offset())
+		var path := PackedVector3Array([start, end])
+		for axis in [Vector3.RIGHT, Vector3.UP, Vector3.BACK]:
+			path.append(end - axis * 0.1)
+			path.append(end + axis * 0.1)
+		gizmo.add_lines(path, get_material("path", gizmo))
+
+	# Wires: a line from this node to each output target.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.
 	var lines := PackedVector3Array()
-	for row in node.outputs:
+	for row in node.all_outputs():
 		var target := node.get_node_or_null(row.target) as Node3D if row else null
 		if target:
 			lines.append(Vector3.ZERO)
@@ -94,6 +120,17 @@ func _make_icon_material(texture: Texture2D) -> StandardMaterial3D:
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	material.albedo_texture = texture
 	return material
+
+
+## Makes the edge and fill materials for a trigger's Volume Color the first time it's used,
+## so triggers sharing a color share materials. Returns the name suffix for get_material().
+func _volume_materials(tint: Color) -> String:
+	var key := tint.to_html()
+	if not _tints.has(key):
+		create_material("volume_" + key, Color(tint, 1.0))  # solid edges
+		add_material("volume_fill_" + key, _make_fill_material(tint))
+		_tints[key] = true
+	return key
 
 
 ## See-through tint for a trigger's box, visible from inside it too.

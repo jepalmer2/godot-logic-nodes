@@ -56,5 +56,48 @@ static func inputs_of(node: Node) -> Array[StringName]:
 	return result
 
 
+## For Move and Rotate: lets players ride whatever [param mover] carries. An AnimatableBody3D
+## under the mover stays where it was in the physics world while its mesh moves away, unless
+## Sync to Physics is off (that setting only follows changes to the body's own position).
+static func prepare_platforms(mover: Node3D) -> void:
+	for body in mover.find_children("*", "AnimatableBody3D", true, false):
+		body.sync_to_physics = false
+
+
+## For Move and Rotate: a warning for each StaticBody3D that [param mover] carries. A StaticBody3D
+## that moves still pushes things, but a player standing on it slides off instead of riding along.
+static func platform_warnings(mover: Node3D) -> PackedStringArray:
+	var warnings := PackedStringArray()
+	var bodies := mover.find_children("*", "StaticBody3D", true, false)
+	bodies.push_front(mover)
+	for body in bodies:
+		if body is StaticBody3D and not body is AnimatableBody3D:
+			var where := str(mover.name) if body == mover else "%s/%s" % [mover.name, mover.get_path_to(body)]
+			warnings.append(("'%s' is a StaticBody3D, so a player standing on it won't ride along. " +
+					"Right-click it in the Scene tree, choose Change Type, and pick AnimatableBody3D.") % where)
+	return warnings
+
+
+## For Move and Rotate in the editor: refresh warnings when a node under [param mover] is added,
+## removed or has its type changed (Change Type swaps in a new node).
+static func watch_mover(logic_node: Node, mover: Node, changed: Node) -> void:
+	if mover and is_instance_valid(mover) and (mover == changed or mover.is_ancestor_of(changed)):
+		logic_node.update_configuration_warnings.call_deferred()  # a removed node is still in the tree right now
+
+
+## For Trigger and Interact: adds the hidden box-shaped Area3D that detects bodies.
+## The area is internal, so it never shows in the Scene tree or gets saved.
+static func add_volume(to: Node3D, shape: BoxShape3D, mask: int) -> Area3D:
+	var collision := CollisionShape3D.new()
+	collision.shape = shape
+	var area := Area3D.new()
+	area.collision_layer = 0  # nothing needs to detect the volume itself
+	area.collision_mask = mask
+	area.monitorable = false
+	area.add_child(collision)
+	to.add_child(area, false, Node.INTERNAL_MODE_FRONT)
+	return area
+
+
 static func _name_of(node: Node) -> String:
 	return str(node.name) if node else "none"

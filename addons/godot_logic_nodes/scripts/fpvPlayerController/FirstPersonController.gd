@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= _gravity * delta
 
-	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input := Input.get_vector("gln_move_left", "gln_move_right", "gln_move_forward", "gln_move_back")
 	var direction := (transform.basis * Vector3(input.x, 0.0, input.y)).normalized()
 	velocity.x = direction.x * walk_speed
 	velocity.z = direction.z * walk_speed

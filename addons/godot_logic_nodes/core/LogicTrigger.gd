@@ -18,14 +18,20 @@ signal on_trigger_exit(activator: Node)
 		if _shape:
 			_shape.size = size
 		update_gizmos()
-## Only react to bodies in this group (for example "player"). Leave empty to react to any body.
-@export var only_group: StringName = &"player"
+## Only react to bodies in this group (for example "gln_player"). Leave empty to react to any body.
+@export var only_group: StringName = &"gln_player"
 ## Which physics layers it detects.
 @export_flags_3d_physics var collision_mask := 1:
 	set(value):
 		collision_mask = value
 		if _area:
 			_area.collision_mask = value
+## Editor only: tint of the see-through box in the 3D view, so different triggers are easy to
+## tell apart. Alpha sets how see-through the fill is. Never shown in the game.
+@export var volume_color := Color(1.0, 127.0 / 255.0, 0.0, 16.0 / 255.0):  # R255 G127 B0 A16
+	set(value):
+		volume_color = value
+		update_gizmos()
 
 var _area: Area3D
 var _shape: BoxShape3D
@@ -35,14 +41,7 @@ var _inside: Array[Node3D] = []  # matching bodies in the box right now, oldest 
 func _logic_ready() -> void:
 	_shape = BoxShape3D.new()
 	_shape.size = size
-	var collision := CollisionShape3D.new()
-	collision.shape = _shape
-	_area = Area3D.new()
-	_area.collision_layer = 0  # nothing needs to detect the trigger itself
-	_area.collision_mask = collision_mask
-	_area.monitorable = false
-	_area.add_child(collision)
-	add_child(_area, false, Node.INTERNAL_MODE_FRONT)  # hidden from the scene tree and never saved
+	_area = LogicCore.add_volume(self, _shape, collision_mask)
 	_area.body_entered.connect(_on_body.bind(on_trigger_enter))
 	_area.body_exited.connect(_on_body.bind(on_trigger_exit))
 
