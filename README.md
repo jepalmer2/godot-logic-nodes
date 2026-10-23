@@ -357,7 +357,7 @@ Rows can also target regular Godot nodes, for example calling **Play** on an `An
 
 ## Credits
 
-Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design. 
+Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design. Development assistance from Claude (Anthropic). 
 
 Sound effects in `addons/godot_logic_nodes/audio/` are from [Kenney](https://www.kenney.nl) (Interface Sounds), released under CC0. See `addons/godot_logic_nodes/audio/License.txt`.
 
