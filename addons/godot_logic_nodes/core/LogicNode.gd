@@ -7,6 +7,8 @@ extends Node3D
 ## connections are rows in [member outputs], edited in the Logic I/O panel.
 ## Add a subclass (LogicRelay, LogicRotate...), not this node itself.
 
+## A note for other developers about what this node does and why. Has no effect on the game.
+@export_multiline var comment := ""
 ## If off, this node ignores inputs and fires nothing until it receives Enable.
 @export var start_enabled := true
 ## Print every input and output of this node to the Output panel.

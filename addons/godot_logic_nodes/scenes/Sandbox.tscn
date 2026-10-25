@@ -1,0 +1,1659 @@
+[gd_scene format=3 uid="uid://k0dxuocew0en"]
+
+[ext_resource type="PackedScene" uid="uid://br8cwx0s13dip" path="res://addons/godot_logic_nodes/scripts/fpvPlayerController/FirstPersonController.tscn" id="1_v3l2o"]
+[ext_resource type="Texture2D" uid="uid://cxm6nya5ujri4" path="res://addons/godot_logic_nodes/icons/LogicNode_Auto.png" id="2_8lvj8"]
+[ext_resource type="Texture2D" uid="uid://cx5knoy75uflf" path="res://addons/godot_logic_nodes/icons/LogicNode_Relay.png" id="3_6fu6d"]
+[ext_resource type="Texture2D" uid="uid://c1v35q5k6l44d" path="res://addons/godot_logic_nodes/icons/LogicNode_Move.png" id="4_qfym6"]
+[ext_resource type="Texture2D" uid="uid://bomo5h63p8iy" path="res://addons/godot_logic_nodes/icons/LogicNode_Rotate.png" id="5_pajfn"]
+[ext_resource type="Texture2D" uid="uid://cemfb134eee0x" path="res://addons/godot_logic_nodes/icons/LogicNode_Trigger_Placeholder.svg" id="6_2fe4u"]
+[ext_resource type="Material" uid="uid://r6kuaqn50utd" path="res://addons/godot_logic_nodes/materials/fauxTriggerVolume_MAT.tres" id="7_70ioq"]
+[ext_resource type="Texture2D" uid="uid://3jjilj77qddw" path="res://addons/godot_logic_nodes/icons/LogicNode_Interact_Placeholder.svg" id="8_jhyng"]
+[ext_resource type="Texture2D" uid="uid://dcmrd3bscw4q6" path="res://addons/godot_logic_nodes/icons/LogicNode_Debug.png" id="9_25q31"]
+[ext_resource type="Texture2D" uid="uid://bpi38cv478fgu" path="res://addons/godot_logic_nodes/icons/LogicNode_Counter_Placeholder.svg" id="10_v5ll8"]
+[ext_resource type="Texture2D" uid="uid://do3uundsm2ehk" path="res://addons/godot_logic_nodes/icons/LogicNode_Timer_Placeholder.svg" id="11_p2cow"]
+[ext_resource type="Texture2D" uid="uid://bns3rhees20gl" path="res://addons/godot_logic_nodes/icons/LogicNode_Branch_Placeholder.svg" id="12_ko6oo"]
+[ext_resource type="Texture2D" uid="uid://dn2014fqnrau6" path="res://addons/godot_logic_nodes/icons/LogicNode_AudioClip_Placeholder.svg" id="13_gls1l"]
+[ext_resource type="Script" uid="uid://b88uldncsrvlr" path="res://addons/godot_logic_nodes/core/LogicRotate.gd" id="14_6djdd"]
+[ext_resource type="Script" uid="uid://vuaeexo85ca3" path="res://addons/godot_logic_nodes/core/LogicAuto.gd" id="15_oaeuv"]
+[ext_resource type="Script" uid="uid://cj7rag5ddw0uy" path="res://addons/godot_logic_nodes/core/LogicConnection.gd" id="16_lspoh"]
+[ext_resource type="PackedScene" uid="uid://bbc0ke0khoprd" path="res://addons/godot_logic_nodes/models/Fan_Blockout.fbx" id="17_fysib"]
+[ext_resource type="Material" uid="uid://bbsmeox1tnk56" path="res://addons/godot_logic_nodes/materials/darkGray_MAT.tres" id="18_ur8qm"]
+[ext_resource type="Script" uid="uid://emtwy0ew6w51" path="res://addons/godot_logic_nodes/core/LogicMove.gd" id="19_14073"]
+[ext_resource type="PackedScene" uid="uid://b32cvcu1rht5c" path="res://addons/godot_logic_nodes/models/door_frame_0_5m.tscn" id="20_mur5d"]
+[ext_resource type="PackedScene" uid="uid://oicf3euucrnb" path="res://addons/godot_logic_nodes/models/sliding_door.tscn" id="21_b0xbt"]
+[ext_resource type="Script" uid="uid://dd2ggkll4ace0" path="res://addons/godot_logic_nodes/core/LogicTrigger.gd" id="22_nrroe"]
+[ext_resource type="Script" uid="uid://ryxtrg5krx2x" path="res://addons/godot_logic_nodes/core/LogicInteract.gd" id="23_toigp"]
+[ext_resource type="PackedScene" uid="uid://dhoyr3tbxntxj" path="res://addons/godot_logic_nodes/models/interactable_button.tscn" id="24_2mfn4"]
+[ext_resource type="Script" uid="uid://b2dynxedkwdal" path="res://addons/godot_logic_nodes/core/LogicDebug.gd" id="25_dkuhh"]
+[ext_resource type="Script" uid="uid://cg45ne438c6tw" path="res://addons/godot_logic_nodes/core/LogicRelay.gd" id="26_h0quw"]
+[ext_resource type="PackedScene" uid="uid://dsi3fgcshvpp6" path="res://addons/godot_logic_nodes/models/feedback_panel.tscn" id="27_yuhk1"]
+[ext_resource type="Script" uid="uid://dy653rjvisi4w" path="res://addons/godot_logic_nodes/core/LogicBranch.gd" id="28_libay"]
+[ext_resource type="Script" uid="uid://un40c375k4c1" path="res://addons/godot_logic_nodes/core/LogicCounter.gd" id="29_0fycy"]
+[ext_resource type="Script" uid="uid://v11phygirjw" path="res://addons/godot_logic_nodes/core/LogicTimer.gd" id="30_cxxww"]
+[ext_resource type="Script" uid="uid://dwnhumn2b607" path="res://addons/godot_logic_nodes/core/LogicAudioClip.gd" id="31_j5nkb"]
+[ext_resource type="AudioStream" uid="uid://tq525keihmi5" path="res://addons/godot_logic_nodes/audio/select_007.ogg" id="32_kq8y2"]
+[ext_resource type="AudioStream" uid="uid://bbucct8ffg5qc" path="res://addons/godot_logic_nodes/audio/jingles_STEEL03.ogg" id="33_7tmxc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_b87eb"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_6k4qt"]
+sky_material = SubResource("ProceduralSkyMaterial_b87eb")
+
+[sub_resource type="Environment" id="Environment_i0jwl"]
+background_mode = 2
+sky = SubResource("Sky_6k4qt")
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_sxk5m"]
+
+[sub_resource type="Resource" id="Resource_x28kk"]
+script = ExtResource("16_lspoh")
+output = &"on_scene_start"
+target = NodePath("../RotateFan")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_ox3r0"]
+script = ExtResource("16_lspoh")
+output = &"on_scene_start"
+target = NodePath("../LogicMove - Light Move")
+input = &"start"
+
+[sub_resource type="BoxMesh" id="BoxMesh_esf6n"]
+
+[sub_resource type="Resource" id="Resource_iixyl"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_enter"
+target = NodePath("../Move - Left Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_omrck"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_enter"
+target = NodePath("../Move - Right Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_1eikl"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_exit"
+target = NodePath("../Move - Left Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_pa2hl"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_exit"
+target = NodePath("../Move - Right Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_smkxg"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../DoorLeft - Move")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_d1gge"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../DoorRight - Move")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_0nfxa"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_enter"
+target = NodePath("../LogicMove - Hint Dialog")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_a81mg"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger_exit"
+target = NodePath("../LogicMove - Hint Dialog")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_06sp7"]
+script = ExtResource("16_lspoh")
+output = &"on_scene_start"
+target = NodePath("../LogicMove - Hint Dialog")
+input = &"start"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_esf6n"]
+size = Vector3(4, 5, 3.5)
+
+[sub_resource type="Resource" id="Resource_i0jwl"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicDebug - Elevator")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_jlkq4"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicRelay - Elevator")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_v50an"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicMove - Elevator")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_6k4qt"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicMove - Elevator")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_i18d6"]
+script = ExtResource("16_lspoh")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 1")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_hldx3"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_ynro7"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_s2ub8"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_nsq3a"]
+script = ExtResource("16_lspoh")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 2")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_63lt7"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_e3onl"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_263uh"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_cy3c2"]
+script = ExtResource("16_lspoh")
+output = &"on_value_change"
+target = NodePath("../LogicRotate - Panel 3")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_6n3a3"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"add"
+
+[sub_resource type="Resource" id="Resource_vcg42"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicCounter - Combo Gate")
+input = &"subtract"
+
+[sub_resource type="Resource" id="Resource_5j4lw"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_false"
+
+[sub_resource type="Resource" id="Resource_f2tw0"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicDebug - Combo Gate Open")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_n4m54"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicDebug - Combo Gate Close")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_r0bbx"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicMove - Combo Gate Left")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_u6pxk"]
+script = ExtResource("16_lspoh")
+output = &"on_true"
+target = NodePath("../LogicMove - Combo Gate Right")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_24cgj"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicMove - Combo Gate Left")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_qulfu"]
+script = ExtResource("16_lspoh")
+output = &"on_false"
+target = NodePath("../LogicMove - Combo Gate Right")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_d6i7e"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 1")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_r7w62"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 2")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_vugre"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicBranch - Zone 3")
+input = &"toggle"
+
+[sub_resource type="Resource" id="Resource_dxixh"]
+script = ExtResource("16_lspoh")
+output = &"on_goal_reached"
+target = NodePath("../LogicBranch - Combo Gate Controller")
+input = &"set_true"
+
+[sub_resource type="Resource" id="Resource_q7yme"]
+script = ExtResource("16_lspoh")
+output = &"on_timeout"
+target = NodePath("../LogicRelay - On Timer End")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_xn5wc"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Wait")
+input = &"enable"
+
+[sub_resource type="Resource" id="Resource_07ptj"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Grace Period")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_0mjnq"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicMove - Left Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_lsiht"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicMove - Right Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_pfa3n"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../InteractableButton/LogicInteract")
+input = &"disable"
+
+[sub_resource type="Resource" id="Resource_vajua"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../InteractableButton2/LogicInteract")
+input = &"disable"
+
+[sub_resource type="Resource" id="Resource_smcqw"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Wait")
+input = &"disable"
+
+[sub_resource type="Resource" id="Resource_yrs7p"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicAudioClip - Time up SFX")
+input = &"play"
+
+[sub_resource type="Resource" id="Resource_2kkq8"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicDebug - Timeout")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_0cp6u"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicMove - Left Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_yu346"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicMove - Right Door")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_b2kbs"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../InteractableButton/LogicInteract")
+input = &"enable"
+
+[sub_resource type="Resource" id="Resource_qson0"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../InteractableButton2/LogicInteract")
+input = &"enable"
+
+[sub_resource type="Resource" id="Resource_w2p0c"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Ticker")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_yo1qb"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicTimer")
+input = &"start"
+
+[sub_resource type="Resource" id="Resource_pkgi6"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicAudioClip - Tick SFX")
+input = &"play"
+
+[sub_resource type="Resource" id="Resource_b0fbg"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Wait")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_fnxfa"]
+script = ExtResource("16_lspoh")
+output = &"on_trigger"
+target = NodePath("../LogicRelay - Ticker")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_0p336"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicRelay - On Button Pressed")
+input = &"trigger"
+
+[sub_resource type="Resource" id="Resource_46tpq"]
+script = ExtResource("16_lspoh")
+output = &"on_interact"
+target = NodePath("../../LogicRelay - On Button Pressed")
+input = &"trigger"
+
+[node name="Sandbox" type="Node3D" unique_id=1627298573]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=605347671]
+environment = SubResource("Environment_i0jwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=572985741]
+transform = Transform3D(-0.78656626, 0.5638237, 0.2518267, 0.37682658, 0.11518985, 0.91909367, 0.48919883, 0.81782275, -0.30306822, 0, 7.25, 0)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="FirstPersonController" parent="." unique_id=1409622009 instance=ExtResource("1_v3l2o")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -6.280308, 0, 16.034225)
+
+[node name="Dictionary" type="Node3D" parent="." unique_id=435957760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.25)
+
+[node name="LogicAuto" type="Node3D" parent="Dictionary" unique_id=287870630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -1)
+
+[node name="AutoSprite3D" type="Sprite3D" parent="Dictionary/LogicAuto" unique_id=837288627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("2_8lvj8")
+
+[node name="AutoNodeExplainer" type="Label3D" parent="Dictionary/LogicAuto" unique_id=1623169575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Auto Node--
+
+Automatically triggers an output signal when the parent scene loads.
+
+--Outputs--
+On Scene Start"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="LogicRelay" type="Node3D" parent="Dictionary" unique_id=1404862961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, -1)
+
+[node name="RelaySprite3D" type="Sprite3D" parent="Dictionary/LogicRelay" unique_id=1103083875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("3_6fu6d")
+
+[node name="RelayNodeExplainer" type="Label3D" parent="Dictionary/LogicRelay" unique_id=495872184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Relay Node--
+
+Triggers an output signal when an incoming signal is detected, optionally after a delay.
+
+--Outputs--
+On Trigger"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="LogicMove" type="Node3D" parent="Dictionary" unique_id=1771764190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0.5, -1)
+
+[node name="MoveSprite3D" type="Sprite3D" parent="Dictionary/LogicMove" unique_id=754977049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("4_qfym6")
+
+[node name="MoveNodeExplainer" type="Label3D" parent="Dictionary/LogicMove" unique_id=451831154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Move Node--
+
+When triggered, Moves/Translates an object based on a configurable distance, speed, and movement mode.
+
+--Outputs--
+On Move Start
+On Move End"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="LogicRotate" type="Node3D" parent="Dictionary" unique_id=909587168]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.25, 0.5, -1)
+
+[node name="RotateSprite3D" type="Sprite3D" parent="Dictionary/LogicRotate" unique_id=1591440226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("5_pajfn")
+
+[node name="RotateNodeExplainer" type="Label3D" parent="Dictionary/LogicRotate" unique_id=27060726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Rotate Node--
+
+When triggered, rotates an object by a configurable angle, speed, and movement mode.
+
+--Outputs--
+On Rotate Start
+On Rotate End"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="LogicTrigger" type="Node3D" parent="Dictionary" unique_id=1710538378]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.25, 0.5, -1)
+
+[node name="TriggerSprite3D" type="Sprite3D" parent="Dictionary/LogicTrigger" unique_id=2013955420]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.001
+billboard = 1
+texture = ExtResource("6_2fe4u")
+
+[node name="TriggerVolumeExplainer" type="Label3D" parent="Dictionary/LogicTrigger" unique_id=508203348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Trigger Volume--
+
+Detects objects entering or leaving its box (by default, only those in the \"player\" group), and triggers Output Signals.
+
+--Outputs--
+On Trigger Enter
+On Trigger Exit"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dictionary/LogicTrigger" unique_id=1291383095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+material_override = ExtResource("7_70ioq")
+mesh = SubResource("BoxMesh_sxk5m")
+
+[node name="LogicInteract" type="Node3D" parent="Dictionary" unique_id=937992751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 0.5, -1)
+
+[node name="InteractSprite3D" type="Sprite3D" parent="Dictionary/LogicInteract" unique_id=1904484941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+pixel_size = 0.001
+billboard = 1
+texture = ExtResource("8_jhyng")
+
+[node name="InteractVolumeExplainer" type="Label3D" parent="Dictionary/LogicInteract" unique_id=952739973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0.02588129)
+text = "--Interact Volume--
+
+Similar to the Trigger Volume, can also trigger from user input.
+
+--Outputs--
+On Interact
+On Trigger Enter
+On Trigger Exit"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Dictionary/LogicInteract" unique_id=1659240890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+material_override = ExtResource("7_70ioq")
+mesh = SubResource("BoxMesh_sxk5m")
+
+[node name="LogicAudioClip" type="Node3D" parent="Dictionary" unique_id=2065711397]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.25, 0.5, 4.75)
+
+[node name="AudioClipNodeExplainer" type="Label3D" parent="Dictionary/LogicAudioClip" unique_id=1502063725]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.75, -0.22411871)
+text = "--Audio Clip Node--
+
+When triggered, plays a sound, either once or on a loop.
+
+--Outputs--
+On Audio Start
+On Audio End"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="AudioSprite3D" type="Sprite3D" parent="Dictionary/LogicAudioClip" unique_id=1541277925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+pixel_size = 0.0008
+billboard = 1
+texture = ExtResource("13_gls1l")
+
+[node name="LogicBranch" type="Node3D" parent="Dictionary" unique_id=3592220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.25, 0.5, 4.75)
+
+[node name="BranchNodeExplainer" type="Label3D" parent="Dictionary/LogicBranch" unique_id=169664615]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.75, -0.22411871)
+text = "--Branch Node--
+
+Remembers a true/false value. When checked, triggers one of two output signals depending on that value.
+
+--Outputs--
+On True
+On False
+On Value Change"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="BranchSprite3D" type="Sprite3D" parent="Dictionary/LogicBranch" unique_id=2049637276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+pixel_size = 0.0008
+billboard = 1
+texture = ExtResource("12_ko6oo")
+
+[node name="LogicTimer" type="Node3D" parent="Dictionary" unique_id=1698370795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.25, 0.5, 4.75)
+
+[node name="TimerNodeExplainer" type="Label3D" parent="Dictionary/LogicTimer" unique_id=216069400]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.5, -0.22411871)
+text = "--Timer Node--
+
+When started, waits a set number of seconds, then triggers an output signal. Can repeat until stopped.
+
+--Outputs--
+On Timeout"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="TimerSprite3D" type="Sprite3D" parent="Dictionary/LogicTimer" unique_id=402159767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+pixel_size = 0.0008
+billboard = 1
+texture = ExtResource("11_p2cow")
+
+[node name="LogicCounter" type="Node3D" parent="Dictionary" unique_id=52097732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0.5, 4.75)
+
+[node name="CounterNodeExplainer" type="Label3D" parent="Dictionary/LogicCounter" unique_id=626406261]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.75, -0.22411871)
+text = "--Counter Node--
+
+Counts incoming signals up or down, and triggers an output signal once it reaches a goal number.
+
+--Outputs--
+On Count Change
+On Goal Reached"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="CounterSprite3D" type="Sprite3D" parent="Dictionary/LogicCounter" unique_id=1755282586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+pixel_size = 0.0008
+billboard = 1
+texture = ExtResource("10_v5ll8")
+
+[node name="LogicDebug" type="Node3D" parent="Dictionary" unique_id=2082296505]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, 4.75)
+
+[node name="DebugNodeExplainer" type="Label3D" parent="Dictionary/LogicDebug" unique_id=2136529475]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2.5, -0.22411871)
+text = "--Debug Node--
+
+When triggered, shows a message on screen during testing, then passes the signal on.
+
+--Outputs--
+On Show"
+vertical_alignment = 0
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="DebugSprite3D" type="Sprite3D" parent="Dictionary/LogicDebug" unique_id=1305685132]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+pixel_size = 0.0001
+billboard = 1
+texture = ExtResource("9_25q31")
+
+[node name="Examples" type="Node3D" parent="." unique_id=883965528]
+
+[node name="Fan" type="Node3D" parent="Examples" unique_id=393130236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 10)
+
+[node name="RotateFan" type="Node3D" parent="Examples/Fan" unique_id=1740494481 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, 1.5)
+script = ExtResource("14_6djdd")
+target = NodePath("../Fan_Blockout")
+rotate_offset = Vector3(360, 0, 0)
+speed = 45.0
+mode = 2
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="LogicAuto_fan" type="Node3D" parent="Examples/Fan" unique_id=1678357817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, 2.25)
+script = ExtResource("15_oaeuv")
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_x28kk")])
+metadata/_custom_type_script = "uid://vuaeexo85ca3"
+
+[node name="Fan_Blockout" parent="Examples/Fan" unique_id=740805040 instance=ExtResource("17_fysib")]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, -5, 1.75, 0.75)
+
+[node name="Fan Label" type="Label3D" parent="Examples/Fan" unique_id=1573816931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, 1.25)
+text = "Rotate Node used to \"animate\" an object."
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Examples/Fan" unique_id=1038220483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, 0)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Fan/CSGCombiner3D" unique_id=192725970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+size = Vector3(3.5, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Examples/Fan/CSGCombiner3D/CSGBox3D" unique_id=1261450679]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.25, 0.10986328)
+operation = 2
+radius = 1.3
+height = 2.3701172
+sides = 16
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Examples/Fan" unique_id=1120080657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+light_color = Color(1, 0.49803922, 0, 1)
+light_energy = 5.0
+shadow_enabled = true
+omni_range = 11.75
+
+[node name="Moving Light" type="Node3D" parent="Examples" unique_id=661490469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 10)
+
+[node name="LogicAuto - Light Move" type="Node3D" parent="Examples/Moving Light" unique_id=905698248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3, 1.25)
+script = ExtResource("15_oaeuv")
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_ox3r0")])
+metadata/_custom_type_script = "uid://vuaeexo85ca3"
+
+[node name="LogicMove - Light Move" type="Node3D" parent="Examples/Moving Light" unique_id=22563795 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 3, 1.25)
+script = ExtResource("19_14073")
+target = NodePath("../LightFixture")
+move_offset = Vector3(10, 0, 0)
+speed = 10.0
+mode = 1
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LightFixture" type="MeshInstance3D" parent="Examples/Moving Light" unique_id=1105843202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3, -0.5)
+mesh = SubResource("BoxMesh_esf6n")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Examples/Moving Light/LightFixture" unique_id=501774105]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.5, 0)
+light_color = Color(1, 0.49803922, 0, 1)
+light_energy = 10.0
+shadow_enabled = true
+spot_range = 8.25
+spot_angle = 67.98706
+
+[node name="Label3D" type="Label3D" parent="Examples/Moving Light" unique_id=2104505839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.75, -0.96732616)
+text = "\"Emergency\" lighting created with a Move Node set to Ping Pong."
+autowrap_mode = 3
+
+[node name="Proximity Door" type="Node3D" parent="Examples" unique_id=1643581654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 14)
+
+[node name="SlidingDoor_Left" parent="Examples/Proximity Door" unique_id=1219120557 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -0.5, -1)
+
+[node name="SlidingDoor_Right" parent="Examples/Proximity Door" unique_id=232323129 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -0.5, 1)
+
+[node name="Move - Left Door" type="Node3D" parent="Examples/Proximity Door" unique_id=2133971210 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, -0.5)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor_Left")
+move_offset = Vector3(0, 0, -2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="Move - Right Door" type="Node3D" parent="Examples/Proximity Door" unique_id=372167851 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 0.5)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor_Right")
+move_offset = Vector3(0, 0, 2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicTrigger" type="Node3D" parent="Examples/Proximity Door" unique_id=1499325647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 1.5, 0)
+script = ExtResource("22_nrroe")
+size = Vector3(6, 4, 4)
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_iixyl"), SubResource("Resource_omrck"), SubResource("Resource_1eikl"), SubResource("Resource_pa2hl")])
+metadata/_custom_type_script = "uid://dd2ggkll4ace0"
+
+[node name="Label3D - Explanation" type="Label3D" parent="Examples/Proximity Door" unique_id=1847603908]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.7000008, 1.75, -3.5)
+double_sided = false
+text = "Doors open based on player entering/exiting a Trigger Volume Node."
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="Label3D - Explanation2" type="Label3D" parent="Examples/Proximity Door" unique_id=1298769209]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.9500008, 1.75, 3.5)
+double_sided = false
+text = "Doors open based on player entering/exiting a Trigger Volume Node."
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="Interact Door" type="Node3D" parent="Examples" unique_id=513322392]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 23)
+
+[node name="DoorLeft - Move" type="Node3D" parent="Examples/Interact Door" unique_id=779582581 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -0.25)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Left")
+move_offset = Vector3(2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="DoorRight - Move" type="Node3D" parent="Examples/Interact Door" unique_id=577939261 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -0.25)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Right")
+move_offset = Vector3(-2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicInteract" type="Node3D" parent="Examples/Interact Door" unique_id=1065191816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.75)
+script = ExtResource("23_toigp")
+size = Vector3(4, 4, 6)
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_smkxg"), SubResource("Resource_d1gge"), SubResource("Resource_0nfxa"), SubResource("Resource_a81mg")])
+metadata/_custom_type_script = "uid://ryxtrg5krx2x"
+
+[node name="Label3D - Hint Dialog" type="Label3D" parent="Examples/Interact Door" unique_id=1389477603]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.5, 0.25)
+double_sided = false
+text = "Press [E] to Open/Close"
+
+[node name="IntructionsLabel2" type="Label3D" parent="Examples/Interact Door/Label3D - Hint Dialog" unique_id=2043873582]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -1)
+double_sided = false
+text = "Press [E] to Open/Close"
+
+[node name="LogicMove - Hint Dialog" type="Node3D" parent="Examples/Interact Door" unique_id=1323195264 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+script = ExtResource("19_14073")
+target = NodePath("../Label3D - Hint Dialog")
+move_offset = Vector3(0, -10, 0)
+speed = 100.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicAuto" type="Node3D" parent="Examples/Interact Door" unique_id=1923991131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.75, 0)
+script = ExtResource("15_oaeuv")
+comment = "This node \"hides\" the hint dialog when the scene loads. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_06sp7")])
+metadata/_custom_type_script = "uid://vuaeexo85ca3"
+
+[node name="Label3D - Explanation" type="Label3D" parent="Examples/Interact Door" unique_id=1766307556]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -3.5, 1.75, -0.25)
+text = "Doors open based on player proximity *and* user input. 
+
+NOTE: \"gln_interact\" is defined as an Action in the Input Map tab in Project Settings. Feel free to create your own actions!"
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="Label3D - Explanation2" type="Label3D" parent="Examples/Interact Door" unique_id=2137590987]
+transform = Transform3D(1, 0, 2.3841858e-07, 0, 1, 0, -2.3841858e-07, 0, 1, 3.5, 1.75, 1.5)
+text = "Doors open based on player proximity *and* user input.
+
+NOTE: \"gln_interact\" is defined as an Action in the Input Map tab in Project Settings. Feel free to create your own actions!"
+autowrap_mode = 3
+autowrap_trim_flags = 64
+
+[node name="SlidingDoor - Left" parent="Examples/Interact Door" unique_id=1867879321 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1, -0.5, 0.75)
+
+[node name="SlidingDoor - Right" parent="Examples/Interact Door" unique_id=142244490 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, -0.5, 0.75)
+
+[node name="Elevator" type="Node3D" parent="Examples" unique_id=1317307806]
+
+[node name="Elevator Platform" type="CSGBox3D" parent="Examples/Elevator" unique_id=1513158285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, -3, 32.5)
+material_override = ExtResource("18_ur8qm")
+size = Vector3(4, 5, 3)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Examples/Elevator/Elevator Platform" unique_id=655474432]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Examples/Elevator/Elevator Platform/AnimatableBody3D" unique_id=59203769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+shape = SubResource("BoxShape3D_esf6n")
+
+[node name="LogicMove - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=1167188549 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 1, 31.25)
+script = ExtResource("19_14073")
+target = NodePath("../Elevator Platform")
+move_offset = Vector3(0, 4, 0)
+speed = 4.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="InteractableButton" parent="Examples/Elevator" unique_id=860199912 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.25, 1, 34)
+
+[node name="LogicInteract" parent="Examples/Elevator/InteractableButton" index="2" unique_id=1600856937]
+size = Vector3(1, 1, 1)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_i0jwl"), SubResource("Resource_jlkq4"), SubResource("Resource_v50an")])
+
+[node name="LogicAudioClip" parent="Examples/Elevator/InteractableButton" index="4" unique_id=1387318620]
+volume_db = 12.0
+
+[node name="LogicDebug - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=1778507279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 31.25)
+script = ExtResource("25_dkuhh")
+message = "Pressed Elevator Button..."
+color = Color(0, 1, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicRelay - Elevator" type="Node3D" parent="Examples/Elevator" unique_id=186900656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1, 31.25)
+script = ExtResource("26_h0quw")
+delay = 4.0
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_6k4qt")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="Label3D" type="Label3D" parent="Examples/Elevator" unique_id=1593530248]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8.75, 1.5, 30.724998)
+text = "Elevator moves up/down based on LogicInteract and Move Nodes. Button press feedback with an AudioClip Node. The button is also a packed scene with its own logic nodes!"
+autowrap_mode = 3
+
+[node name="Label3D2" type="Label3D" parent="Examples/Elevator" unique_id=2076691489]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5.25, 2.25, 33.975)
+text = "^
+^
+^"
+font_size = 64
+autowrap_mode = 3
+
+[node name="Combo Gate" type="Node3D" parent="Examples" unique_id=1143333779]
+
+[node name="SlidingDoor - Right" parent="Examples/Combo Gate" unique_id=1542837606 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 39)
+
+[node name="SlidingDoor - Left" parent="Examples/Combo Gate" unique_id=730925790 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 37)
+
+[node name="Feedback_Panel 1" parent="Examples/Combo Gate" unique_id=1307328793 instance=ExtResource("27_yuhk1")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.67742, 8.5, 35.155647)
+
+[node name="OmniLight3D - Zone 1" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 1" unique_id=1088407682]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.67741966, 0, -0.09435272)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="OmniLight3D - Zone 2" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 1" unique_id=1850861051]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.57258034, 0, -0.09435272)
+light_color = Color(0, 1, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="LogicRotate - Panel 1" type="Node3D" parent="Examples/Combo Gate" unique_id=230247506 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.55242, 8.450001, 35.355644)
+script = ExtResource("14_6djdd")
+target = NodePath("../Feedback_Panel 1")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="Feedback_Panel 2" parent="Examples/Combo Gate" unique_id=1657074790 instance=ExtResource("27_yuhk1")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.675, 8.5, 38)
+
+[node name="OmniLight3D - Zone 3" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 2" unique_id=2135365214]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.67499924, 0, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="OmniLight3D - Zone 4" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 2" unique_id=728895204]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.57500076, 0, 0)
+light_color = Color(0, 1, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="LogicRotate - Panel 2" type="Node3D" parent="Examples/Combo Gate" unique_id=148568467 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.80242, 8.450001, 37.855644)
+script = ExtResource("14_6djdd")
+target = NodePath("../Feedback_Panel 2")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="Feedback_Panel 3" parent="Examples/Combo Gate" unique_id=1513850649 instance=ExtResource("27_yuhk1")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.67742, 8.5, 40.905647)
+
+[node name="OmniLight3D - Zone 5" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 3" unique_id=815513797]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.67741966, 0, -0.09435272)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="OmniLight3D - Zone 6" type="OmniLight3D" parent="Examples/Combo Gate/Feedback_Panel 3" unique_id=262902990]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.57258034, 0, -0.09435272)
+light_color = Color(0, 1, 0, 1)
+light_energy = 0.5
+omni_range = 2.0
+
+[node name="LogicRotate - Panel 3" type="Node3D" parent="Examples/Combo Gate" unique_id=1909307283 node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.80242, 8.450001, 40.855644)
+script = ExtResource("14_6djdd")
+target = NodePath("../Feedback_Panel 3")
+rotate_offset = Vector3(0, 180, 0)
+speed = 720.0
+metadata/_custom_type_script = "uid://b88uldncsrvlr"
+
+[node name="LogicBranch - Zone 1" type="Node3D" parent="Examples/Combo Gate" unique_id=1937943868]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 12.402422, 4.9500003, 33.955643)
+script = ExtResource("28_libay")
+check_on_change = true
+comment = "Branch node keeps track of its true/false state, and communicates state changes downstream to the Counter Node. On True and On False events add and subtract from the value of the downstream Counter Node. The On False event also forced the gate closed, ensuring it only opens when all three buttons have been set to true. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_i18d6"), SubResource("Resource_hldx3"), SubResource("Resource_ynro7"), SubResource("Resource_s2ub8")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Zone 2" type="Node3D" parent="Examples/Combo Gate" unique_id=2030760758]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 12.30242, 5, 37.905643)
+script = ExtResource("28_libay")
+check_on_change = true
+comment = "Branch node keeps track of its true/false state, and communicates state changes downstream to the Counter Node. On True and On False events add and subtract from the value of the downstream Counter Node. The On False event also forced the gate closed, ensuring it only opens when all three buttons have been set to true. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_nsq3a"), SubResource("Resource_63lt7"), SubResource("Resource_e3onl"), SubResource("Resource_263uh")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Zone 3" type="Node3D" parent="Examples/Combo Gate" unique_id=162692305]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 12.30242, 5, 41.905647)
+script = ExtResource("28_libay")
+check_on_change = true
+comment = "Branch node keeps track of its true/false state, and communicates state changes downstream to the Counter Node. On True and On False events add and subtract from the value of the downstream Counter Node. The On False event also forced the gate closed, ensuring it only opens when all three buttons have been set to true. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_cy3c2"), SubResource("Resource_6n3a3"), SubResource("Resource_vcg42"), SubResource("Resource_5j4lw")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="LogicBranch - Combo Gate Controller" type="Node3D" parent="Examples/Combo Gate" unique_id=968501545]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.05242, 8, 37.905643)
+script = ExtResource("28_libay")
+check_on_change = true
+comment = "On True is only triggered when the upstream Counter Node's goal (3) has been met. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_f2tw0"), SubResource("Resource_n4m54"), SubResource("Resource_r0bbx"), SubResource("Resource_u6pxk"), SubResource("Resource_24cgj"), SubResource("Resource_qulfu")])
+metadata/_custom_type_script = "uid://dy653rjvisi4w"
+
+[node name="InteractableButton - Zone 1" parent="Examples/Combo Gate" unique_id=856874269 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.75, 5, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 7.3443527, 0, 3.8024197)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 7.3443527, 0, 3.8024197)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.3443527, 0, 3.3024197)
+size = Vector3(1, 1, 1)
+volume_color = Color(1, 0, 0, 0.0627451)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_d6i7e")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.8443527, 0, 3.8024197)
+move_offset = Vector3(0.03, 0, 0)
+space = 1
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 1" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.3443527, 0.5, 3.8024197)
+volume_db = 12.0
+
+[node name="InteractableButton - Zone 2" parent="Examples/Combo Gate" unique_id=473046304 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.25, 5, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 3.3443527, 0, 6.3024197)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, 3.3443527, 0, 6.3024197)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.3443527, 0, 5.8024197)
+size = Vector3(1, 1, 1)
+volume_color = Color(0, 1, 0, 0.0627451)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_r7w62")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.8443527, 0, 6.3024197)
+move_offset = Vector3(0.03, 0, 0)
+space = 1
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 2" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3.3443527, 0.5, 6.3024197)
+volume_db = 12.0
+
+[node name="InteractableButton - Zone 3" parent="Examples/Combo Gate" unique_id=1577842861 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2.75, 5, 41.25)
+
+[node name="Button" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="0" unique_id=1538548178]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, -0.6556473, 0, 8.80242)
+
+[node name="Panel" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="1" unique_id=1626812695]
+transform = Transform3D(1.1920932e-05, -100, 0, 0, 0, 100, -100, -1.1920932e-05, 0, -0.6556473, 0, 8.80242)
+
+[node name="LogicInteract" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="2" unique_id=1600856937]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.6556473, 0, 8.30242)
+size = Vector3(1, 1, 1)
+volume_color = Color(0, 0, 1, 0.0627451)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_vugre")])
+
+[node name="LogicMove" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="3" unique_id=422261419]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.1556473, 0, 8.80242)
+move_offset = Vector3(0.03, 0, 0)
+space = 1
+
+[node name="LogicAudioClip" parent="Examples/Combo Gate/InteractableButton - Zone 3" index="4" unique_id=1387318620]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.6556473, 0.5, 8.80242)
+volume_db = 12.0
+
+[node name="LogicCounter - Combo Gate" type="Node3D" parent="Examples/Combo Gate" unique_id=1838297532]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.05242, 7, 37.905643)
+script = ExtResource("29_0fycy")
+after_goal = 2
+comment = "When the Counter Node's goal is met, the downstream Branch Node handles opening the gate. "
+trace = true
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_dxixh")])
+metadata/_custom_type_script = "uid://un40c375k4c1"
+
+[node name="LogicDebug - Combo Gate Open" type="Node3D" parent="Examples/Combo Gate" unique_id=567095972]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.05242, 8.5, 36.905643)
+script = ExtResource("25_dkuhh")
+message = "Combo Door Opened!"
+color = Color(0, 1, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicDebug - Combo Gate Close" type="Node3D" parent="Examples/Combo Gate" unique_id=2095904396]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.05242, 8.5, 38.905647)
+script = ExtResource("25_dkuhh")
+message = "Combo Door Closed!"
+color = Color(1, 0.49803922, 0, 1)
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicMove - Combo Gate Left" type="Node3D" parent="Examples/Combo Gate" unique_id=98088037 node_paths=PackedStringArray("target")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.3, 5, 37)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Left")
+move_offset = Vector3(0, 0, -2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicMove - Combo Gate Right" type="Node3D" parent="Examples/Combo Gate" unique_id=65077382 node_paths=PackedStringArray("target")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 17.3, 5, 39)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Right")
+move_offset = Vector3(0, 0, 2)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="Label3D" type="Label3D" parent="Examples/Combo Gate" unique_id=887004473]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 17.725, 5.5, 34)
+text = "Combination of Counter and Branch Nodes used to create a door that only opens when all three buttons are \"set to true\"."
+autowrap_mode = 3
+
+[node name="Timer Door" type="Node3D" parent="Examples" unique_id=588671803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 4, 38)
+
+[node name="LogicDebug - Timeout" type="Node3D" parent="Examples/Timer Door" unique_id=2108942877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.25, -8.75)
+script = ExtResource("25_dkuhh")
+message = "Time's Out!"
+metadata/_custom_type_script = "uid://b2dynxedkwdal"
+
+[node name="LogicTimer" type="Node3D" parent="Examples/Timer Door" unique_id=1864953158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -11.5)
+script = ExtResource("30_cxxww")
+wait_time = 10.0
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_q7yme")])
+metadata/_custom_type_script = "uid://v11phygirjw"
+
+[node name="LogicAudioClip - Tick SFX" type="Node3D" parent="Examples/Timer Door" unique_id=18270179]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -13.75)
+script = ExtResource("31_j5nkb")
+stream = ExtResource("32_kq8y2")
+positional = false
+metadata/_custom_type_script = "uid://dwnhumn2b607"
+
+[node name="LogicAudioClip - Time up SFX" type="Node3D" parent="Examples/Timer Door" unique_id=935384166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.75, -8.75)
+script = ExtResource("31_j5nkb")
+stream = ExtResource("33_7tmxc")
+positional = false
+metadata/_custom_type_script = "uid://dwnhumn2b607"
+
+[node name="LogicRelay - On Button Pressed" type="Node3D" parent="Examples/Timer Door" unique_id=580684126]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 1, -9)
+script = ExtResource("26_h0quw")
+comment = "This relay node acts as an entry point, and handles incoming events from the InteractableButtons, then kicks off the relevant outputs to the other nodes that handle the timed door behavior. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_xn5wc"), SubResource("Resource_07ptj"), SubResource("Resource_0mjnq"), SubResource("Resource_lsiht"), SubResource("Resource_pfa3n"), SubResource("Resource_vajua")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="LogicRelay - On Timer End" type="Node3D" parent="Examples/Timer Door" unique_id=26869995]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.75, -8.75)
+script = ExtResource("26_h0quw")
+comment = "This relay node acts as an exit point, and handles resetting all nodes involved to their original state, allowing for the door to be opened again. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_smcqw"), SubResource("Resource_yrs7p"), SubResource("Resource_2kkq8"), SubResource("Resource_0cp6u"), SubResource("Resource_yu346"), SubResource("Resource_b2kbs"), SubResource("Resource_qson0")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="LogicRelay - Grace Period" type="Node3D" parent="Examples/Timer Door" unique_id=940231944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -11.5)
+script = ExtResource("26_h0quw")
+delay = 1.0
+comment = "Wait one second before starting the timer and initiating the Ticker relay node..."
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_w2p0c"), SubResource("Resource_yo1qb")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="LogicRelay - Ticker" type="Node3D" parent="Examples/Timer Door" unique_id=879667599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -12.75)
+script = ExtResource("26_h0quw")
+comment = "The Ticker and Wait nodes work together as a \"heartbeat\", triggering a ticking sound once every second. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_pkgi6"), SubResource("Resource_b0fbg")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="LogicRelay - Wait" type="Node3D" parent="Examples/Timer Door" unique_id=2098880512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1, -12.75)
+script = ExtResource("26_h0quw")
+delay = 1.0
+comment = "This node bounces a trigger back at the Ticker node after a one second delay. "
+outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_fnxfa")])
+metadata/_custom_type_script = "uid://cg45ne438c6tw"
+
+[node name="InteractableButton" parent="Examples/Timer Door" unique_id=489716544 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.799999, 1, -7.424999)
+
+[node name="LogicInteract" parent="Examples/Timer Door/InteractableButton" index="2" unique_id=1600856937]
+size = Vector3(1, 1, 1)
+volume_color = Color(1, 1, 0, 0.0627451)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_0p336")])
+
+[node name="LogicMove" parent="Examples/Timer Door/InteractableButton" index="3" unique_id=422261419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="LogicAudioClip" parent="Examples/Timer Door/InteractableButton" index="4" unique_id=1387318620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+volume_db = 12.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Examples/Timer Door/InteractableButton" unique_id=767727696]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.17499924, -1, 2.9500008)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Timer Door/InteractableButton/CSGCombiner3D" unique_id=457457282]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2.9500008, 0.3375001, -0.125)
+size = Vector3(0.1, 1.6750001, 0.25)
+
+[node name="InteractableButton2" parent="Examples/Timer Door" unique_id=2043668758 instance=ExtResource("24_2mfn4")]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -1.9500008, 1, -4.674999)
+
+[node name="LogicInteract" parent="Examples/Timer Door/InteractableButton2" index="2" unique_id=1600856937]
+size = Vector3(1, 1, 1)
+volume_color = Color(1, 0, 1, 0.0627451)
+scene_outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_46tpq")])
+
+[node name="LogicMove" parent="Examples/Timer Door/InteractableButton2" index="3" unique_id=422261419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="LogicAudioClip" parent="Examples/Timer Door/InteractableButton2" index="4" unique_id=1387318620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+volume_db = 12.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Examples/Timer Door/InteractableButton2" unique_id=822528033]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.17499924, -1, 2.9500008)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Examples/Timer Door/InteractableButton2/CSGCombiner3D" unique_id=130746609]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2.9500008, 0.3375001, -0.125)
+size = Vector3(0.1, 1.6750001, 0.25)
+
+[node name="LogicMove - Left Door" type="Node3D" parent="Examples/Timer Door" unique_id=2025645472 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.25, -7.25)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Left")
+move_offset = Vector3(2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="LogicMove - Right Door" type="Node3D" parent="Examples/Timer Door" unique_id=36948816 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.25, -7.25)
+script = ExtResource("19_14073")
+target = NodePath("../SlidingDoor - Right")
+move_offset = Vector3(-2, 0, 0)
+speed = 8.0
+metadata/_custom_type_script = "uid://emtwy0ew6w51"
+
+[node name="SlidingDoor - Left" parent="Examples/Timer Door" unique_id=1613212478 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, -0.5, -6.5)
+
+[node name="SlidingDoor - Right" parent="Examples/Timer Door" unique_id=1303123779 instance=ExtResource("21_b0xbt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, -0.5, -6.5)
+
+[node name="Label3D - Explanation" type="Label3D" parent="Examples/Timer Door" unique_id=2084983095]
+transform = Transform3D(-1, 0, 8.940697e-08, 0, 1, 0, -8.940697e-08, 0, -1, 1.9750004, 3.75, -7.049999)
+double_sided = false
+text = "Combination of Relay, Timer, and AudioClip Nodes used to create a door that closes automatically after 10 seconds. "
+autowrap_mode = 3
+
+[node name="Label3D - Explanation2" type="Label3D" parent="Examples/Timer Door" unique_id=1648950055]
+transform = Transform3D(-2.2252533e-07, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, -2.2252533e-07, 5.4750004, 1.25, -2.7249985)
+double_sided = false
+text = "Combination of Relay, Timer, and AudioClip Nodes used to create a door that closes automatically after 10 seconds. "
+autowrap_mode = 3
+
+[node name="Level Geometry" type="Node3D" parent="." unique_id=1568827250]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Level Geometry" unique_id=1893997163]
+use_collision = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1984799084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 8.5)
+size = Vector3(19.5, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1950190260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.125, 1.5, 31.5)
+size = Vector3(17.75, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=698384290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 1.5, 31.5)
+size = Vector3(3, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1499009970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75, 1.5, 33)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1279533835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.75, 1.5, 33)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1759304139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 1.375, 34.5)
+size = Vector3(6, 3.75, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=2015050335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 1.5, 13.25)
+size = Vector3(1, 4, 22)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1968880528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.5, 5.125)
+size = Vector3(1, 4, 5.75)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1311064426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 4.75, 9.5)
+size = Vector3(1, 10.5, 3)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1923209900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 4.75, 11.5)
+size = Vector3(8, 10.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1842628923]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.5, 4.75, 28.75)
+size = Vector3(35.5, 10.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1255574037]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 24.5, 1.5, 25.5)
+size = Vector3(11, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1176591145]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 26, 4.75, 18)
+size = Vector3(4, 10.5, 4)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=615674452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, 1.75)
+size = Vector3(34, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1081093111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.375, 1.5, 23.75)
+size = Vector3(7.25, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=130272417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -1, 4.625)
+size = Vector3(34, 1, 6.75)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1576373175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -1, 16.125)
+size = Vector3(34, 1, 16.25)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=709609805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.5, 16)
+size = Vector3(4, 2, 8)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1423937431]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 1.5, 26)
+size = Vector3(7, 4, 12)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=129948250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 33.5)
+size = Vector3(2, 4, 3)
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1654420817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 3.375, 34.5)
+size = Vector3(6, 0.25, 1)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=389246767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.125, 1.5, 40.375)
+size = Vector3(31.75, 4, 10.75)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1248638103]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.125, 1.5, 33.5)
+size = Vector3(23.75, 4, 3)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=752558037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.125, -1, 27.625)
+size = Vector3(25.75, 1, 6.75)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1282354333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, -1, 31.5)
+size = Vector3(4, 1, 1)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1475200151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.125, -1, 31.5)
+size = Vector3(17.75, 1, 1)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Level Geometry/CSGCombiner3D" unique_id=520087124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -0.5, 16)
+polygon = PackedVector2Array(0, 0, 0, 0, 4, 2, 4, 0)
+depth = 4.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Level Geometry/CSGCombiner3D" unique_id=803910226]
+transform = Transform3D(-5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -5.9604645e-08, 28, 1.5, 16)
+polygon = PackedVector2Array(0, 0, 0, 0, 4, 2, 4, 0)
+depth = 4.0
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1247493541]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9.25, 1.5, 23.75)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=170324577]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.25, 1.5, 23.75)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=509968734]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 10.75, 1.5, 23.75)
+size = Vector3(3, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1877533200]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.25, 1.5, 10.5)
+size = Vector3(3, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1968693605]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.25, 1.5, 21.25)
+size = Vector3(4, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1037326114]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.25000095, 4.75, 34.5)
+size = Vector3(22.5, 10.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=976613921]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 15.624998, 4.75, 46.125)
+size = Vector3(0.75, 10.5, 32.75)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=130354566]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.25, 1.5, 8.5)
+size = Vector3(1, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1915596589]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 21.375, 3, 8.5)
+size = Vector3(1, 1, 3.25)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1549799991]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.374999, 3, 8.5)
+size = Vector3(1, 1, 3.25)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1243122747]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, -0.24999952, 3, 15.625)
+size = Vector3(1, 1, 7.25)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=779050799]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -6.499999, 1.5, 8.499995)
+size = Vector3(1, 4, 3)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1004546568]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.249999, 1.5, 8.499995)
+size = Vector3(1, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=94507851]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 23.5, 1.5, 8.499999)
+size = Vector3(1, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=869108713]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 1.5, 18)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1257770432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 1.5, 10)
+size = Vector3(1, 4, 2)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=90845859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 1.5, 19.5)
+size = Vector3(3, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=681599337]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.60242, 4.3375, 33.905647)
+size = Vector3(0.25, 1.6750001, 0.1)
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1167222446]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.60242, 4.3374996, 37.905647)
+size = Vector3(0.25, 1.6750001, 0.1)
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1043258315]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.60242, 4.3375, 41.905647)
+size = Vector3(0.25, 1.6750001, 0.1)
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1420937949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 5.5, 33.5)
+size = Vector3(1, 4, 3)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=746803226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 8.75, 38.875)
+size = Vector3(1, 2.5, 13.75)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=540619999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 6.75, 31.5)
+size = Vector3(3, 6.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=2138094729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 5.5, 41.5)
+size = Vector3(1, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1374697358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 7.3125, 43.375)
+size = Vector3(1, 0.375, 2.75)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1197900011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, 5.5, 45.25)
+size = Vector3(1, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=484870019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1125, 3.5, 33.9)
+size = Vector3(1.125, 0.025, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=842897889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1125, 3.5, 37.9)
+size = Vector3(1.125, 0.025, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1198202504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1125, 3.5, 41.9)
+size = Vector3(1.125, 0.025, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1002967394]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.75, 5.5, 31.5)
+size = Vector3(0.5, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1520482044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.75, 5.5, 31.5)
+size = Vector3(1.5, 4, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1845598079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 6.75, 32.5)
+size = Vector3(1, 6.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=270476802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 6.75, 30.5)
+size = Vector3(1, 6.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="Level Geometry/CSGCombiner3D" unique_id=1199956918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 8.75, 31.5)
+size = Vector3(8, 2.5, 1)
+material = ExtResource("18_ur8qm")
+
+[node name="Label3D - Examples" type="Label3D" parent="Level Geometry" unique_id=1985349142]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.775, 3, 16)
+text = "Logic Nodes Usage Examples"
+font_size = 64
+autowrap_mode = 3
+
+[node name="Label3D - Advanced Examples" type="Label3D" parent="Level Geometry" unique_id=1923373307]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 31.925, 5.25, 14)
+text = "Logic Nodes
+Advanced Examples
+> > >"
+font_size = 72
+autowrap_mode = 3
+width = 1000.0
+
+[node name="Label3D - Advanced Examples2" type="Label3D" parent="Level Geometry" unique_id=1975345542]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 5.174999, 6.5, 45.7)
+text = "Logic Nodes
+Advanced Examples
+< < <"
+font_size = 128
+autowrap_mode = 3
+width = 2000.0
+
+[node name="Label3D - Dictionary" type="Label3D" parent="Level Geometry" unique_id=87214247]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.25, 3, 9.025)
+text = "Logic Nodes Dictionary"
+font_size = 64
+autowrap_mode = 3
+
+[node name="Label3D - Dictionary2" type="Label3D" parent="Level Geometry" unique_id=1460915246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 3, 9.025)
+text = "Logic Nodes Dictionary"
+font_size = 64
+autowrap_mode = 3
+
+[node name="DoorFrame_0_5M" parent="Level Geometry" unique_id=1237317581 instance=ExtResource("20_mur5d")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.25, -0.5, 23.75)
+
+[node name="DoorFrame_0_5M2" parent="Level Geometry" unique_id=1384750450 instance=ExtResource("20_mur5d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.25, -0.5, 14)
+
+[node name="DoorFrame_0_5M3" parent="Level Geometry" unique_id=295031364 instance=ExtResource("20_mur5d")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18.25, 3.5, 38)
+
+[node name="DoorFrame_0_5M4" parent="Level Geometry" unique_id=513928108 instance=ExtResource("20_mur5d")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 28.5, 3.5, 31.5)
+
+[editable path="FirstPersonController"]
+[editable path="Examples/Elevator/InteractableButton"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 1"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 2"]
+[editable path="Examples/Combo Gate/InteractableButton - Zone 3"]
+[editable path="Examples/Timer Door/InteractableButton"]
+[editable path="Examples/Timer Door/InteractableButton2"]
