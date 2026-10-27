@@ -8,7 +8,7 @@ const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
 ## Thickness of a wire in world units. Godot draws gizmo lines 1 px wide, so wires are thin tubes instead.
-const WIRE_WIDTH := 0.04
+const WIRE_WIDTH := 0.03
 ## Pulses travel along each wire from the sending node to its target, so the direction of a
 ## connection shows at a glance. UV.x is the distance along the wire, in world units.
 const WIRE_SHADER := """
@@ -18,11 +18,13 @@ render_mode unshaded, cull_disabled;
 uniform vec4 color : source_color;
 uniform float speed = 1.5;    // world units per second
 uniform float spacing = 0.75; // world units between pulses
+uniform float opacity = 0.55; // between pulses; pulses are more solid
 
 void fragment() {
 	float t = fract((UV.x - TIME * speed) / spacing);
 	float pulse = smoothstep(0.0, 0.2, t) * (1.0 - smoothstep(0.2, 0.45, t));
 	ALBEDO = mix(color.rgb * 0.6, mix(color.rgb, vec3(1.0), 0.4), pulse);
+	ALPHA = mix(opacity, 0.9, pulse);
 }
 """
 ## Each family's color: its viewport badges are this color, and so are the wires its nodes send.
