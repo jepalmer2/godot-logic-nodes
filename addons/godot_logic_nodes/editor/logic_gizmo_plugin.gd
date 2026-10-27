@@ -7,6 +7,8 @@ extends EditorNode3DGizmoPlugin
 const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
+## Thickness of a wire in world units. Godot draws gizmo lines 1 px wide, so wires are thin tubes instead.
+const WIRE_WIDTH := 0.04
 ## Each family's color: its viewport badges are this color, and so are the wires its nodes send.
 ## Okabe-Ito hues, so the four families stay distinct for color-blind designers.
 const TRIGGERS := Color("f2a93b")
@@ -30,7 +32,7 @@ var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked fr
 
 func _init(type: StringName = &"LogicNode") -> void:
 	logic_type = type
-	create_material("wire", FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1)))
+	add_material("wire", _make_wire_material(FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1))))
 	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
@@ -88,7 +90,7 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			lines.append(Vector3.ZERO)
 			lines.append(node.to_local(target.global_position))
 	if not lines.is_empty():
-		gizmo.add_lines(lines, get_material("wire", gizmo))
+		gizmo.add_mesh(_wire_mesh(lines), get_material("wire", gizmo))
 
 
 ## The 12 edges of a box of `size`, centered on the node.
@@ -104,6 +106,44 @@ func _box_lines(size: Vector3) -> PackedVector3Array:
 				lines.append(a)
 				lines.append(b)
 	return lines
+
+
+## A square tube WIRE_WIDTH thick along each pair of points in `lines`, so wires read from any angle.
+func _wire_mesh(lines: PackedVector3Array) -> ArrayMesh:
+	var verts := PackedVector3Array()
+	var r := WIRE_WIDTH / 2.0
+	for i in range(0, lines.size(), 2):
+		var a := lines[i]
+		var b := lines[i + 1]
+		var dir := (b - a).normalized()
+		if dir.is_zero_approx():
+			continue
+		var side := dir.cross(Vector3.UP)
+		if side.is_zero_approx():  # a vertical wire
+			side = dir.cross(Vector3.RIGHT)
+		side = side.normalized() * r
+		var up := dir.cross(side).normalized() * r
+		var ring := [side + up, side - up, -side - up, -side + up]
+		for k in 4:
+			var p: Vector3 = ring[k]
+			var q: Vector3 = ring[(k + 1) % 4]
+			verts.append_array(PackedVector3Array([a + p, b + p, b + q, a + p, b + q, a + q]))
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	var mesh := ArrayMesh.new()
+	if not verts.is_empty():
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
+
+
+## Flat, unlit family color for wires, visible from both sides.
+func _make_wire_material(color: Color) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.albedo_color = color
+	return material
 
 
 ## Makes the icon material the first time an icon is needed, so get_material() never asks for a missing one.
