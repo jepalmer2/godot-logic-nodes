@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Auto.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Auto.svg")
 class_name LogicAuto
 extends LogicNode
 ## Fires [signal on_scene_start] once when the scene starts, after every other node is ready.

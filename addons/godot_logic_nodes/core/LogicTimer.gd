@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Timer_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Timer.svg")
 class_name LogicTimer
 extends LogicNode
 ## Waits [member wait_time] seconds, then fires On Timeout. With [member repeat] on, it keeps

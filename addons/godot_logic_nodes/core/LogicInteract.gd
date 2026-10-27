@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Interact_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Interact.svg")
 class_name LogicInteract
 extends LogicNode
 ## A box-shaped area where the player presses a key to use something: a lever, a button,

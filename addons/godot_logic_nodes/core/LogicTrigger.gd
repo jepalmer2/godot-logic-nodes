@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Trigger_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Trigger.svg")
 class_name LogicTrigger
 extends LogicNode
 ## A box-shaped area that fires when something walks into it or out of it.

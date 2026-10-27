@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Debug.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Debug.svg")
 class_name LogicDebug
 extends LogicNode
 ## Shows a short message on the game screen when something reaches it, then passes the event on.

@@ -7,6 +7,18 @@ extends EditorNode3DGizmoPlugin
 const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
+## Each family's color: its viewport badges are this color, and so are the wires its nodes send.
+## Okabe-Ito hues, so the four families stay distinct for color-blind designers.
+const TRIGGERS := Color("f2a93b")
+const MOVERS := Color("56b4e9")
+const LOGIC := Color("cc79a7")
+const FEEDBACK := Color("f0e442")
+const FAMILY_COLORS := {
+	&"LogicTrigger": TRIGGERS, &"LogicInteract": TRIGGERS,
+	&"LogicMove": MOVERS, &"LogicRotate": MOVERS,
+	&"LogicAuto": LOGIC, &"LogicRelay": LOGIC, &"LogicCounter": LOGIC, &"LogicTimer": LOGIC, &"LogicBranch": LOGIC,
+	&"LogicAudioClip": FEEDBACK, &"LogicDebug": FEEDBACK,
+}
 
 var logic_type: StringName  # the class this plugin draws, e.g. &"LogicMove"
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
@@ -18,7 +30,7 @@ var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked fr
 
 func _init(type: StringName = &"LogicNode") -> void:
 	logic_type = type
-	create_material("wire", Color(1.0, 0.6, 0.1))
+	create_material("wire", FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1)))
 	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
@@ -95,8 +107,13 @@ func _box_lines(size: Vector3) -> PackedVector3Array:
 
 
 ## Makes the icon material the first time an icon is needed, so get_material() never asks for a missing one.
+## Uses the class's viewport badge (LogicNode_Move_Viewport.svg next to LogicNode_Move.svg) when
+## there is one, since the Scene tree icon is a small glyph made for 16 px.
 func _icon_material(node: Node3D, gizmo: EditorNode3DGizmo) -> StandardMaterial3D:
 	var path := _icon_path(node.get_script())
+	var badge := path.get_basename() + "_Viewport.svg"
+	if ResourceLoader.exists(badge):
+		path = badge
 	if not _made.has(path):
 		var texture := load(path) as Texture2D
 		if texture == null:
@@ -109,14 +126,18 @@ func _icon_material(node: Node3D, gizmo: EditorNode3DGizmo) -> StandardMaterial3
 	return get_material(path, gizmo)
 
 
-## A camera-facing, unshaded quad that is depth-tested and sized in world units, unlike create_icon_material().
+## A camera-facing, unshaded quad sized in world units, unlike create_icon_material().
+## Drawn on top of level geometry, so an icon inside a wall or under the floor stays visible.
 func _make_icon_material(texture: Texture2D) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-	material.alpha_scissor_threshold = 0.5
+	# Alpha blending (not scissor) puts icons in the transparent pass, after level geometry,
+	# which is what lets no_depth_test draw them on top.
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.no_depth_test = true
+	material.render_priority = Material.RENDER_PRIORITY_MAX
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	material.albedo_texture = texture
 	return material
