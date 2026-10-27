@@ -53,7 +53,9 @@ var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked fr
 
 func _init(type: StringName = &"LogicNode") -> void:
 	logic_type = type
-	_wire_material = _make_wire_material(FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1)))
+	var family_color: Color = FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1))
+	create_material("wire", family_color)
+	_wire_material = _make_wire_material(family_color)
 	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
@@ -102,20 +104,27 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			path.append(end + axis * 0.1)
 		gizmo.add_lines(path, get_material("path", gizmo))
 
-	# Wires: a line from this node to each output target, shown only while this node or that
-	# target is selected, so a busy level doesn't turn into a web of lines.
+	# Wires: a line from this node to each output target. Thin 1 px lines normally, so a busy level
+	# stays readable; thick pulsing tubes while this node or that target is selected.
 	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves
 	# or the selection changes.
 	var selected := EditorInterface.get_selection().get_selected_nodes()
 	var node_selected := selected.has(node)
-	var lines := PackedVector3Array()
+	var thin := PackedVector3Array()
+	var thick := PackedVector3Array()
 	for row in node.all_outputs():
 		var target := node.get_node_or_null(row.target) as Node3D if row else null
-		if target and (node_selected or selected.has(target)):
-			lines.append(Vector3.ZERO)
-			lines.append(node.to_local(target.global_position))
-	if not lines.is_empty():
-		gizmo.add_mesh(_wire_mesh(lines), _wire_material)
+		if target == null:
+			continue
+		var end := node.to_local(target.global_position)
+		if node_selected or selected.has(target):
+			thick.append_array(PackedVector3Array([Vector3.ZERO, end]))
+		else:
+			thin.append_array(PackedVector3Array([Vector3.ZERO, end]))
+	if not thin.is_empty():
+		gizmo.add_lines(thin, get_material("wire", gizmo))
+	if not thick.is_empty():
+		gizmo.add_mesh(_wire_mesh(thick), _wire_material)
 
 
 ## The 12 edges of a box of `size`, centered on the node.
