@@ -7,6 +7,28 @@ extends EditorNode3DGizmoPlugin
 const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
+## Thickness of a wire in world units. Godot draws gizmo lines 1 px wide, so wires are thin tubes instead.
+const WIRE_WIDTH := 0.03
+## Pulses travel along each wire from the sending node to its target, so the direction of a
+## connection shows at a glance. UV.x is the distance along the wire, in world units.
+const WIRE_SHADER := """
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform vec4 color : source_color;
+uniform float speed = 1.5;    // world units per second
+uniform float spacing = 0.75; // world units between pulses
+uniform float opacity = 0.55; // between pulses; pulses are more solid
+uniform float pulse_strength = 0.4; // 0 = no pulse, 1 = strong white flash
+
+void fragment() {
+	float t = fract((UV.x - TIME * speed) / spacing);
+	float pulse = smoothstep(0.0, 0.2, t) * (1.0 - smoothstep(0.2, 0.45, t));
+	pulse *= pulse_strength;
+	ALBEDO = mix(color.rgb * 0.8, mix(color.rgb, vec3(1.0), 0.4), pulse);
+	ALPHA = mix(opacity, 0.9, pulse);
+}
+"""
 ## Each family's color: its viewport badges are this color, and so are the wires its nodes send.
 ## Okabe-Ito hues, so the four families stay distinct for color-blind designers.
 const TRIGGERS := Color("f2a93b")
@@ -24,13 +46,16 @@ var logic_type: StringName  # the class this plugin draws, e.g. &"LogicMove"
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
 var _tints := {}           # trigger Volume Colors (as html) that already have materials
+var _wire_material: ShaderMaterial  # ShaderMaterial, so it can't go through add_material()
 var _quad := QuadMesh.new()
 var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked from any angle
 
 
 func _init(type: StringName = &"LogicNode") -> void:
 	logic_type = type
-	create_material("wire", FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1)))
+	var family_color: Color = FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1))
+	create_material("wire", family_color)
+	_wire_material = _make_wire_material(family_color)
 	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
@@ -79,16 +104,27 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			path.append(end + axis * 0.1)
 		gizmo.add_lines(path, get_material("path", gizmo))
 
-	# Wires: a line from this node to each output target.
-	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.
-	var lines := PackedVector3Array()
+	# Wires: a line from this node to each output target. Thin 1 px lines normally, so a busy level
+	# stays readable; thick pulsing tubes while this node or that target is selected.
+	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves
+	# or the selection changes.
+	var selected := EditorInterface.get_selection().get_selected_nodes()
+	var node_selected := selected.has(node)
+	var thin := PackedVector3Array()
+	var thick := PackedVector3Array()
 	for row in node.all_outputs():
 		var target := node.get_node_or_null(row.target) as Node3D if row else null
-		if target:
-			lines.append(Vector3.ZERO)
-			lines.append(node.to_local(target.global_position))
-	if not lines.is_empty():
-		gizmo.add_lines(lines, get_material("wire", gizmo))
+		if target == null:
+			continue
+		var end := node.to_local(target.global_position)
+		if node_selected or selected.has(target):
+			thick.append_array(PackedVector3Array([Vector3.ZERO, end]))
+		else:
+			thin.append_array(PackedVector3Array([Vector3.ZERO, end]))
+	if not thin.is_empty():
+		gizmo.add_lines(thin, get_material("wire", gizmo))
+	if not thick.is_empty():
+		gizmo.add_mesh(_wire_mesh(thick), _wire_material)
 
 
 ## The 12 edges of a box of `size`, centered on the node.
@@ -104,6 +140,50 @@ func _box_lines(size: Vector3) -> PackedVector3Array:
 				lines.append(a)
 				lines.append(b)
 	return lines
+
+
+## A square tube WIRE_WIDTH thick along each pair of points in `lines`, so wires read from any angle.
+func _wire_mesh(lines: PackedVector3Array) -> ArrayMesh:
+	var verts := PackedVector3Array()
+	var uvs := PackedVector2Array()
+	var r := WIRE_WIDTH / 2.0
+	for i in range(0, lines.size(), 2):
+		var a := lines[i]
+		var b := lines[i + 1]
+		var dir := (b - a).normalized()
+		if dir.is_zero_approx():
+			continue
+		var side := dir.cross(Vector3.UP)
+		if side.is_zero_approx():  # a vertical wire
+			side = dir.cross(Vector3.RIGHT)
+		side = side.normalized() * r
+		var up := dir.cross(side).normalized() * r
+		var ring := [side + up, side - up, -side - up, -side + up]
+		var length := a.distance_to(b)
+		for k in 4:
+			var p: Vector3 = ring[k]
+			var q: Vector3 = ring[(k + 1) % 4]
+			verts.append_array(PackedVector3Array([a + p, b + p, b + q, a + p, b + q, a + q]))
+			uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2(length, 0), Vector2(length, 1),
+					Vector2.ZERO, Vector2(length, 1), Vector2(0, 1)]))
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	var mesh := ArrayMesh.new()
+	if not verts.is_empty():
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
+
+
+## Unlit family color for wires with pulses moving toward the target, visible from both sides.
+func _make_wire_material(color: Color) -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = WIRE_SHADER
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("color", color)
+	return material
 
 
 ## Makes the icon material the first time an icon is needed, so get_material() never asks for a missing one.
