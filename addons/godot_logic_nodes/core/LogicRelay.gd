@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Relay.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Relay.svg")
 class_name LogicRelay
 extends LogicNode
 ## Passes a trigger on to everything wired to [signal on_trigger], optionally after a delay.

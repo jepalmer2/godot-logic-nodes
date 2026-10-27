@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Rotate_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Rotate.svg")
 class_name LogicRotate
 extends LogicNode
 ## Rotates a node between how it was placed (the start) and [member rotate_offset]

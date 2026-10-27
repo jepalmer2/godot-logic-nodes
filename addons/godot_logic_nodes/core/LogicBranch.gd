@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Branch_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Branch.svg")
 class_name LogicBranch
 extends LogicNode
 ## Remembers one yes/no fact about the level ("power is on") and, on Check, sends the event

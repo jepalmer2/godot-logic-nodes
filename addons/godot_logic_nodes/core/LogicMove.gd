@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Move.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Move.svg")
 class_name LogicMove
 extends LogicNode
 ## Moves a node in a straight line, between where it was placed (the start) and
