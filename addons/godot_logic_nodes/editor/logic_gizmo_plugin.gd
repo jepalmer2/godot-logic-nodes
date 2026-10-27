@@ -19,11 +19,13 @@ uniform vec4 color : source_color;
 uniform float speed = 1.5;    // world units per second
 uniform float spacing = 0.75; // world units between pulses
 uniform float opacity = 0.55; // between pulses; pulses are more solid
+uniform float pulse_strength = 0.4; // 0 = no pulse, 1 = strong white flash
 
 void fragment() {
 	float t = fract((UV.x - TIME * speed) / spacing);
 	float pulse = smoothstep(0.0, 0.2, t) * (1.0 - smoothstep(0.2, 0.45, t));
-	ALBEDO = mix(color.rgb * 0.6, mix(color.rgb, vec3(1.0), 0.4), pulse);
+	pulse *= pulse_strength;
+	ALBEDO = mix(color.rgb * 0.8, mix(color.rgb, vec3(1.0), 0.4), pulse);
 	ALPHA = mix(opacity, 0.9, pulse);
 }
 """
