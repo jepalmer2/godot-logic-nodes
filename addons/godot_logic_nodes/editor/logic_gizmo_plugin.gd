@@ -102,12 +102,16 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			path.append(end + axis * 0.1)
 		gizmo.add_lines(path, get_material("path", gizmo))
 
-	# Wires: a line from this node to each output target.
-	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves.
+	# Wires: a line from this node to each output target, shown only while this node or that
+	# target is selected, so a busy level doesn't turn into a web of lines.
+	# Endpoints are baked in local space, so godot_logic_nodes.gd redraws this when a target moves
+	# or the selection changes.
+	var selected := EditorInterface.get_selection().get_selected_nodes()
+	var node_selected := selected.has(node)
 	var lines := PackedVector3Array()
 	for row in node.all_outputs():
 		var target := node.get_node_or_null(row.target) as Node3D if row else null
-		if target:
+		if target and (node_selected or selected.has(target)):
 			lines.append(Vector3.ZERO)
 			lines.append(node.to_local(target.global_position))
 	if not lines.is_empty():
