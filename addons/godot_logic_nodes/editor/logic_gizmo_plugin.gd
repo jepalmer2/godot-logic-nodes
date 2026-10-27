@@ -9,6 +9,22 @@ const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
 const ICON_SIZE := 0.5
 ## Thickness of a wire in world units. Godot draws gizmo lines 1 px wide, so wires are thin tubes instead.
 const WIRE_WIDTH := 0.04
+## Pulses travel along each wire from the sending node to its target, so the direction of a
+## connection shows at a glance. UV.x is the distance along the wire, in world units.
+const WIRE_SHADER := """
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform vec4 color : source_color;
+uniform float speed = 1.5;    // world units per second
+uniform float spacing = 0.75; // world units between pulses
+
+void fragment() {
+	float t = fract((UV.x - TIME * speed) / spacing);
+	float pulse = smoothstep(0.0, 0.2, t) * (1.0 - smoothstep(0.2, 0.45, t));
+	ALBEDO = mix(color.rgb * 0.6, mix(color.rgb, vec3(1.0), 0.4), pulse);
+}
+"""
 ## Each family's color: its viewport badges are this color, and so are the wires its nodes send.
 ## Okabe-Ito hues, so the four families stay distinct for color-blind designers.
 const TRIGGERS := Color("f2a93b")
@@ -26,13 +42,14 @@ var logic_type: StringName  # the class this plugin draws, e.g. &"LogicMove"
 var _icon_by_script := {}  # Script -> icon path, so the class list is only scanned once per script
 var _made := {}            # icon paths that already have a material
 var _tints := {}           # trigger Volume Colors (as html) that already have materials
+var _wire_material: ShaderMaterial  # ShaderMaterial, so it can't go through add_material()
 var _quad := QuadMesh.new()
 var _click_shape: TriangleMesh  # a box around the icon, so it can be clicked from any angle
 
 
 func _init(type: StringName = &"LogicNode") -> void:
 	logic_type = type
-	add_material("wire", _make_wire_material(FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1))))
+	_wire_material = _make_wire_material(FAMILY_COLORS.get(type, Color(1.0, 0.6, 0.1)))
 	create_material("path", Color(0.3, 0.9, 1.0))
 	_quad.size = Vector2.ONE * ICON_SIZE
 	var box := BoxMesh.new()
@@ -90,7 +107,7 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			lines.append(Vector3.ZERO)
 			lines.append(node.to_local(target.global_position))
 	if not lines.is_empty():
-		gizmo.add_mesh(_wire_mesh(lines), get_material("wire", gizmo))
+		gizmo.add_mesh(_wire_mesh(lines), _wire_material)
 
 
 ## The 12 edges of a box of `size`, centered on the node.
@@ -111,6 +128,7 @@ func _box_lines(size: Vector3) -> PackedVector3Array:
 ## A square tube WIRE_WIDTH thick along each pair of points in `lines`, so wires read from any angle.
 func _wire_mesh(lines: PackedVector3Array) -> ArrayMesh:
 	var verts := PackedVector3Array()
+	var uvs := PackedVector2Array()
 	var r := WIRE_WIDTH / 2.0
 	for i in range(0, lines.size(), 2):
 		var a := lines[i]
@@ -124,25 +142,30 @@ func _wire_mesh(lines: PackedVector3Array) -> ArrayMesh:
 		side = side.normalized() * r
 		var up := dir.cross(side).normalized() * r
 		var ring := [side + up, side - up, -side - up, -side + up]
+		var length := a.distance_to(b)
 		for k in 4:
 			var p: Vector3 = ring[k]
 			var q: Vector3 = ring[(k + 1) % 4]
 			verts.append_array(PackedVector3Array([a + p, b + p, b + q, a + p, b + q, a + q]))
+			uvs.append_array(PackedVector2Array([Vector2.ZERO, Vector2(length, 0), Vector2(length, 1),
+					Vector2.ZERO, Vector2(length, 1), Vector2(0, 1)]))
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = verts
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
 	var mesh := ArrayMesh.new()
 	if not verts.is_empty():
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	return mesh
 
 
-## Flat, unlit family color for wires, visible from both sides.
-func _make_wire_material(color: Color) -> StandardMaterial3D:
-	var material := StandardMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.albedo_color = color
+## Unlit family color for wires with pulses moving toward the target, visible from both sides.
+func _make_wire_material(color: Color) -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = WIRE_SHADER
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("color", color)
 	return material
 
 
