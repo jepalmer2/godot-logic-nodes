@@ -1,3 +1,5 @@
+![Godot Logic Nodes: the same door, two nodes, one wire, no code](docs/hero.png)
+
 # Godot Logic Nodes
 
 Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets developers build gameplay without writing code. You place logic nodes directly in your level and wire them together to create gameplay. 
