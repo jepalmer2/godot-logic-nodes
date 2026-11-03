@@ -14,5 +14,5 @@ signal on_scene_start(activator: Node)
 func _logic_ready() -> void:
 	await get_tree().physics_frame  # every _ready() has run, physics has had a tick
 	if delay > 0.0:
-		await get_tree().create_timer(delay, false).timeout
+		await LogicCore.wait(self, delay)
 	_fire(on_scene_start)

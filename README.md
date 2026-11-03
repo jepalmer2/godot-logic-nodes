@@ -80,7 +80,7 @@ Fires once when the scene starts. Use it to kick off anything that should happen
 |---|---|
 | **Delay** | Extra seconds to wait after the scene loads before firing |
 
-**Example:** Auto *On Scene Start* → Rotate (fan) *Start*, with the Rotate set to Loop.
+**Example:** Auto *On Scene Start* → Rotate (fan) *Start*, with the Rotate set to Loop. For a single Move or Rotate, ticking its **Auto Start** does the same job without the extra node.
 
 ---
 
@@ -114,6 +114,8 @@ Put the object you want to move **under** the Move node in the Scene tree, or pi
 |---|---|
 | **Start** | Start moving. If it's resting at one end, it heads for the other |
 | **Stop** | Stop where it is. The next Start carries on in the same direction |
+| **Go To End** | Head for the end, turning back if it's on its way to the start. Already there or on its way: nothing happens |
+| **Go To Start** | Head for the start, turning back if it's on its way to the end |
 
 | Outputs | |
 |---|---|
@@ -126,6 +128,7 @@ Put the object you want to move **under** the Move node in the Scene tree, or pi
 | **Move Offset** | How far the end is from the start, in meters (default: 2 m up) |
 | **Speed** | Meters per second |
 | **Mode** | **Once**: each Start goes to the other end and stops. **Ping Pong**: goes back and forth until Stop. **Loop**: goes to the end, jumps back to the start, and repeats until Stop |
+| **Auto Start** | Start moving as soon as the scene starts, without an Auto node (default: off) |
 
 **Example:** an elevator. Interact Zone *On Interact* → Move *Start* (Mode: Once). Press once to go up, press again to come down.
 
@@ -140,6 +143,8 @@ Put the object you want to turn **under** the Rotate node, or pick it in **Targe
 |---|---|
 | **Start** | Start turning. If it's resting at one end, it heads for the other |
 | **Stop** | Stop where it is. The next Start carries on in the same direction |
+| **Go To End** | Head for the end, turning back if it's on its way to the start. Already there or on its way: nothing happens |
+| **Go To Start** | Head for the start, turning back if it's on its way to the end |
 
 | Outputs | |
 |---|---|
@@ -152,6 +157,7 @@ Put the object you want to turn **under** the Rotate node, or pick it in **Targe
 | **Rotate Offset** | How far to turn, in degrees around X, Y and Z. A door swinging open is usually (0, 90, 0) |
 | **Speed** | Degrees per second |
 | **Mode** | Once, Ping Pong or Loop, as in Move |
+| **Auto Start** | Start turning as soon as the scene starts, without an Auto node (default: off) |
 
 **Tip:** turn around one axis at a time. Turning on two axes at once can look odd.
 
@@ -174,10 +180,10 @@ A box that fires when something walks into it or out of it. Use it for proximity
 For the player to set it off, the player must be a physics body (for example a `CharacterBody3D`) on a layer in the Collision Mask, and in the **Only Group** group. To add the player to a group, select the player, open **Node > Groups** and add `gln_player`.
 
 **Example: a proximity door.**
-- Trigger Volume *On Trigger Enter* → Rotate (door) *Start*
-- Trigger Volume *On Trigger Exit* → Rotate (door) *Start*
+- Trigger Volume *On Trigger Enter* → Rotate (door) *Go To End*
+- Trigger Volume *On Trigger Exit* → Rotate (door) *Go To Start*
 
-With the Rotate set to Once, the door opens when the player walks up and closes when they walk away.
+The door opens when the player walks up and closes when they walk away, even if they step in and out before it finishes moving. Use Go To End and Go To Start here rather than Start: Start means "go to the other end", so it's ignored while the door is still moving, and the door can end up open while the player is away.
 
 ---
 
