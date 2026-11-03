@@ -102,13 +102,13 @@ input = &"start"
 script = ExtResource("16_lspoh")
 output = &"on_trigger_enter"
 target = NodePath("../LogicMove - Hint Dialog")
-input = &"go_to_start"
+input = &"start"
 
 [sub_resource type="Resource" id="Resource_a81mg"]
 script = ExtResource("16_lspoh")
 output = &"on_trigger_exit"
 target = NodePath("../LogicMove - Hint Dialog")
-input = &"go_to_end"
+input = &"start"
 
 [sub_resource type="Resource" id="Resource_06sp7"]
 script = ExtResource("16_lspoh")
