@@ -201,6 +201,8 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 
 **Example:** Interact Zone *On Interact* → Rotate (door) *Start*. The player walks up to the door, presses E, and it opens.
 
+For a double door, wire *On Interact* to both halves' *Start* and give the halves the **same Speed**. Start is ignored while a half is still moving, so if one half finishes first, a quick second press can reach only that half and leave the two out of step.
+
 ---
 
 ### Timer
