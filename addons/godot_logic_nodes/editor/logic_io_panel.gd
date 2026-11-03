@@ -33,6 +33,8 @@ func _ready() -> void:
 	_add_button.pressed.connect(_add_row)
 	_show_all.toggled.connect(func(_on: bool) -> void: _queue_rebuild())
 	_inputs.item_activated.connect(_select_source)
+	if Engine.is_editor_hint():
+		EditorInterface.get_inspector().property_edited.connect(_on_property_edited)
 	visibility_changed.connect(_queue_rebuild)  # pick up renames made while the panel was hidden
 	_rebuild()
 
@@ -71,6 +73,9 @@ func _rebuild() -> void:
 	var prefab := _prefab_path()
 	if prefab:
 		_title.text += "  ·  greyed-out rows come from %s; edit them there" % prefab.get_file()
+	var own_delay := _own_delay()
+	if own_delay > 0.0:
+		_title.text += "  ·  waits %.2f s (its own Delay) before any row; each row's Delay adds to that" % own_delay
 
 	for i in HEADERS.size():
 		var label := Label.new()
@@ -156,6 +161,9 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 	delay.suffix = "s"
 	delay.value = row.delay
 	delay.tooltip_text = HEADER_TIPS[4]
+	if _own_delay() > 0.0:
+		delay.tooltip_text += "\nTotal for this row: %.2f s (own Delay %.2f s + this row %.2f s)." \
+				% [_own_delay() + row.delay, _own_delay(), row.delay]
 	delay.value_changed.connect(func(value: float) -> void: _set_field(index, "delay", value))
 	_grid.add_child(delay)
 
@@ -347,6 +355,18 @@ func _inputs_of(target: Node) -> Array[StringName]:
 			result.append(StringName(method_name))
 	result.sort()
 	return result
+
+
+func _on_property_edited(property: String) -> void:
+	if property == "delay":
+		_queue_rebuild()  # the title shows the node's own Delay
+
+
+## The selected node's own wait before it fires anything, such as a Relay's or Auto's Delay. Row
+## delays add to it, so the panel says so instead of showing 0 s on a node that really waits.
+func _own_delay() -> float:
+	var value: Variant = _node.get(&"delay")
+	return value if value is float else 0.0
 
 
 ## Tooltip text for an output or input of [param node]. Built-in nodes have no ## comments to read.

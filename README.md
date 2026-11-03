@@ -101,6 +101,8 @@ Passes a signal on to everything wired to it, optionally after a delay. Use it t
 | **Delay** | Seconds to wait before firing |
 | **Fire Once** | Only ever fire once |
 
+**Two kinds of delay.** The Relay's own **Delay** (in the Inspector) is a wait before it fires anything, and **Cancel Pending** can call it off. The **Delay** column in the Logic I/O panel is an extra wait for one connection, after the Relay fires. The two add up. When a Relay has its own Delay, the panel says so above the rows, and hovering a row's Delay shows the total.
+
 **Example:** Trigger Volume *On Trigger Enter* → Relay (Delay 1 s) *Trigger*, then Relay *On Trigger* → Move (spikes) *Start*. The spikes pop up one second after the player steps in.
 
 ---
