@@ -4,7 +4,7 @@
 
 Godot Logic Nodes is a free visual scripting addon for Godot 4 that lets developers build gameplay without writing code. You place logic nodes directly in your level and wire them together to create gameplay. 
 
-> **Status:** Alpha (v0.1).
+> **Status:** Beta (v0.2). Full documentation: **[jepalmer2.github.io/godot-logic-nodes/guide](https://jepalmer2.github.io/godot-logic-nodes/guide/)**
 
 ---
 
@@ -33,7 +33,7 @@ Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) a
 ### The Logic I/O panel
 
 1. Select a Logic Node in the scene. The **Logic I/O** panel opens at the bottom of the editor.
-2. On the **Sends To** tab, click **Add Output** to add a row.
+2. On the **Sends To** tab, click **+ Add Output** to add a row.
 3. Fill in the row from left to right:
 
 | Column | What it does |
@@ -337,7 +337,7 @@ Shows a short message on the game screen when something reaches it, then passes 
 
 ## Connecting to built-in Godot nodes
 
-Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show All** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
+Rows can also target regular Godot nodes, for example calling **Play** on an `AnimationPlayer` or `AudioStreamPlayer3D`. Tick **Show all nodes** at the top of the Logic I/O panel to list every node in the Target dropdown, not just Logic Nodes. The Target Input list then shows that node's actions, such as Play, Stop and Pause.
 
 ## Credits
 
