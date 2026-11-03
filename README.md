@@ -197,6 +197,8 @@ A Trigger Volume where the player presses a key to use something: a lever, a but
 
 **Example:** Interact Zone *On Interact* → Rotate (door) *Start*. The player walks up to the door, presses E, and it opens.
 
+**Note:** Interact Zone is built for single-player games. If several matching bodies are inside at once, a key press is credited to the one that entered first, so On Interact's activator is that body, whoever pressed the key.
+
 ---
 
 ### Timer

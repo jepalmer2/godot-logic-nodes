@@ -6,6 +6,8 @@ extends LogicNode
 ## a door handle. Fires [signal on_interact] when the key is pressed while someone matching
 ## [member only_group] is inside. It also fires On Trigger Enter and On Trigger Exit, which
 ## are handy for showing and hiding a "Press E" prompt.
+## Built for single-player: with several matching bodies inside, the key press is credited to
+## the one that entered first.
 ## (Built like the Trigger Volume, but not a subclass of it, so the two sit side by side
 ## in Add Child Node.)
 
