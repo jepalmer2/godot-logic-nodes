@@ -35,6 +35,9 @@ signal on_rotate_end(activator: Node)
 @export_range(0.1, 3600.0, 0.1, "or_greater", "suffix:°/s") var speed := 90.0
 ## What happens when it reaches an end.
 @export var mode := Mode.ONCE
+## Start turning as soon as the scene starts, the same as an Auto node wired to Start.
+## Handy for fans and patrolling platforms. Ignored while Start Enabled is off.
+@export var auto_start := false
 
 var _rotator: Node3D
 var _origin: Basis       # starting rotation and scale, in the parent's space
@@ -49,6 +52,9 @@ func _logic_ready() -> void:
 	_origin = _rotator.basis
 	LogicCore.prepare_platforms(_rotator)
 	_apply()
+	if auto_start:
+		await get_tree().physics_frame  # like Auto: every _ready() has run first
+		start()
 
 
 func _enter_tree() -> void:

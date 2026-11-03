@@ -46,6 +46,9 @@ signal on_move_end(activator: Node)
 @export_range(0.01, 100.0, 0.01, "or_greater", "suffix:m/s") var speed := 2.0
 ## What happens when it reaches an end.
 @export var mode := Mode.ONCE
+## Start moving as soon as the scene starts, the same as an Auto node wired to Start.
+## Handy for fans and patrolling platforms. Ignored while Start Enabled is off.
+@export var auto_start := false
 
 var _mover: Node3D
 var _origin: Vector3
@@ -63,6 +66,9 @@ func _logic_ready() -> void:
 	_offset = move_offset if space == Space.LOCAL or parent == null else parent.global_basis.inverse() * move_offset
 	LogicCore.prepare_platforms(_mover)
 	_apply()
+	if auto_start:
+		await get_tree().physics_frame  # like Auto: every _ready() has run first
+		start()
 
 
 func _enter_tree() -> void:
