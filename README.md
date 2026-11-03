@@ -78,7 +78,7 @@ Fires once when the scene starts. Use it to kick off anything that should happen
 |---|---|
 | **Delay** | Extra seconds to wait after the scene loads before firing |
 
-**Example:** Auto *On Scene Start* → Rotate (fan) *Start*, with the Rotate set to Loop.
+**Example:** Auto *On Scene Start* → Rotate (fan) *Start*, with the Rotate set to Loop. For a single Move or Rotate, ticking its **Auto Start** does the same job without the extra node.
 
 ---
 
@@ -124,6 +124,7 @@ Put the object you want to move **under** the Move node in the Scene tree, or pi
 | **Move Offset** | How far the end is from the start, in meters (default: 2 m up) |
 | **Speed** | Meters per second |
 | **Mode** | **Once**: each Start goes to the other end and stops. **Ping Pong**: goes back and forth until Stop. **Loop**: goes to the end, jumps back to the start, and repeats until Stop |
+| **Auto Start** | Start moving as soon as the scene starts, without an Auto node (default: off) |
 
 **Example:** an elevator. Interact Zone *On Interact* → Move *Start* (Mode: Once). Press once to go up, press again to come down.
 
@@ -150,6 +151,7 @@ Put the object you want to turn **under** the Rotate node, or pick it in **Targe
 | **Rotate Offset** | How far to turn, in degrees around X, Y and Z. A door swinging open is usually (0, 90, 0) |
 | **Speed** | Degrees per second |
 | **Mode** | Once, Ping Pong or Loop, as in Move |
+| **Auto Start** | Start turning as soon as the scene starts, without an Auto node (default: off) |
 
 **Tip:** turn around one axis at a time. Turning on two axes at once can look odd.
 
