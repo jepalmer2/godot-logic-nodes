@@ -4,6 +4,8 @@ extends RefCounted
 ## Shared helpers for LogicNode, LogicVolume and the editor panel. Never added to a scene.
 
 const MAX_CHAIN_DEPTH := 64
+## Seconds trimmed off every delay so rounding error never adds a whole extra physics tick.
+const DELAY_SLACK := 0.0001
 static var _depth := 0
 
 
@@ -19,6 +21,14 @@ static func fire(from: Node, output: Signal, activator: Variant, trace: bool) ->
 	_depth += 1
 	output.emit(who)
 	_depth -= 1
+
+
+## For delays: a signal that fires [param seconds] from now, pausing with the game. Counts
+## physics ticks (a fixed 60 a second by default), not rendered frames, so a delay takes the
+## same time on every machine whatever the frame rate. The tiny trim stops rounding error from
+## adding a whole extra tick (0.05 s minus three 1/60 s ticks comes out a hair above zero).
+static func wait(node: Node, seconds: float) -> Signal:
+	return node.get_tree().create_timer(maxf(seconds - DELAY_SLACK, 0.0), false, true).timeout
 
 
 static func trace_input(to: Node, input_name: StringName, activator: Variant) -> void:

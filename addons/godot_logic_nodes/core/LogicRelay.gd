@@ -23,7 +23,7 @@ func trigger(activator: Variant = null) -> void:
 	_spent = fire_once
 	if delay > 0.0:
 		var gen := _generation
-		await get_tree().create_timer(delay, false).timeout  # false = pauses with the game
+		await LogicCore.wait(self, delay)
 		if gen != _generation:
 			return
 	_fire(on_trigger, activator)
