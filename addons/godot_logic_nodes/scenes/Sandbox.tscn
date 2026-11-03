@@ -66,25 +66,25 @@ input = &"start"
 script = ExtResource("16_lspoh")
 output = &"on_trigger_enter"
 target = NodePath("../Move - Left Door")
-input = &"start"
+input = &"go_to_end"
 
 [sub_resource type="Resource" id="Resource_omrck"]
 script = ExtResource("16_lspoh")
 output = &"on_trigger_enter"
 target = NodePath("../Move - Right Door")
-input = &"start"
+input = &"go_to_end"
 
 [sub_resource type="Resource" id="Resource_1eikl"]
 script = ExtResource("16_lspoh")
 output = &"on_trigger_exit"
 target = NodePath("../Move - Left Door")
-input = &"start"
+input = &"go_to_start"
 
 [sub_resource type="Resource" id="Resource_pa2hl"]
 script = ExtResource("16_lspoh")
 output = &"on_trigger_exit"
 target = NodePath("../Move - Right Door")
-input = &"start"
+input = &"go_to_start"
 
 [sub_resource type="Resource" id="Resource_smkxg"]
 script = ExtResource("16_lspoh")
@@ -102,13 +102,13 @@ input = &"start"
 script = ExtResource("16_lspoh")
 output = &"on_trigger_enter"
 target = NodePath("../LogicMove - Hint Dialog")
-input = &"start"
+input = &"go_to_start"
 
 [sub_resource type="Resource" id="Resource_a81mg"]
 script = ExtResource("16_lspoh")
 output = &"on_trigger_exit"
 target = NodePath("../LogicMove - Hint Dialog")
-input = &"start"
+input = &"go_to_end"
 
 [sub_resource type="Resource" id="Resource_06sp7"]
 script = ExtResource("16_lspoh")

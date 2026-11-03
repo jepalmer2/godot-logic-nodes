@@ -82,6 +82,30 @@ func start(activator: Variant = null) -> void:
 	_fire(on_rotate_start, _activator)
 
 
+## Input: head for the end, turning back if it is on its way to the start. Unlike Start, this
+## always means the same thing, so wire it to an "enter" output (like On Trigger Enter) and
+## Go To Start to the matching "exit" output. Best with Mode set to Once.
+func go_to_end(activator: Variant = null) -> void:
+	if _receive(&"go_to_end", activator):
+		_head(1.0, activator)
+
+
+## Input: head for the start, turning back if it is on its way to the end. See Go To End.
+func go_to_start(activator: Variant = null) -> void:
+	if _receive(&"go_to_start", activator):
+		_head(-1.0, activator)
+
+
+func _head(direction: float, activator: Variant) -> void:
+	var goal := 1.0 if direction > 0.0 else 0.0
+	if (_rotating and _direction == direction) or (not _rotating and _progress == goal):
+		return  # already on its way there, or already there
+	_activator = LogicCore.as_activator(activator)
+	_direction = direction
+	_rotating = true
+	set_physics_process(true)
+	_fire(on_rotate_start, _activator)
+
 ## Input: stop where it is. The next Start carries on in the same direction.
 func stop(activator: Variant = null) -> void:
 	if _receive(&"stop", activator):
