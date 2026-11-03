@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	_time_left -= delta
-	if _time_left > 0.0:
+	if _time_left > LogicCore.DELAY_SLACK:  # see LogicCore.wait()
 		return
 
 	_fired += 1
