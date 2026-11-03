@@ -676,7 +676,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 10)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.75, 1.5)
 script = ExtResource("14_6djdd")
 target = NodePath("../Fan_Blockout")
-rotate_offset = Vector3(360, 0, 0)
+rotate_offset = Vector3(0, 0, 360)
 speed = 45.0
 mode = 2
 metadata/_custom_type_script = "uid://b88uldncsrvlr"
@@ -688,7 +688,7 @@ outputs = Array[ExtResource("16_lspoh")]([SubResource("Resource_x28kk")])
 metadata/_custom_type_script = "uid://vuaeexo85ca3"
 
 [node name="Fan_Blockout" parent="Examples/Fan" unique_id=740805040 instance=ExtResource("17_fysib")]
-transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, -5, 1.75, 0.75)
+transform = Transform3D(-5.7320566e-15, -1.3113416e-07, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, 1.3113416e-07, -5, 1.75, 0.75)
 
 [node name="Fan Label" type="Label3D" parent="Examples/Fan" unique_id=1573816931]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, 1.25)

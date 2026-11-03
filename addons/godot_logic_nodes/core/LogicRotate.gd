@@ -25,6 +25,8 @@ signal on_rotate_end(activator: Node)
 		target = value
 		update_configuration_warnings()
 ## How far to turn, in degrees around X, Y and Z. A door swinging open is usually (0, 90, 0).
+## The axes are the target's parent's axes, like Move's Local space, so a turned prefab turns
+## the same way, and the target's own starting rotation never changes which way it swings.
 @export var rotate_offset := Vector3(0.0, 90.0, 0.0):
 	set(value):
 		rotate_offset = value
@@ -35,7 +37,7 @@ signal on_rotate_end(activator: Node)
 @export var mode := Mode.ONCE
 
 var _rotator: Node3D
-var _origin: Vector3     # starting rotation, in degrees
+var _origin: Basis       # starting rotation and scale, in the parent's space
 var _progress := 0.0     # 0 = start, 1 = end
 var _direction := 1.0    # +1 toward the end, -1 toward the start
 var _rotating := false
@@ -44,7 +46,7 @@ var _activator: Node
 
 func _logic_ready() -> void:
 	_rotator = target if target else self
-	_origin = _rotator.rotation_degrees
+	_origin = _rotator.basis
 	LogicCore.prepare_platforms(_rotator)
 	_apply()
 
@@ -119,7 +121,9 @@ func _wrap_to_start() -> void:
 
 
 func _apply() -> void:
-	_rotator.rotation_degrees = _origin + rotate_offset * _progress
+	# Turn on top of the starting rotation, around the parent's axes. Adding Euler angles instead
+	# turns some axes around the target's own tilted axes, which looks wrong on a turned target.
+	_rotator.basis = Basis.from_euler(rotate_offset * _progress * (PI / 180.0)) * _origin
 
 
 func _logic_warnings() -> PackedStringArray:
