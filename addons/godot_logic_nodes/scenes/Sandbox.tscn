@@ -249,25 +249,25 @@ input = &"trigger"
 script = ExtResource("16_lspoh")
 output = &"on_true"
 target = NodePath("../LogicMove - Combo Gate Left")
-input = &"start"
+input = &"go_to_end"
 
 [sub_resource type="Resource" id="Resource_u6pxk"]
 script = ExtResource("16_lspoh")
 output = &"on_true"
 target = NodePath("../LogicMove - Combo Gate Right")
-input = &"start"
+input = &"go_to_end"
 
 [sub_resource type="Resource" id="Resource_24cgj"]
 script = ExtResource("16_lspoh")
 output = &"on_false"
 target = NodePath("../LogicMove - Combo Gate Left")
-input = &"start"
+input = &"go_to_start"
 
 [sub_resource type="Resource" id="Resource_qulfu"]
 script = ExtResource("16_lspoh")
 output = &"on_false"
 target = NodePath("../LogicMove - Combo Gate Right")
-input = &"start"
+input = &"go_to_start"
 
 [sub_resource type="Resource" id="Resource_d6i7e"]
 script = ExtResource("16_lspoh")
