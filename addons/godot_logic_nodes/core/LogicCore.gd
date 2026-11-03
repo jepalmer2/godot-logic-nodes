@@ -83,7 +83,7 @@ static func outputs_of(node: Node) -> Array[StringName]:
 	return result
 
 
-## The inputs (public methods taking at most one argument) a node's script declares.
+## The inputs (public methods taking at most one argument and returning nothing) a node's script declares.
 static func inputs_of(node: Node) -> Array[StringName]:
 	var result: Array[StringName] = []
 	var script: Script = node.get_script()
@@ -92,6 +92,8 @@ static func inputs_of(node: Node) -> Array[StringName]:
 			var method_name: String = method["name"]
 			if method_name.begins_with("_") or method_name.begins_with("@") or method["args"].size() > 1:
 				continue
+			if method["return"]["type"] != TYPE_NIL:
+				continue  # a helper that returns something (All Outputs, World Offset), not an input
 			if not result.has(StringName(method_name)):
 				result.append(StringName(method_name))
 	return result
