@@ -33,7 +33,7 @@ Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) a
 ### The Logic I/O panel
 
 1. Select a Logic Node in the scene. The **Logic I/O** panel opens at the bottom of the editor.
-2. Click **Add Output** to add a row.
+2. On the **Sends To** tab, click **Add Output** to add a row.
 3. Fill in the row from left to right:
 
 | Column | What it does |
@@ -41,13 +41,15 @@ Every Logic Node has **outputs** (things that happen, like *On Trigger Enter*) a
 | **My Output** | The event on this node that starts the connection |
 | **Target** | The node to send it to. Pick from the list, or click **…** to pick from the scene tree |
 | **Target Input** | What the target should do |
-| **Delay** | Seconds to wait before sending (0 = right away) |
+| **Delay** | Extra seconds to wait before sending (0 = right away). Adds to any delay the node has itself, such as a Relay's own Delay |
 | **Once** | Only ever send this connection once |
 | **✕** | Delete the row |
 
-The **Inputs** tab lists every connection coming *into* the selected node. Double-click one to jump to the node that sends it.
+The **Received From** tab lists every connection coming *into* the selected node. Double-click one to jump to the node that sends it.
 
-Connections draw as orange wires in the 3D viewport. Every change can be undone with Ctrl+Z.
+Hover any column header, dropdown choice or row for a short explanation. The text comes from the same descriptions as the Inspector and Godot's built-in help.
+
+Connections draw as thin wires in the 3D viewport, colored by the sending node's family. Select a node and its wires thicken and pulse toward the receiving node. Every change can be undone with Ctrl+Z.
 
 ### Settings every Logic Node has
 

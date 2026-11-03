@@ -35,6 +35,37 @@ static func trace_input(to: Node, input_name: StringName, activator: Variant) ->
 	print("[%s] ← %s  (activator: %s)" % [to.name, input_name, _name_of(as_activator(activator))])
 
 
+## The ## doc comment written above [param member] (an output signal or input method) in
+## [param node]'s script or the scripts it extends, as plain text for the panel's tooltips.
+## One description, shared with the Inspector and the built-in help. Empty if there is none.
+static func describe(node: Node, member: StringName) -> String:
+	var declaration := RegEx.create_from_string("^(?:signal|func)\\s+%s\\b" % member)
+	var script: Script = node.get_script()
+	while script:
+		var lines := script.source_code.split("\n")
+		for i in lines.size():
+			if declaration.search(lines[i]):
+				var doc := PackedStringArray()
+				var above := i - 1
+				while above >= 0 and lines[above].strip_edges().begins_with("##"):
+					doc.insert(0, lines[above].strip_edges().trim_prefix("##").strip_edges())
+					above -= 1
+				return _plain_text(" ".join(doc))
+		script = script.get_base_script()
+	return ""
+
+
+## "Output: the count reached [member goal]." → "The count reached Goal."
+static func _plain_text(doc: String) -> String:
+	for prefix in ["Output:", "Input:"]:
+		doc = doc.trim_prefix(prefix).strip_edges()
+	var references := RegEx.create_from_string("\\[(?:member|signal|method|param) ([^\\]]+)\\]")
+	for found in references.search_all(doc):
+		doc = doc.replace(found.get_string(), found.get_string(1).capitalize())
+	doc = RegEx.create_from_string("\\[/?[a-z]+\\]").sub(doc, "", true)  # [b], [code] and the like
+	return doc.left(1).to_upper() + doc.substr(1)
+
+
 ## Anything that isn't a live Node becomes null.
 static func as_activator(value: Variant) -> Node:
 	if is_instance_valid(value) and value is Node:
@@ -52,7 +83,7 @@ static func outputs_of(node: Node) -> Array[StringName]:
 	return result
 
 
-## The inputs (public methods taking at most one argument) a node's script declares.
+## The inputs (public methods taking at most one argument and returning nothing) a node's script declares.
 static func inputs_of(node: Node) -> Array[StringName]:
 	var result: Array[StringName] = []
 	var script: Script = node.get_script()
@@ -61,6 +92,8 @@ static func inputs_of(node: Node) -> Array[StringName]:
 			var method_name: String = method["name"]
 			if method_name.begins_with("_") or method_name.begins_with("@") or method["args"].size() > 1:
 				continue
+			if method["return"]["type"] != TYPE_NIL:
+				continue  # a helper that returns something (All Outputs, World Offset), not an input
 			if not result.has(StringName(method_name)):
 				result.append(StringName(method_name))
 	return result
