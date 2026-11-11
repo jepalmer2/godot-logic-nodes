@@ -146,6 +146,9 @@ func _scene_tree_dock() -> Node:
 
 
 func _on_selection_changed() -> void:
+	# Wires only show for selected nodes and their targets, so every Logic Node redraws.
+	for logic_node in get_tree().get_nodes_in_group(&"logic_nodes"):
+		logic_node.update_gizmos()
 	var selected := EditorInterface.get_selection().get_selected_nodes()
 	var node: Node = selected[0] if selected.size() == 1 else null
 	if node is LogicNode:  # add "or node is LogicVolume" once LogicVolume exists

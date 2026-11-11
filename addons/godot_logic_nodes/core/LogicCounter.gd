@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Counter_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Counter.svg")
 class_name LogicCounter
 extends LogicNode
 ## Counts how many times something happened and fires once [member goal] is reached.

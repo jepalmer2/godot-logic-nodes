@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Rotate_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Rotate.svg")
 class_name LogicRotate
 extends LogicNode
 ## Rotates a node between how it was placed (the start) and [member rotate_offset]
@@ -25,6 +25,8 @@ signal on_rotate_end(activator: Node)
 		target = value
 		update_configuration_warnings()
 ## How far to turn, in degrees around X, Y and Z. A door swinging open is usually (0, 90, 0).
+## The axes are the target's parent's axes, like Move's Local space, so a turned prefab turns
+## the same way, and the target's own starting rotation never changes which way it swings.
 @export var rotate_offset := Vector3(0.0, 90.0, 0.0):
 	set(value):
 		rotate_offset = value
@@ -33,9 +35,12 @@ signal on_rotate_end(activator: Node)
 @export_range(0.1, 3600.0, 0.1, "or_greater", "suffix:°/s") var speed := 90.0
 ## What happens when it reaches an end.
 @export var mode := Mode.ONCE
+## Start turning as soon as the scene starts, the same as an Auto node wired to Start.
+## Handy for fans and patrolling platforms. Ignored while Start Enabled is off.
+@export var auto_start := false
 
 var _rotator: Node3D
-var _origin: Vector3     # starting rotation, in degrees
+var _origin: Basis       # starting rotation and scale, in the parent's space
 var _progress := 0.0     # 0 = start, 1 = end
 var _direction := 1.0    # +1 toward the end, -1 toward the start
 var _rotating := false
@@ -44,9 +49,12 @@ var _activator: Node
 
 func _logic_ready() -> void:
 	_rotator = target if target else self
-	_origin = _rotator.rotation_degrees
+	_origin = _rotator.basis
 	LogicCore.prepare_platforms(_rotator)
 	_apply()
+	if auto_start:
+		await get_tree().physics_frame  # like Auto: every _ready() has run first
+		start()
 
 
 func _enter_tree() -> void:
@@ -81,6 +89,30 @@ func start(activator: Variant = null) -> void:
 	set_physics_process(true)
 	_fire(on_rotate_start, _activator)
 
+
+## Input: head for the end, turning back if it is on its way to the start. Unlike Start, this
+## always means the same thing, so wire it to an "enter" output (like On Trigger Enter) and
+## Go To Start to the matching "exit" output. Best with Mode set to Once.
+func go_to_end(activator: Variant = null) -> void:
+	if _receive(&"go_to_end", activator):
+		_head(1.0, activator)
+
+
+## Input: head for the start, turning back if it is on its way to the end. See Go To End.
+func go_to_start(activator: Variant = null) -> void:
+	if _receive(&"go_to_start", activator):
+		_head(-1.0, activator)
+
+
+func _head(direction: float, activator: Variant) -> void:
+	var goal := 1.0 if direction > 0.0 else 0.0
+	if (_rotating and _direction == direction) or (not _rotating and _progress == goal):
+		return  # already on its way there, or already there
+	_activator = LogicCore.as_activator(activator)
+	_direction = direction
+	_rotating = true
+	set_physics_process(true)
+	_fire(on_rotate_start, _activator)
 
 ## Input: stop where it is. The next Start carries on in the same direction.
 func stop(activator: Variant = null) -> void:
@@ -119,7 +151,9 @@ func _wrap_to_start() -> void:
 
 
 func _apply() -> void:
-	_rotator.rotation_degrees = _origin + rotate_offset * _progress
+	# Turn on top of the starting rotation, around the parent's axes. Adding Euler angles instead
+	# turns some axes around the target's own tilted axes, which looks wrong on a turned target.
+	_rotator.basis = Basis.from_euler(rotate_offset * _progress * (PI / 180.0)) * _origin
 
 
 func _logic_warnings() -> PackedStringArray:

@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_AudioClip_Placeholder.svg")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_AudioClip.svg")
 class_name LogicAudioClip
 extends LogicNode
 ## Plays a sound from logic. Loop off: a one-shot, played once per Play (door creak, click).

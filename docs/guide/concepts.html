@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How it works · Godot Logic Nodes</title>
+<meta name="description" content="Outputs, inputs, connections, delays, the activator and enabling nodes in Godot Logic Nodes.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' aria-hidden='true' viewBox='0 0 16 16'><rect x='0.8' y='0.8' width='14.4' height='14.4' rx='3.4' fill='%23cc79a7' stroke='%2316181d' stroke-width='0.9' stroke-linejoin='round'/><g transform='translate(2.88 2.88) scale(0.64)'><path d='M2.5 8 H5.5 M10.5 8 H13.5 M11.5 6 L13.5 8 L11.5 10' fill='none' stroke='%2316181d' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='8' cy='8' r='2.2' fill='%2316181d'/></g></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Docs pages: same tokens as the product page. Sidebar + one reading column; the sidebar
+   becomes a wrapped list above the content on narrow screens. Dark-first like the Godot editor. */
+:root {
+  --bg: #15181d; --surface: #1d2128; --line: #2c323c; --fg: #e8ebf0; --muted: #9aa3b2; --accent: #f2a93b; --ink: #16181d;
+  --code: #232831;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root { --bg: #f4f5f7; --surface: #ffffff; --line: #dde1e7; --fg: #1b1f26; --muted: #5a6270; --accent: #b86a00; --code: #eceef2; color-scheme: light; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--body); }
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--ink); padding: 8px 12px; border-radius: 6px; z-index: 2; }
+.skip:focus { left: 8px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.15; text-wrap: balance; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 15px var(--display); text-decoration: none; }
+.brand svg { width: 28px; height: 28px; flex: none; }
+.toplinks { display: flex; gap: 18px; font-weight: 500; font-size: 15px; }
+.toplinks a { text-decoration: none; color: var(--muted); }
+.toplinks a:hover, .toplinks a[aria-current="page"] { color: var(--fg); }
+.layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; padding-top: 32px; }
+.side { position: sticky; top: 20px; align-self: start; }
+.side-h { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.side a { display: block; padding: 6px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 15px; }
+.side a:hover { color: var(--fg); background: var(--surface); }
+.side a[aria-current="page"] { color: var(--fg); background: var(--surface); box-shadow: inset 2px 0 0 var(--accent); }
+.doc { max-width: 760px; min-width: 0; padding-bottom: 40px; }
+.doc h1 { font-size: clamp(30px, 4.4vw, 42px); font-weight: 800; letter-spacing: -0.01em; margin: 0 0 12px; }
+.doc .lede { font-size: 18px; color: var(--muted); margin: 0 0 28px; }
+.doc h2 { font-size: 25px; font-weight: 800; margin: 44px 0 12px; padding-top: 8px; scroll-margin-top: 16px; }
+.doc h3 { font-size: 19px; font-weight: 600; margin: 28px 0 8px; scroll-margin-top: 16px; }
+.doc p, .doc ul, .doc ol { margin: 0 0 14px; }
+.doc li { margin-bottom: 6px; }
+.doc li > ul, .doc li > ol { margin-top: 6px; }
+code, kbd { font: 500 0.88em var(--mono); background: var(--code); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+kbd { border-bottom-width: 2px; }
+.path { font-weight: 600; }
+.tbl { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 13px var(--body); color: var(--muted); background: var(--surface); }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.def { font: 500 13px var(--mono); color: var(--muted); white-space: nowrap; }
+.callout { border: 1px solid var(--line); border-left: 3px solid var(--accent); background: var(--surface); border-radius: 8px; padding: 12px 16px; margin: 0 0 18px; }
+.callout.warn { border-left-color: #e5675b; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.callout strong:first-child { display: block; font-family: var(--display); margin-bottom: 4px; }
+.wire { font: 500 14px var(--mono); background: var(--code); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin: 0 0 16px; overflow-x: auto; white-space: pre; line-height: 1.7; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps > li { counter-increment: s; position: relative; padding-left: 40px; margin-bottom: 14px; }
+.steps > li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 800 13px var(--display); background: var(--surface); border: 1px solid var(--line); }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 8px 0 24px; padding: 0; list-style: none; }
+.cards a { display: block; height: 100%; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; }
+.cards a:hover { border-color: var(--accent); }
+.cards strong { display: block; font-family: var(--display); font-size: 17px; margin-bottom: 4px; }
+.cards span { color: var(--muted); font-size: 14px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 8px; }
+.toc a { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px 5px 6px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; background: var(--surface); }
+.toc a:hover { border-color: var(--accent); }
+.toc svg { width: 22px; height: 22px; }
+.node-h { display: flex; align-items: center; gap: 14px; margin: 52px 0 10px; padding-top: 16px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+.node-h svg { flex: none; }
+.node-h h2 { margin: 0; padding: 0; }
+.node-h small { display: block; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.fam { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+.pager { display: flex; justify-content: space-between; gap: 14px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pager a { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; font-weight: 600; min-width: 0; }
+.pager a:hover { border-color: var(--accent); }
+.pager span { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.pager .next { text-align: right; margin-left: auto; }
+footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 20px; }
+  .side { position: static; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+  .side ul { display: flex; flex-wrap: wrap; gap: 6px; }
+  .side a { padding: 5px 10px; border: 1px solid var(--line); font-size: 14px; }
+  .side a[aria-current="page"] { box-shadow: none; border-color: var(--accent); }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  td:first-child, td.def { white-space: normal; }
+}
+@media (max-width: 520px) {
+  .pager { flex-direction: column; }
+  .pager .next { margin-left: 0; }
+}
+
+</style>
+<meta property="og:image" content="https://jepalmer2.github.io/godot-logic-nodes/hero.png">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true" viewBox="0 0 16 16"><rect x="0.8" y="0.8" width="14.4" height="14.4" rx="3.4" fill="#cc79a7" stroke="#16181d" stroke-width="0.9" stroke-linejoin="round"/><g transform="translate(2.88 2.88) scale(0.64)"><path d="M2.5 8 H5.5 M10.5 8 H13.5 M11.5 6 L13.5 8 L11.5 10" fill="none" stroke="#16181d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.2" fill="#16181d"/></g></svg>Godot Logic Nodes</a>
+    <nav class="toplinks" aria-label="Site"><a href="../">Home</a><a href="index.html" aria-current="false">Docs</a><a href="https://github.com/jepalmer2/godot-logic-nodes">GitHub</a></nav>
+  </header>
+  <div class="layout">
+    <nav class="side" aria-label="Documentation">
+      <p class="side-h">Documentation</p>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="concepts.html" aria-current="page">How it works</a></li><li><a href="editor.html">The editor tools</a></li><li><a href="nodes.html">Node reference</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li><li><a href="extending.html">Writing your own nodes</a></li><li><a href="about.html">Limitations and credits</a></li></ul>
+    </nav>
+    <main id="main" class="doc">
+
+<h1>How it works</h1>
+<p class="lede">Every Logic Node has outputs and inputs. A connection says "when this output fires, call that input". That's the whole system; everything else is detail.</p>
+
+<h2 id="outputs-inputs">Outputs and inputs</h2>
+<p>An <strong>output</strong> is something that <em>happens</em> to a node: a Trigger Volume's <em>On Trigger Enter</em>, a Timer's <em>On Timeout</em>, a Counter's <em>On Goal Reached</em>. Output names always start with "On".</p>
+<p>An <strong>input</strong> is something a node can <em>do</em> when it's told to: a Move's <em>Start</em>, a Counter's <em>Add</em>, an Audio Clip's <em>Play</em>.</p>
+<p>A <strong>connection</strong> joins one node's output to another node's input. You make connections on the node that sends, in the <a href="editor.html#panel">Logic I/O panel</a>. One output can have as many connections as you like, and they run in the order they're listed. Many outputs can point at the same input.</p>
+<div class="wire" role="figure" aria-label="Wiring">Trigger Volume  On Trigger Enter  →  Move (door)  Go To End
+Trigger Volume  On Trigger Enter  →  Audio Clip   Play
+Trigger Volume  On Trigger Exit   →  Move (door)  Go To Start</div>
+<p>A chain can be as long as you need. A Trigger can feed a Counter, the Counter a Relay, the Relay a Move, and the Move's <em>On Move End</em> an Audio Clip.</p>
+
+<h2 id="families">The four families</h2>
+<p>The 11 nodes come in four families. Each family has its own badge color and shape in the viewport, and its own wire color, so you can tell at a glance what a node does.</p>
+<div class="tbl"><table><thead><tr><th>Family</th><th>Badge</th><th>Nodes</th><th>Job</th></tr></thead><tbody><tr><td><span class="fam" style="background:#f2a93b"></span>Triggers</td><td>Orange circle</td><td>Trigger Volume, Interact Zone</td><td>Notice the player</td></tr><tr><td><span class="fam" style="background:#56b4e9"></span>Movers</td><td>Blue hexagon</td><td>Move, Rotate</td><td>Move things in the level</td></tr><tr><td><span class="fam" style="background:#cc79a7"></span>Logic</td><td>Pink square</td><td>Auto, Relay, Counter, Timer, Branch</td><td>Decide, count, wait and pass signals on</td></tr><tr><td><span class="fam" style="background:#f0e442"></span>Feedback</td><td>Yellow speech bubble</td><td>Audio Clip, Debug</td><td>Tell the player (or you) something happened</td></tr></tbody></table></div>
+
+<h2 id="delays">Delays</h2>
+<p>There are two kinds of delay, and they add together:</p>
+<ul>
+  <li><strong>A connection's Delay</strong> (the Delay column in the Logic I/O panel) waits before calling <em>that one</em> target. Other connections on the same output aren't held up.</li>
+  <li><strong>A node's own Delay</strong> (the Delay setting on a Relay or Auto) waits before the node fires <em>at all</em>, so every connection on it waits.</li>
+</ul>
+<p>So a Relay with a Delay of 1 s and a connection with a Delay of 0.5 s calls its target 1.5 s after it was triggered.</p>
+<p>Delays are counted in physics ticks, so they come out the same at any frame rate: ten 0.05 s hops take 0.5 s whether the game runs at 30 or 144 FPS. Every delay pauses while the game is paused.</p>
+
+<h2 id="once">Once</h2>
+<p>Tick <strong>Once</strong> on a connection and it only ever sends one time. The rest of the node keeps working. Relays also have a <strong>Fire Once</strong> setting that stops the whole Relay after its first trigger. Both reset when the scene reloads.</p>
+
+<h2 id="activator">The activator</h2>
+<p>Every signal carries an <strong>activator</strong>: whoever set the chain off. When the player walks into a Trigger Volume, the player is the activator, and it's passed along every connection after that. You'll see it in <a href="troubleshooting.html#trace">Trace</a> output, and the Debug node can show it on screen with <strong>Show Activator</strong>. Auto has no activator, because nobody started it.</p>
+<p>You don't have to do anything with the activator. It's there so you can tell, when debugging, which body set something off.</p>
+
+<h2 id="enable">Turning nodes on and off</h2>
+<p>Every Logic Node has two shared inputs, <strong>Enable</strong> and <strong>Disable</strong>. A disabled node ignores every input and fires nothing until it's enabled again. Untick <strong>Start Enabled</strong> to have a node start the scene switched off.</p>
+<div class="wire" role="figure" aria-label="Wiring">Interact Zone (generator)  On Interact  →  Trigger Volume (door)  Enable</div>
+<p>Here the door's trigger does nothing until the player turns the generator on.</p>
+
+<h2 id="shared">Settings every node has</h2>
+<div class="tbl"><table><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td>Comment</td><td class="def">empty</td><td>A note for other people working on the level. Has no effect on the game.</td></tr><tr><td>Start Enabled</td><td class="def">on</td><td>If off, the node ignores everything until it receives Enable.</td></tr><tr><td>Trace</td><td class="def">off</td><td>Prints every input and output of this node to the Output panel. See <a href="troubleshooting.html#trace">Trace</a>.</td></tr></tbody></table></div><div class="tbl"><table><thead><tr><th>Input</th><th>What it does</th></tr></thead><tbody><tr><td>Enable</td><td>Turns the node on.</td></tr><tr><td>Disable</td><td>Turns the node off. It ignores inputs and fires nothing until enabled again.</td></tr></tbody></table></div>
+
+<h2 id="builtin">Connecting to built-in Godot nodes</h2>
+<p>Connections can also call ordinary Godot nodes, such as <em>Play</em> on an <code>AnimationPlayer</code> or <code>AudioStreamPlayer3D</code>, or <em>Show</em> and <em>Hide</em> on a mesh. Tick <strong>Show all nodes</strong> at the top of the Logic I/O panel to list every node as a target, not just Logic Nodes. The Target Input list then shows that node's actions: methods that take no required arguments and return nothing.</p>
+<p>Built-in nodes are called without the activator, since they wouldn't know what to do with it.</p>
+
+<h2 id="runtime">What happens when the game runs</h2>
+<ul>
+  <li>Connections are stored in the scene file, so they're saved, versioned and reloaded like any other property.</li>
+  <li>When the scene starts, each node connects its own rows. A row whose target or input no longer exists is skipped, with a warning in the Output panel naming the row.</li>
+  <li>Nothing runs in the editor. Logic only happens while the game is playing.</li>
+  <li>State isn't saved between play sessions: a Counter's count or a Branch's value goes back to its starting value whenever the scene loads.</li>
+</ul>
+
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="getting-started.html"><span>Previous</span>Getting started</a><a class="next" href="editor.html"><span>Next</span>The editor tools</a></nav>
+    </main>
+  </div>
+  <footer>
+    <span>Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design.</span>
+    <span>Godot Logic Nodes v0.2 · MIT License © 2026</span>
+  </footer>
+</div>
+</body>
+</html>

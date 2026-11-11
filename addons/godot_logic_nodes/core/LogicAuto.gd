@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Auto.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Auto.svg")
 class_name LogicAuto
 extends LogicNode
 ## Fires [signal on_scene_start] once when the scene starts, after every other node is ready.
@@ -14,5 +14,5 @@ signal on_scene_start(activator: Node)
 func _logic_ready() -> void:
 	await get_tree().physics_frame  # every _ready() has run, physics has had a tick
 	if delay > 0.0:
-		await get_tree().create_timer(delay, false).timeout
+		await LogicCore.wait(self, delay)
 	_fire(on_scene_start)

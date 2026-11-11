@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Move.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Move.svg")
 class_name LogicMove
 extends LogicNode
 ## Moves a node in a straight line, between where it was placed (the start) and
@@ -46,6 +46,9 @@ signal on_move_end(activator: Node)
 @export_range(0.01, 100.0, 0.01, "or_greater", "suffix:m/s") var speed := 2.0
 ## What happens when it reaches an end.
 @export var mode := Mode.ONCE
+## Start moving as soon as the scene starts, the same as an Auto node wired to Start.
+## Handy for fans and patrolling platforms. Ignored while Start Enabled is off.
+@export var auto_start := false
 
 var _mover: Node3D
 var _origin: Vector3
@@ -63,6 +66,9 @@ func _logic_ready() -> void:
 	_offset = move_offset if space == Space.LOCAL or parent == null else parent.global_basis.inverse() * move_offset
 	LogicCore.prepare_platforms(_mover)
 	_apply()
+	if auto_start:
+		await get_tree().physics_frame  # like Auto: every _ready() has run first
+		start()
 
 
 func _enter_tree() -> void:
@@ -97,6 +103,30 @@ func start(activator: Variant = null) -> void:
 	set_physics_process(true)
 	_fire(on_move_start, _activator)
 
+
+## Input: head for the end, turning back if it is on its way to the start. Unlike Start, this
+## always means the same thing, so wire it to an "enter" output (like On Trigger Enter) and
+## Go To Start to the matching "exit" output. Best with Mode set to Once.
+func go_to_end(activator: Variant = null) -> void:
+	if _receive(&"go_to_end", activator):
+		_head(1.0, activator)
+
+
+## Input: head for the start, turning back if it is on its way to the end. See Go To End.
+func go_to_start(activator: Variant = null) -> void:
+	if _receive(&"go_to_start", activator):
+		_head(-1.0, activator)
+
+
+func _head(direction: float, activator: Variant) -> void:
+	var goal := 1.0 if direction > 0.0 else 0.0
+	if (_moving and _direction == direction) or (not _moving and _progress == goal):
+		return  # already on its way there, or already there
+	_activator = LogicCore.as_activator(activator)
+	_direction = direction
+	_moving = true
+	set_physics_process(true)
+	_fire(on_move_start, _activator)
 
 ## Input: stop where it is. The next Start carries on in the same direction.
 func stop(activator: Variant = null) -> void:

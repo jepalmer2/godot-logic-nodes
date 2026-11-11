@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/LogicNode_Relay.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Relay.svg")
 class_name LogicRelay
 extends LogicNode
 ## Passes a trigger on to everything wired to [signal on_trigger], optionally after a delay.
@@ -23,7 +23,7 @@ func trigger(activator: Variant = null) -> void:
 	_spent = fire_once
 	if delay > 0.0:
 		var gen := _generation
-		await get_tree().create_timer(delay, false).timeout  # false = pauses with the game
+		await LogicCore.wait(self, delay)
 		if gen != _generation:
 			return
 	_fire(on_trigger, activator)

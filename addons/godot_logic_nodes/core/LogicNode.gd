@@ -142,7 +142,7 @@ func _send(activator: Node, row: LogicConnection, target: Node) -> void:
 			return
 		_spent_rows[row] = true
 	if row.delay > 0.0:
-		await get_tree().create_timer(row.delay, false).timeout
+		await LogicCore.wait(self, row.delay)
 		if not is_instance_valid(target):
 			return
 		activator = LogicCore.as_activator(activator)  # it may have been freed while waiting

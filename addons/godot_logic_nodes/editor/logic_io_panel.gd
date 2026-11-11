@@ -4,6 +4,16 @@ extends VBoxContainer
 ## outputs, plus a read-only list of everything wired into it.
 
 const HEADERS := ["My Output", "Target", "", "Target Input", "Delay", "Once", ""]
+const HEADER_TIPS := [
+	"What happens on this node that sends the signal. Hover a choice to see what it means.",
+	"The node that receives the signal.",
+	"",
+	"What the target does when the signal arrives. Hover a choice to see what it means.",
+	"Extra seconds to wait before the target's input is called. This adds to any wait the node\nhas itself, such as a Relay's own Delay.",
+	"Only send the signal the first time this output fires.",
+	"",
+]
+const TARGET_TIP := "The node that receives the signal. Pick it from this list, or click … to pick it from\nthe scene tree. Turn on \"Show all nodes\" to list nodes that aren't Logic Nodes."
 
 ## Set by godot_logic_nodes.gd. When null (tests), edits are applied directly without undo.
 var undo_redo: EditorUndoRedoManager
@@ -62,9 +72,11 @@ func _rebuild() -> void:
 	if prefab:
 		_title.text += "  ·  greyed-out rows come from %s; edit them there" % prefab.get_file()
 
-	for header in HEADERS:
+	for i in HEADERS.size():
 		var label := Label.new()
-		label.text = header
+		label.text = HEADERS[i]
+		label.tooltip_text = HEADER_TIPS[i]
+		label.mouse_filter = Control.MOUSE_FILTER_PASS  # Labels ignore the mouse, so no tooltip, by default
 		label.add_theme_color_override("font_color", get_theme_color("font_disabled_color", "Editor"))
 		_grid.add_child(label)
 	if prefab:
@@ -74,9 +86,10 @@ func _rebuild() -> void:
 	for i in rows.size():
 		_add_row_controls(i, rows[i])
 
-	_tabs.set_tab_title(0, "Outputs (%d)" % _node.all_outputs().size())
+	# Not "Outputs"/"Inputs": testers mixed those up with Godot's own Output panel.
+	_tabs.set_tab_title(0, "Sends To (%d)" % _node.all_outputs().size())
 	_fill_incoming()
-	_tabs.set_tab_title(1, "Inputs (%d)" % _inputs.item_count)
+	_tabs.set_tab_title(1, "Received From (%d)" % _inputs.item_count)
 
 
 ## One row of controls. [param locked] rows (from a placed scene's own file) are shown but can't be edited.
@@ -88,7 +101,7 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 
 	# My Output
 	var output_menu := OptionButton.new()
-	_fill_menu(output_menu, LogicCore.outputs_of(_node), row.output)
+	_fill_menu(output_menu, LogicCore.outputs_of(_node), row.output, _node)
 	output_menu.item_selected.connect(func(item: int) -> void:
 		_set_field(index, "output", StringName(output_menu.get_item_metadata(item))))
 	_grid.add_child(output_menu)
@@ -96,6 +109,7 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 	# Target
 	var target_menu := OptionButton.new()
 	target_menu.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	target_menu.tooltip_text = TARGET_TIP
 	var root := _scene_root()
 	var candidates := _target_candidates()
 	if target == null:
@@ -125,7 +139,7 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 	# Target Input
 	var input_menu := OptionButton.new()
 	if target:
-		_fill_menu(input_menu, _inputs_of(target), row.input)
+		_fill_menu(input_menu, _inputs_of(target), row.input, target)
 	else:
 		input_menu.add_item("(pick a target first)")
 		input_menu.disabled = true
@@ -141,13 +155,14 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 	delay.allow_greater = true
 	delay.suffix = "s"
 	delay.value = row.delay
+	delay.tooltip_text = HEADER_TIPS[4]
 	delay.value_changed.connect(func(value: float) -> void: _set_field(index, "delay", value))
 	_grid.add_child(delay)
 
 	# Once
 	var once := CheckBox.new()
 	once.button_pressed = row.once
-	once.tooltip_text = "Only fire this connection once."
+	once.tooltip_text = HEADER_TIPS[5]
 	once.toggled.connect(func(on: bool) -> void: _set_field(index, "once", on))
 	_grid.add_child(once)
 
@@ -170,15 +185,22 @@ func _add_row_controls(index: int, row: LogicConnection, locked := false) -> voi
 
 
 ## Fills a dropdown with friendly names ("cancel_pending" → "Cancel Pending") and selects `current`.
-func _fill_menu(menu: OptionButton, names: Array[StringName], current: StringName) -> void:
+## Each choice's tooltip is its ## doc comment in [param node]'s script; the closed dropdown's
+## tooltip is the selected choice's.
+func _fill_menu(menu: OptionButton, names: Array[StringName], current: StringName, node: Node) -> void:
 	if current != &"" and not names.has(current):
 		menu.add_item("Missing: %s" % current)
 		menu.set_item_metadata(0, current)
+		menu.set_item_tooltip(0, "'%s' no longer exists on this node. Pick another." % current)
 	for n in names:
 		menu.add_item(String(n).capitalize())
-		menu.set_item_metadata(menu.item_count - 1, n)
+		var item := menu.item_count - 1
+		menu.set_item_metadata(item, n)
+		menu.set_item_tooltip(item, _describe(node, n))
 		if n == current:
-			menu.select(menu.item_count - 1)
+			menu.select(item)
+	if menu.selected >= 0:
+		menu.tooltip_text = menu.get_item_tooltip(menu.selected)
 
 
 func _fill_incoming() -> void:
@@ -194,7 +216,10 @@ func _fill_incoming() -> void:
 				if row.once:
 					text += "  (once)"
 				_inputs.add_item(text)
-				_inputs.set_item_metadata(_inputs.item_count - 1, source.get_path())
+				var item := _inputs.item_count - 1
+				_inputs.set_item_metadata(item, source.get_path())
+				var tip := _describe(_node, row.input)
+				_inputs.set_item_tooltip(item, (tip + "\n" if tip else "") + "Double-click to select %s." % source.name)
 
 
 # --- Editing (every change goes through undo/redo) -----------------------------
@@ -322,6 +347,13 @@ func _inputs_of(target: Node) -> Array[StringName]:
 			result.append(StringName(method_name))
 	result.sort()
 	return result
+
+
+## Tooltip text for an output or input of [param node]. Built-in nodes have no ## comments to read.
+func _describe(node: Node, member: StringName) -> String:
+	if _is_logic_node(node):
+		return LogicCore.describe(node, member)
+	return "Calls %s() on the %s." % [member, node.get_class()]
 
 
 func _is_logic_node(node: Node) -> bool:

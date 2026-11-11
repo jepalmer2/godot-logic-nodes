@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Writing your own nodes · Godot Logic Nodes</title>
+<meta name="description" content="Write your own Logic Node type in GDScript.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' aria-hidden='true' viewBox='0 0 16 16'><rect x='0.8' y='0.8' width='14.4' height='14.4' rx='3.4' fill='%23cc79a7' stroke='%2316181d' stroke-width='0.9' stroke-linejoin='round'/><g transform='translate(2.88 2.88) scale(0.64)'><path d='M2.5 8 H5.5 M10.5 8 H13.5 M11.5 6 L13.5 8 L11.5 10' fill='none' stroke='%2316181d' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='8' cy='8' r='2.2' fill='%2316181d'/></g></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Docs pages: same tokens as the product page. Sidebar + one reading column; the sidebar
+   becomes a wrapped list above the content on narrow screens. Dark-first like the Godot editor. */
+:root {
+  --bg: #15181d; --surface: #1d2128; --line: #2c323c; --fg: #e8ebf0; --muted: #9aa3b2; --accent: #f2a93b; --ink: #16181d;
+  --code: #232831;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root { --bg: #f4f5f7; --surface: #ffffff; --line: #dde1e7; --fg: #1b1f26; --muted: #5a6270; --accent: #b86a00; --code: #eceef2; color-scheme: light; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--body); }
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--ink); padding: 8px 12px; border-radius: 6px; z-index: 2; }
+.skip:focus { left: 8px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.15; text-wrap: balance; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 15px var(--display); text-decoration: none; }
+.brand svg { width: 28px; height: 28px; flex: none; }
+.toplinks { display: flex; gap: 18px; font-weight: 500; font-size: 15px; }
+.toplinks a { text-decoration: none; color: var(--muted); }
+.toplinks a:hover, .toplinks a[aria-current="page"] { color: var(--fg); }
+.layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; padding-top: 32px; }
+.side { position: sticky; top: 20px; align-self: start; }
+.side-h { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.side a { display: block; padding: 6px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 15px; }
+.side a:hover { color: var(--fg); background: var(--surface); }
+.side a[aria-current="page"] { color: var(--fg); background: var(--surface); box-shadow: inset 2px 0 0 var(--accent); }
+.doc { max-width: 760px; min-width: 0; padding-bottom: 40px; }
+.doc h1 { font-size: clamp(30px, 4.4vw, 42px); font-weight: 800; letter-spacing: -0.01em; margin: 0 0 12px; }
+.doc .lede { font-size: 18px; color: var(--muted); margin: 0 0 28px; }
+.doc h2 { font-size: 25px; font-weight: 800; margin: 44px 0 12px; padding-top: 8px; scroll-margin-top: 16px; }
+.doc h3 { font-size: 19px; font-weight: 600; margin: 28px 0 8px; scroll-margin-top: 16px; }
+.doc p, .doc ul, .doc ol { margin: 0 0 14px; }
+.doc li { margin-bottom: 6px; }
+.doc li > ul, .doc li > ol { margin-top: 6px; }
+code, kbd { font: 500 0.88em var(--mono); background: var(--code); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+kbd { border-bottom-width: 2px; }
+.path { font-weight: 600; }
+.tbl { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 13px var(--body); color: var(--muted); background: var(--surface); }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.def { font: 500 13px var(--mono); color: var(--muted); white-space: nowrap; }
+.callout { border: 1px solid var(--line); border-left: 3px solid var(--accent); background: var(--surface); border-radius: 8px; padding: 12px 16px; margin: 0 0 18px; }
+.callout.warn { border-left-color: #e5675b; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.callout strong:first-child { display: block; font-family: var(--display); margin-bottom: 4px; }
+.wire { font: 500 14px var(--mono); background: var(--code); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin: 0 0 16px; overflow-x: auto; white-space: pre; line-height: 1.7; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps > li { counter-increment: s; position: relative; padding-left: 40px; margin-bottom: 14px; }
+.steps > li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 800 13px var(--display); background: var(--surface); border: 1px solid var(--line); }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 8px 0 24px; padding: 0; list-style: none; }
+.cards a { display: block; height: 100%; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; }
+.cards a:hover { border-color: var(--accent); }
+.cards strong { display: block; font-family: var(--display); font-size: 17px; margin-bottom: 4px; }
+.cards span { color: var(--muted); font-size: 14px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 8px; }
+.toc a { display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px 5px 6px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; font-size: 14px; font-weight: 500; background: var(--surface); }
+.toc a:hover { border-color: var(--accent); }
+.toc svg { width: 22px; height: 22px; }
+.node-h { display: flex; align-items: center; gap: 14px; margin: 52px 0 10px; padding-top: 16px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+.node-h svg { flex: none; }
+.node-h h2 { margin: 0; padding: 0; }
+.node-h small { display: block; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.fam { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+.pager { display: flex; justify-content: space-between; gap: 14px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pager a { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; font-weight: 600; min-width: 0; }
+.pager a:hover { border-color: var(--accent); }
+.pager span { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.pager .next { text-align: right; margin-left: auto; }
+footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 20px; }
+  .side { position: static; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+  .side ul { display: flex; flex-wrap: wrap; gap: 6px; }
+  .side a { padding: 5px 10px; border: 1px solid var(--line); font-size: 14px; }
+  .side a[aria-current="page"] { box-shadow: none; border-color: var(--accent); }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  td:first-child, td.def { white-space: normal; }
+}
+@media (max-width: 520px) {
+  .pager { flex-direction: column; }
+  .pager .next { margin-left: 0; }
+}
+
+</style>
+<meta property="og:image" content="https://jepalmer2.github.io/godot-logic-nodes/hero.png">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true" viewBox="0 0 16 16"><rect x="0.8" y="0.8" width="14.4" height="14.4" rx="3.4" fill="#cc79a7" stroke="#16181d" stroke-width="0.9" stroke-linejoin="round"/><g transform="translate(2.88 2.88) scale(0.64)"><path d="M2.5 8 H5.5 M10.5 8 H13.5 M11.5 6 L13.5 8 L11.5 10" fill="none" stroke="#16181d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.2" fill="#16181d"/></g></svg>Godot Logic Nodes</a>
+    <nav class="toplinks" aria-label="Site"><a href="../">Home</a><a href="index.html" aria-current="false">Docs</a><a href="https://github.com/jepalmer2/godot-logic-nodes">GitHub</a></nav>
+  </header>
+  <div class="layout">
+    <nav class="side" aria-label="Documentation">
+      <p class="side-h">Documentation</p>
+      <ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="concepts.html">How it works</a></li><li><a href="editor.html">The editor tools</a></li><li><a href="nodes.html">Node reference</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li><li><a href="extending.html" aria-current="page">Writing your own nodes</a></li><li><a href="about.html">Limitations and credits</a></li></ul>
+    </nav>
+    <main id="main" class="doc">
+
+<h1>Writing your own nodes</h1>
+<p class="lede">For programmers. A Logic Node is an ordinary GDScript class: outputs are signals, inputs are methods. Write one and it shows up in Add Child Node, the Logic I/O panel, Trace and the warnings, with no registration.</p>
+
+<h2>A complete example</h2>
+<p>A light switch with Turn On, Turn Off and Toggle inputs, and an On Switched output:</p>
+<div class="wire">@tool
+@icon("res://my_icons/LightSwitch.svg")
+class_name LogicLightSwitch
+extends LogicNode
+## Turns a light on and off from logic.
+
+## Output: the light was turned on or off.
+signal on_switched(activator: Node)
+
+## The light to control.
+@export var light: Light3D
+
+## Input: turn the light on.
+func turn_on(activator: Variant = null) -> void:
+	if _receive(&amp;"turn_on", activator):
+		_set_on(true, activator)
+
+## Input: turn the light off.
+func turn_off(activator: Variant = null) -> void:
+	if _receive(&amp;"turn_off", activator):
+		_set_on(false, activator)
+
+## Input: flip the light.
+func toggle(activator: Variant = null) -> void:
+	if _receive(&amp;"toggle", activator) and light:
+		_set_on(not light.visible, activator)
+
+func _set_on(on: bool, activator: Variant) -> void:
+	if light and light.visible != on:
+		light.visible = on
+		_fire(on_switched, activator)
+
+func _logic_warnings() -> PackedStringArray:
+	var warnings := super()
+	if light == null:
+		warnings.append("Pick a Light to control.")
+	return warnings</div>
+
+<h2>The rules</h2>
+<div class="tbl"><table><thead><tr><th>Part</th><th>How to write it</th></tr></thead><tbody><tr><td>The class</td><td><code>@tool</code>, a <code>class_name</code>, and <code>extends LogicNode</code> (or another Logic Node, such as <code>LogicMove</code>). <code>@tool</code> is needed for warnings and the panel to work in the editor.</td></tr><tr><td>Outputs</td><td>Signals that take one <code>activator: Node</code> argument. Name them <code>on_something</code>, which shows as "On Something".</td></tr><tr><td>Inputs</td><td>Public methods that take <code>activator: Variant = null</code> and return nothing. Methods that start with <code>_</code>, take more than one argument, or return a value aren't listed as inputs.</td></tr><tr><td>Start of every input</td><td><code>if _receive(&amp;"input_name", activator):</code>. It returns false when the node is disabled or in the editor, and handles Trace.</td></tr><tr><td>Firing</td><td><code>_fire(on_something, activator)</code>. Pass the activator you received so it travels down the chain.</td></tr><tr><td>Startup</td><td>Override <code>_logic_ready()</code> instead of <code>_ready()</code>. It runs in the game only, after the node's connections are wired.</td></tr><tr><td>Warnings</td><td>Override <code>_logic_warnings()</code>, call <code>super()</code> and append your messages.</td></tr><tr><td>Tooltips</td><td>Write a <code>##</code> doc comment above each signal and input. The panel shows it as the tooltip, minus a leading "Output:" or "Input:". It's also what the Inspector and Godot's built-in help show.</td></tr><tr><td>Waiting</td><td>Use <code>await LogicCore.wait(self, seconds)</code> rather than a SceneTreeTimer, so delays count physics ticks like the built-in nodes.</td></tr></tbody></table></div>
+<p>Your class also gets its own badge toggle under <span class="path">View &gt; Gizmos</span>, and new instances are placed in front of the editor camera like the built-in nodes.</p>
+
+<h2>Subclassing a built-in node</h2>
+<p>To make, say, a door that always uses the same speed and offset, extend <code>LogicMove</code> and set the defaults in <code>_init()</code>. It keeps every input, output and setting of Move.</p>
+
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="troubleshooting.html"><span>Previous</span>Troubleshooting</a><a class="next" href="about.html"><span>Next</span>Limitations and credits</a></nav>
+    </main>
+  </div>
+  <footer>
+    <span>Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design.</span>
+    <span>Godot Logic Nodes v0.2 · MIT License © 2026</span>
+  </footer>
+</div>
+</body>
+</html>
