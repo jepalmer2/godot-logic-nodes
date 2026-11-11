@@ -47,6 +47,6 @@ Open `addons/godot_logic_nodes/scenes/Sandbox.tscn` for a labeled example of eve
 
 ## Credits and license
 
-Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design. Interface sounds by [Kenney](https://kenney.nl) (CC0).
+Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design, with development assistance from Claude (Anthropic). Interface sounds by [Kenney](https://kenney.nl) (CC0).
 
 MIT. See [LICENSE](LICENSE). Known limitations are listed in [the docs](https://jepalmer2.github.io/godot-logic-nodes/guide/about.html).
