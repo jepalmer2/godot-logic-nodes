@@ -1,5 +1,5 @@
 @tool
-@icon("res://addons/godot_logic_nodes/icons/BaseNode.png")
+@icon("res://addons/godot_logic_nodes/icons/LogicNode_Base.svg")
 @abstract  # hidden from Add Child Node: only the subclasses are real nodes
 class_name LogicNode
 extends Node3D
