@@ -32,7 +32,7 @@ signal on_move_end(activator: Node)
 		update_gizmos()
 ## Where the end is, relative to the start, along the axes picked in [member space].
 ## The editor draws the path as a line from the target to its end.
-@export var move_offset := Vector3(0.0, 2.0, 0.0):
+@export var move_offset := Vector3.ZERO:
 	set(value):
 		move_offset = value
 		update_configuration_warnings()
