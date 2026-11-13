@@ -4,7 +4,7 @@ extends EditorNode3DGizmoPlugin
 ## godot_logic_nodes.gd makes one of these per type, so each type gets its own toggle in the
 ## 3D view's View > Gizmos menu.
 
-const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/BaseNode.png"
+const FALLBACK_ICON := "res://addons/godot_logic_nodes/icons/LogicNode_Base_Viewport.svg"
 ## Width of an icon in world units. Icons are real 3D quads, so they shrink with distance.
 const ICON_SIZE := 0.5
 ## Thickness of a wire in world units. Godot draws gizmo lines 1 px wide, so wires are thin tubes instead.
