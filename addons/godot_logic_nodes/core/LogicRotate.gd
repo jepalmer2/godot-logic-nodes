@@ -27,7 +27,7 @@ signal on_rotate_end(activator: Node)
 ## How far to turn, in degrees around X, Y and Z. A door swinging open is usually (0, 90, 0).
 ## The axes are the target's parent's axes, like Move's Local space, so a turned prefab turns
 ## the same way, and the target's own starting rotation never changes which way it swings.
-@export var rotate_offset := Vector3(0.0, 90.0, 0.0):
+@export var rotate_offset := Vector3.ZERO:
 	set(value):
 		rotate_offset = value
 		update_configuration_warnings()
