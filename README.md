@@ -6,7 +6,7 @@ A free visual scripting addon for Godot 4 that lets developers build gameplay wi
 
 **[Read the documentation →](https://jepalmer2.github.io/godot-logic-nodes/guide/)**
 
-> **Status:** Beta (v0.2). Requires Godot 4.7+ (standard GDScript build) and a 3D scene.
+> **Status:** v1.0, the first feature-complete release. Requires Godot 4.7+ (standard GDScript build) and a 3D scene.
 
 ## Install
 

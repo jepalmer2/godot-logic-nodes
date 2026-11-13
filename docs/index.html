@@ -30,7 +30,9 @@ p { margin: 0; }
 .toplinks a { text-decoration: none; color: var(--muted); }
 .toplinks a:hover { color: var(--fg); }
 .tag { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
-.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding-block: 48px 72px; }
+.hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 48px; align-items: center; padding-block: 48px 72px;
+  /* the text stays on the page column; the video reaches past its right edge on wide screens */
+  margin-right: calc(-1 * clamp(0px, (100vw - 1120px) / 2, 240px)); }
 .hero h1 { font-size: clamp(38px, 6vw, 64px); font-weight: 800; letter-spacing: -0.015em; }
 .hero p.lede { margin-top: 18px; font-size: 19px; color: var(--muted); max-width: 46ch; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
@@ -69,7 +71,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var
 @media (max-width: 820px) {
   .hero, .soon { grid-template-columns: 1fr; gap: 32px; }
   .steps, .families { grid-template-columns: 1fr; }
-  .hero { padding-block: 24px 48px; }
+  .hero { padding-block: 24px 48px; margin-right: 0; }
 }
 </style>
 </head>
@@ -77,7 +79,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var
 <div class="wrap">
   <nav class="top">
     <a class="brand" href="./"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" aria-hidden="true" viewBox="0 0 16 16"><rect x="0.8" y="0.8" width="14.4" height="14.4" rx="3.4" fill="#cc79a7" stroke="#16181d" stroke-width="0.9" stroke-linejoin="round"/><g transform="translate(2.88 2.88) scale(0.64)"><path d="M2.5 8 H5.5 M10.5 8 H13.5 M11.5 6 L13.5 8 L11.5 10" fill="none" stroke="#16181d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.2" fill="#16181d"/></g></svg>Godot Logic Nodes</a>
-    <div class="toplinks"><a href="guide/">Docs</a><a href="https://github.com/jepalmer2/godot-logic-nodes">GitHub</a><span class="tag">v0.2 Beta</span></div>
+    <div class="toplinks"><a href="guide/">Docs</a><a href="https://github.com/jepalmer2/godot-logic-nodes">GitHub</a><span class="tag">v1.0</span></div>
   </nav>
 
   <header class="hero">
