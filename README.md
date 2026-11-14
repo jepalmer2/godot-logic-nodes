@@ -45,6 +45,11 @@ Every input, output and setting is in the [Node reference](https://jepalmer2.git
 
 Open `addons/godot_logic_nodes/scenes/Sandbox.tscn` for a labeled example of every node plus working doors, an elevator and a puzzle gate.
 
+## Videos
+
+- [Product video](https://www.youtube.com/watch?v=d_z8wEOk-kM)
+- [v1.0 walkthrough](https://www.youtube.com/watch?v=sI0FZEQ3jVQ)
+
 ## Credits and license
 
 Created by Justin Palmer for ITGM-748 at the Savannah College of Art and Design, with development assistance from Claude (Anthropic). Interface sounds by [Kenney](https://kenney.nl) (CC0).
